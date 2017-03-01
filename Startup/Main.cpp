@@ -26,14 +26,15 @@
 /*---------------------------------------------------------------------------*/
 /*                         Standard header includes                          */
 /*---------------------------------------------------------------------------*/
+#include <stdio.h>
 
 /*---------------------------------------------------------------------------*/
 /*                         Project header includes                           */
 /*---------------------------------------------------------------------------*/
-#include <stdio.h>
 #include "ClassRegistryDatabase.h"
 #include "ClassRegistryItem.h"
 #include "ConfigurationDatabase.h"
+#include "ErrorManagement.h"
 #include "File.h"
 #include "GlobalObjectsDatabase.h"
 #include "Object.h"
@@ -63,7 +64,7 @@ int main(int argc, char **argv) {
     ProcessorType::SetDefaultCPUs(0x1);
     SetErrorProcessFunction(&MainErrorProcessFunction);
     if (argc != 5) {
-        printf("Arguments are -f FILENAME -s FIRST_STATE | -m MSG_DESTINATION:MSG_FUNCTION\n");
+        REPORT_ERROR(ErrorManagement::ParametersError, "Arguments are -f FILENAME -s FIRST_STATE | -m MSG_DESTINATION:MSG_FUNCTION");
         return -1;
     }
     StreamString argv1 = argv[1];
@@ -79,7 +80,7 @@ int main(int argc, char **argv) {
         filename = argv[4];
     }
     else {
-        printf("Arguments are -f FILENAME -s FIRST_STATE | -m MSG_DESTINATION:MSG_FUNCTION\n");
+        REPORT_ERROR(ErrorManagement::ParametersError, "Arguments are -f FILENAME -s FIRST_STATE | -m MSG_DESTINATION:MSG_FUNCTION");
         return -1;
     }
 
@@ -96,7 +97,7 @@ int main(int argc, char **argv) {
         messageArgs = argv[4];
     }
     else {
-        printf("Arguments are -f FILENAME -s FIRST_STATE | -m MSG_DESTINATION:MSG_FUNCTION\n");
+        REPORT_ERROR(ErrorManagement::ParametersError, "Arguments are -f FILENAME -s FIRST_STATE | -m MSG_DESTINATION:MSG_FUNCTION");
         return -1;
     }
 
@@ -106,7 +107,7 @@ int main(int argc, char **argv) {
         f.Seek(0);
     }
     else {
-        printf("Failed to open file %s\n", argv[1]);
+        REPORT_ERROR(ErrorManagement::ParametersError, "Failed to open input file");
     }
     ConfigurationDatabase cdb;
     StreamString err;
@@ -115,7 +116,9 @@ int main(int argc, char **argv) {
         ok = parser.Parse();
     }
     if (!ok) {
-        printf("Failed to parse %s\n", err.Buffer());
+        StreamString errPrint;
+        errPrint.Printf("Failed to parse %s", err.Buffer());
+        REPORT_ERROR(ErrorManagement::ParametersError, errPrint.Buffer());
     }
 
     ObjectRegistryDatabase *objDb = NULL;
@@ -124,7 +127,7 @@ int main(int argc, char **argv) {
         objDb->Initialise(cdb);
     }
     if (!ok) {
-        printf("Failed to load godb\n");
+        REPORT_ERROR(ErrorManagement::ParametersError, "Failed to load godb");
     }
 
     if (ok) {
@@ -137,7 +140,7 @@ int main(int argc, char **argv) {
             if (found) {
                 ok = rtApp->ConfigureApplication();
                 if (!ok) {
-                    printf("Failed to load Configure RealTimeApplication\n");
+                    REPORT_ERROR(ErrorManagement::ParametersError, "Failed to load Configure RealTimeApplication");
                     return -1;
                 }
                 if (firstState.Size() > 0) {
@@ -160,7 +163,7 @@ int main(int argc, char **argv) {
                         ok = messageArgs.GetToken(function, ":", term);
                     }
                     if (!ok) {
-                        printf("Message format is MSG_DESTINATION:MSG_FUNCTION\n");
+                        REPORT_ERROR(ErrorManagement::ParametersError, "Message format is MSG_DESTINATION:MSG_FUNCTION");
                     }
                     msgConfig.Write("Destination", destination.Buffer());
                     msgConfig.Write("Function", function.Buffer());

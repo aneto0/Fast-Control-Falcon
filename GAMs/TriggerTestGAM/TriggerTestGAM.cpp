@@ -1,6 +1,6 @@
 /**
- * @file WaveformTestGAM.cpp
- * @brief Source file for class WaveformTestGAM
+ * @file TriggerTestGAM.cpp
+ * @brief Source file for class TriggerTestGAM
  * @date 01/03/2017
  * @author Andre Neto
  *
@@ -17,7 +17,7 @@
  * or implied. See the Licence permissions and limitations under the Licence.
 
  * @details This source file contains the definition of all the methods for
- * the class WaveformTestGAM (public, protected, and private). Be aware that some 
+ * the class TriggerTestGAM (public, protected, and private). Be aware that some
  * methods, such as those inline could be defined on the header file, instead.
  */
 
@@ -30,7 +30,8 @@
 /*                         Project header includes                           */
 /*---------------------------------------------------------------------------*/
 #include "AdvancedErrorManagement.h"
-#include "WaveformTestGAM.h"
+
+#include "TriggerTestGAM.h"
 
 /*---------------------------------------------------------------------------*/
 /*                           Static definitions                              */
@@ -44,23 +45,20 @@ static const MARTe::float64 PI = 3.14159265359;
 /*                           Method definitions                              */
 /*---------------------------------------------------------------------------*/
 
-WaveformTestGAM::WaveformTestGAM() :
+TriggerTestGAM::TriggerTestGAM() :
         MARTe::GAM() {
     using namespace MARTe;
     startTimes = NULL_PTR(uint64 *);
     endTimes = NULL_PTR(uint64 *);
-    frequency = 0;
-    amplitude = 0;
-    wavetype = 0;
-    samplingPeriod = 0;
-    numberOfElements = 0;
     currentTimeWindow = 0u;
     timeInput = NULL_PTR(uint32 *);
-    waveOutput = NULL_PTR(float32 *);
+    output = NULL_PTR(uint32 *);
+    enabledOutputValue = 0u;
+    disabledOutputValue = 0u;
     numberOfWindows = 0u;
 }
 
-WaveformTestGAM::~WaveformTestGAM() {
+TriggerTestGAM::~TriggerTestGAM() {
     using namespace MARTe;
     if (startTimes != NULL_PTR(uint64 *)) {
         delete startTimes;
@@ -70,7 +68,7 @@ WaveformTestGAM::~WaveformTestGAM() {
     }
 }
 
-bool WaveformTestGAM::Setup() {
+bool TriggerTestGAM::Setup() {
     using namespace MARTe;
     bool ok = (GetNumberOfInputSignals() == 1u);
     if (!ok) {
@@ -89,21 +87,18 @@ bool WaveformTestGAM::Setup() {
         }
     }
     if (ok) {
-        ok = (GetSignalType(OutputSignals, 0u) == Float32Bit);
+        ok = (GetSignalType(OutputSignals, 0u) == UnsignedInteger32Bit);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 0u) != Float32Bit");
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 0u) != UnsignedInteger32Bit");
         }
-    }
-    if (ok) {
-        ok = GetSignalNumberOfElements(OutputSignals, 0u, numberOfElements);
     }
 
     timeInput = static_cast<uint32 *>(GetInputSignalMemory(0u));
-    waveOutput = static_cast<float32 *>(GetOutputSignalMemory(0u));
+    output = static_cast<uint32 *>(GetOutputSignalMemory(0u));
     return ok;
 }
 
-bool WaveformTestGAM::Initialise(MARTe::StructuredDataI & data) {
+bool TriggerTestGAM::Initialise(MARTe::StructuredDataI & data) {
     using namespace MARTe;
     bool ok = GAM::Initialise(data);
     if (ok) {
@@ -152,81 +147,40 @@ bool WaveformTestGAM::Initialise(MARTe::StructuredDataI & data) {
         }
     }
     if (ok) {
-        StreamString waveform;
-        ok = data.Read("WaveformType", waveform);
-        waveform.Seek(0LLU);
-        if (waveform == "Sine") {
-            wavetype = SINE_WAVEFORM;
-        }
-        else if (waveform == "Cosine") {
-            wavetype = COSINE_WAVEFORM;
-        }
-        else if (waveform == "Square") {
-            wavetype = SQUARE_WAVEFORM;
-        }
-        else {
-            REPORT_ERROR(ErrorManagement::ParametersError, "Unsupported WaveformType specified");
-            ok = false;
+        ok = data.Read("EnabledOutputValue", enabledOutputValue);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "EnabledOutputValue must be specified");
         }
     }
     if (ok) {
-        ok = data.Read("Amplitude", amplitude);
+        ok = data.Read("DisabledOutputValue", disabledOutputValue);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "Amplitude must be specified");
+            REPORT_ERROR(ErrorManagement::ParametersError, "DisabledOutputValue must be specified");
         }
     }
-    if (ok) {
-        ok = data.Read("Frequency", frequency);
-        if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "Frequency must be specified");
-        }
-    }
-    if (ok) {
-        ok = data.Read("SamplingPeriod", samplingPeriod);
-        if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "SamplingPeriod must be specified");
-        }
-    }
+
     return ok;
 }
 
-bool WaveformTestGAM::Execute() {
+#include <stdio.h>
+bool TriggerTestGAM::Execute() {
     using namespace MARTe;
-    uint32 i;
     uint32 currentTime = *timeInput;
     bool run = ((startTimes[currentTimeWindow] <= currentTime) && (endTimes[currentTimeWindow] >= currentTime));
     if (run) {
-        for (i = 0u; i < numberOfElements; i++) {
-            if (wavetype == SINE_WAVEFORM) {
-                waveOutput[i] = amplitude * sin(2. * PI * frequency * (static_cast<float64>(currentTime) * 1e-6 + static_cast<float64>(i) * samplingPeriod));
-            }
-            else if (wavetype == COSINE_WAVEFORM) {
-                waveOutput[i] = amplitude * cos(2. * PI * frequency * (static_cast<float64>(currentTime) * 1e-6 + static_cast<float64>(i) * samplingPeriod));
-            }
-            else if (wavetype == SQUARE_WAVEFORM) {
-                float64 currentSign = sin(2. * PI * frequency * (static_cast<float64>(currentTime) * 1e-6 + static_cast<float64>(i) * samplingPeriod));
-                if (currentSign >= 0) {
-                    waveOutput[i] = amplitude;
-                }
-                else {
-                    waveOutput[i] = -amplitude;
-                }
-            }
-        }
+        *output = enabledOutputValue;
     }
     else {
-        for (i = 0u; i < numberOfElements; i++) {
-            waveOutput[i] = 0;
-        }
+        *output = 0;
         if (currentTime > endTimes[currentTimeWindow]) {
             currentTimeWindow++;
             if (currentTimeWindow == numberOfWindows) {
-                currentTimeWindow = 0;
+                currentTimeWindow = disabledOutputValue;
             }
         }
     }
     return true;
 }
 
-CLASS_REGISTER(WaveformTestGAM, "1.0")
+CLASS_REGISTER(TriggerTestGAM, "1.0")
 

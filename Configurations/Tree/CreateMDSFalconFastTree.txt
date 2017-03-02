@@ -1,0 +1,71 @@
+edit mds_falconf/new
+
+add node ADC0F/usage=signal
+add node ADC0S/usage=signal
+add node ADC0D/usage=signal
+
+add node ADC1F/usage=signal
+add node ADC1S/usage=signal
+add node ADC1D/usage=signal
+
+add node ADC2F/usage=signal
+add node ADC2S/usage=signal
+add node ADC2D/usage=signal
+
+add node ADC3F/usage=signal
+add node ADC3S/usage=signal
+add node ADC3D/usage=signal
+
+add node ADC4F/usage=signal
+add node ADC4S/usage=signal
+add node ADC4D/usage=signal
+
+add node ADC5F/usage=signal
+add node ADC5S/usage=signal
+add node ADC5D/usage=signal
+
+add node ADC6F/usage=signal
+add node ADC6S/usage=signal
+add node ADC6D/usage=signal
+
+add node ADC7F/usage=signal
+add node ADC7S/usage=signal
+add node ADC7D/usage=signal
+
+add node ADC8F/usage=signal
+add node ADC8S/usage=signal
+add node ADC8D/usage=signal
+
+add node ADC9F/usage=signal
+add node ADC9S/usage=signal
+add node ADC9D/usage=signal
+
+add node ADC10F/usage=signal
+add node ADC10S/usage=signal
+add node ADC10D/usage=signal
+
+add node ADC11F/usage=signal
+add node ADC11S/usage=signal
+add node ADC11D/usage=signal
+
+add node ADC12F/usage=signal
+add node ADC12S/usage=signal
+add node ADC12D/usage=signal
+
+add node ADC13F/usage=signal
+add node ADC13S/usage=signal
+add node ADC13D/usage=signal
+
+add node ADC14F/usage=signal
+add node ADC14S/usage=signal
+add node ADC14D/usage=signal
+
+add node ADC15F/usage=signal
+add node ADC15S/usage=signal
+add node ADC15D/usage=signal
+
+add node PORT0/usage=signal
+
+write
+close
+exit

@@ -1,6 +1,6 @@
 /**
- * @file WaveformTestGAM.h
- * @brief Header file for class WaveformTestGAM
+ * @file TriggerTestGAM.h
+ * @brief Header file for class TriggerTestGAM
  * @date 01/03/2017
  * @author Andre Neto
  *
@@ -16,13 +16,13 @@
  * basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence permissions and limitations under the Licence.
 
- * @details This header file contains the declaration of the class WaveformTestGAM
+ * @details This header file contains the declaration of the class TriggerTestGAM
  * with all of its public, protected and private members. It may also include
  * definitions for inline methods which need to be visible to the compiler.
  */
 
-#ifndef WAVEFORMTESTGAM_H_
-#define WAVEFORMTESTGAM_H_
+#ifndef TRIGGERTESTGAM_H_
+#define TRIGGERTESTGAM_H_
 
 /*---------------------------------------------------------------------------*/
 /*                        Standard header includes                           */
@@ -39,18 +39,18 @@
 /**
  * @brief TODO
  */
-class WaveformTestGAM: public MARTe::GAM {
+class TriggerTestGAM: public MARTe::GAM {
 public:
     CLASS_REGISTER_DECLARATION()
     /**
      * @brief Constructor. NOOP.
      */
-WaveformTestGAM    ();
+TriggerTestGAM    ();
 
     /**
      * @brief Destructor. NOOP.
      */
-    virtual ~WaveformTestGAM();
+    virtual ~TriggerTestGAM();
 
     /**
      * @brief TODO.
@@ -81,37 +81,22 @@ private:
     /**
      * TODO
      */
-    MARTe::uint32 numberOfElements;
-
-    /**
-     * TODO
-     */
-    MARTe::float32 amplitude;
-
-    /**
-     * TODO
-     */
-    MARTe::float32 frequency;
-
-    /**
-     * TODO
-     */
-    MARTe::float64 samplingPeriod;
-
-    /**
-     * TODO
-     */
-    MARTe::uint32 wavetype;
-
-    /**
-     * TODO
-     */
     MARTe::uint32 *timeInput;
 
     /**
      * TODO
      */
-    MARTe::float32 *waveOutput;
+    MARTe::uint32 *output;
+
+    /**
+     * TODO
+     */
+    MARTe::uint32 enabledOutputValue;
+
+    /**
+     * TODO
+     */
+    MARTe::uint32 disabledOutputValue;
 
     /**
      * TODO
@@ -128,5 +113,5 @@ private:
 /*                        Inline method definitions                          */
 /*---------------------------------------------------------------------------*/
 
-#endif /* WAVEFORMTESTGAM_H_ */
+#endif /* TRIGGERTESTGAM_H_ */
 

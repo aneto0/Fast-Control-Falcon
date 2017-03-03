@@ -111,6 +111,11 @@ private:
     /**
      * TODO
      */
+    MARTe::uint32 lastTimeInput;
+
+    /**
+     * TODO
+     */
     MARTe::float32 *waveOutput;
 
     /**

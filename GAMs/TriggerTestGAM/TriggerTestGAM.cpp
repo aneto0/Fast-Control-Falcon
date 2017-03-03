@@ -56,6 +56,7 @@ TriggerTestGAM::TriggerTestGAM() :
     enabledOutputValue = 0u;
     disabledOutputValue = 0u;
     numberOfWindows = 0u;
+    lastTimeInput = 0u;
 }
 
 TriggerTestGAM::~TriggerTestGAM() {
@@ -162,10 +163,14 @@ bool TriggerTestGAM::Initialise(MARTe::StructuredDataI & data) {
     return ok;
 }
 
-#include <stdio.h>
 bool TriggerTestGAM::Execute() {
     using namespace MARTe;
     uint32 currentTime = *timeInput;
+    if (currentTime < lastTimeInput) {
+        currentTimeWindow = 0u;
+    }
+    lastTimeInput = currentTime;
+
     bool run = ((startTimes[currentTimeWindow] <= currentTime) && (endTimes[currentTimeWindow] >= currentTime));
     if (run) {
         *output = enabledOutputValue;
@@ -181,6 +186,7 @@ bool TriggerTestGAM::Execute() {
     }
     return true;
 }
+
 
 CLASS_REGISTER(TriggerTestGAM, "1.0")
 

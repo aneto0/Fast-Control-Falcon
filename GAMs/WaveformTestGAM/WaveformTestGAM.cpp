@@ -58,6 +58,7 @@ WaveformTestGAM::WaveformTestGAM() :
     timeInput = NULL_PTR(uint32 *);
     waveOutput = NULL_PTR(float32 *);
     numberOfWindows = 0u;
+    lastTimeInput = 0u;
 }
 
 WaveformTestGAM::~WaveformTestGAM() {
@@ -194,6 +195,10 @@ bool WaveformTestGAM::Execute() {
     using namespace MARTe;
     uint32 i;
     uint32 currentTime = *timeInput;
+    if (currentTime < lastTimeInput) {
+        currentTimeWindow = 0u;
+    }
+    lastTimeInput = currentTime;
     bool run = ((startTimes[currentTimeWindow] <= currentTime) && (endTimes[currentTimeWindow] >= currentTime));
     if (run) {
         for (i = 0u; i < numberOfElements; i++) {

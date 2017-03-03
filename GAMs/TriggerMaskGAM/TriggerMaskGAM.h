@@ -1,6 +1,6 @@
 /**
- * @file TriggerTestGAM.h
- * @brief Header file for class TriggerTestGAM
+ * @file TriggerMaskGAM.h
+ * @brief Header file for class TriggerMaskGAM
  * @date 01/03/2017
  * @author Andre Neto
  *
@@ -16,13 +16,13 @@
  * basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence permissions and limitations under the Licence.
 
- * @details This header file contains the declaration of the class TriggerTestGAM
+ * @details This header file contains the declaration of the class TriggerMaskGAM
  * with all of its public, protected and private members. It may also include
  * definitions for inline methods which need to be visible to the compiler.
  */
 
-#ifndef TRIGGERTESTGAM_H_
-#define TRIGGERTESTGAM_H_
+#ifndef TRIGGERMASKGAM_H_
+#define TRIGGERMASKGAM_H_
 
 /*---------------------------------------------------------------------------*/
 /*                        Standard header includes                           */
@@ -39,18 +39,18 @@
 /**
  * @brief TODO
  */
-class TriggerTestGAM: public MARTe::GAM {
+class TriggerMaskGAM: public MARTe::GAM {
 public:
     CLASS_REGISTER_DECLARATION()
     /**
      * @brief Constructor. NOOP.
      */
-TriggerTestGAM    ();
+TriggerMaskGAM    ();
 
     /**
      * @brief Destructor. NOOP.
      */
-    virtual ~TriggerTestGAM();
+    virtual ~TriggerMaskGAM();
 
     /**
      * @brief TODO.
@@ -71,52 +71,23 @@ private:
     /**
      * TODO
      */
-    MARTe::uint64 *startTimes;
+    MARTe::uint32 *input;
 
     /**
      * TODO
      */
-    MARTe::uint64 *endTimes;
+    MARTe::uint32 mask;
 
     /**
      * TODO
      */
-    MARTe::uint32 *timeInput;
+    MARTe::uint8 *output;
 
-    /**
-     * TODO
-     */
-    MARTe::uint32 lastTimeInput;
-
-    /**
-     * TODO
-     */
-    MARTe::uint32 *output;
-
-    /**
-     * TODO
-     */
-    MARTe::uint32 enabledOutputValue;
-
-    /**
-     * TODO
-     */
-    MARTe::uint32 disabledOutputValue;
-
-    /**
-     * TODO
-     */
-    MARTe::uint32 currentTimeWindow;
-
-    /**
-     * TODO
-     */
-    MARTe::uint32 numberOfWindows;
 };
 
 /*---------------------------------------------------------------------------*/
 /*                        Inline method definitions                          */
 /*---------------------------------------------------------------------------*/
 
-#endif /* TRIGGERTESTGAM_H_ */
+#endif /* TRIGGERMASKGAM_H_ */
 

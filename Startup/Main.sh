@@ -5,6 +5,7 @@ if [ -z ${EFDA_MARTe_DIR+x} ]; then echo "Please set the EFDA_MARTe_DIR environm
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/linux/GAMs/WaveformTestGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/linux/GAMs/TriggerTestGAM/
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/linux/GAMs/TriggerMaskGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_DIR/Build/linux/Core/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/LinuxTimer/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/LoggerDataSource/
@@ -38,6 +39,6 @@ export mds_falconf_path=../Configurations/Tree
 
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-#cgdb --args ../Build/linux/Startup/Main.ex $1 $2 $3 $4
+cgdb --args ../Build/linux/Startup/Main.ex $1 $2 $3 $4
 #strace -o/tmp/strace.err ../Build/linux/Startup/Main.ex $1 $2  $3 $4
-../Build/linux/Startup/Main.ex $1 $2 $3 $4 
+#../Build/linux/Startup/Main.ex $1 $2 $3 $4 

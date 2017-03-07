@@ -1,70 +1,127 @@
 edit mds_falconf/new
 
-add node ADC0F/usage=signal
-add node ADC0S/usage=signal
-add node ADC0D/usage=signal
+add node .ADC0
+add node .ADC1
+add node .ADC2
+add node .ADC3
+add node .ADC4
+add node .ADC5
+add node .ADC6
+add node .ADC7
+add node .ADC8
+add node .ADC9
+add node .ADC10
+add node .ADC11
+add node .ADC12
+add node .ADC13
+add node .ADC14
+add node .ADC15
 
-add node ADC1F/usage=signal
-add node ADC1S/usage=signal
-add node ADC1D/usage=signal
+set def \MDS_FALCONF::TOP.ADC0
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC2F/usage=signal
-add node ADC2S/usage=signal
-add node ADC2D/usage=signal
+set def \MDS_FALCONF::TOP.ADC1
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC3F/usage=signal
-add node ADC3S/usage=signal
-add node ADC3D/usage=signal
+set def \MDS_FALCONF::TOP.ADC2
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC4F/usage=signal
-add node ADC4S/usage=signal
-add node ADC4D/usage=signal
+set def \MDS_FALCONF::TOP.ADC3
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC5F/usage=signal
-add node ADC5S/usage=signal
-add node ADC5D/usage=signal
+set def \MDS_FALCONF::TOP.ADC4
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC6F/usage=signal
-add node ADC6S/usage=signal
-add node ADC6D/usage=signal
+set def \MDS_FALCONF::TOP.ADC5
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC7F/usage=signal
-add node ADC7S/usage=signal
-add node ADC7D/usage=signal
+set def \MDS_FALCONF::TOP.ADC6
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC8F/usage=signal
-add node ADC8S/usage=signal
-add node ADC8D/usage=signal
+set def \MDS_FALCONF::TOP.ADC7
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC9F/usage=signal
-add node ADC9S/usage=signal
-add node ADC9D/usage=signal
+set def \MDS_FALCONF::TOP.ADC8
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC10F/usage=signal
-add node ADC10S/usage=signal
-add node ADC10D/usage=signal
+set def \MDS_FALCONF::TOP.ADC9
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC11F/usage=signal
-add node ADC11S/usage=signal
-add node ADC11D/usage=signal
+set def \MDS_FALCONF::TOP.ADC10
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC12F/usage=signal
-add node ADC12S/usage=signal
-add node ADC12D/usage=signal
+set def \MDS_FALCONF::TOP.ADC11
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC13F/usage=signal
-add node ADC13S/usage=signal
-add node ADC13D/usage=signal
+set def \MDS_FALCONF::TOP.ADC12
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC14F/usage=signal
-add node ADC14S/usage=signal
-add node ADC14D/usage=signal
+set def \MDS_FALCONF::TOP.ADC13
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
-add node ADC15F/usage=signal
-add node ADC15S/usage=signal
-add node ADC15D/usage=signal
+set def \MDS_FALCONF::TOP.ADC14
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
 
+set def \MDS_FALCONF::TOP.ADC15
+add node .FAST
+add node .SLOW
+add node .FSTD
+add node .SLWD
+
+set def \MDS_FALCONF::TOP
 add node PORT0/usage=signal
+add node PORT0D/usage=signal
+
+add node COUNTER/usage=signal
+add node COUNTERD/usage=signal
+
+add node TIME/usage=signal
+add node TIMED/usage=signal
 
 write
 close

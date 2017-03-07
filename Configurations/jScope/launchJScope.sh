@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$#" -ne 1 ]; then
+    echo "Please specify the jScope configuration file (jscp file)"
+    exit
+fi
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export mds_falconf_path=$DIR/../Tree
 if pgrep "mdsip" > /dev/null
@@ -8,6 +12,5 @@ else
     xterm -hold -e mdsip -p 8020 -m -h $MDSPLUS_DIR/etc/mdsip.hosts &
     sleep 2
 fi
-#jScope $DIR/ADC0F_Trigger.jscp &
-jScope $DIR/ADC0F.jscp &
+jScope $1 &
 

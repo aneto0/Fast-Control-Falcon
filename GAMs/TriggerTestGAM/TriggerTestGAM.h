@@ -93,6 +93,7 @@ TriggerTestGAM    ();
      *  - GetNumberOfOutputSignals() == 1u &&
      *  - GetSignalType(InputSignals, 0u) != UnsignedInteger32Bit &&
      *  - GetSignalType(OutputSignals, 0u) != UnsignedInteger32Bit
+     *  @return true if the conditions above are met.
      */
     virtual bool Setup();
 

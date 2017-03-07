@@ -225,7 +225,6 @@ bool FilterDownsamplingGAM::Initialise(MARTe::StructuredDataI & data) {
     return ok;
 }
 
-#include <stdio.h>
 bool FilterDownsamplingGAM::Execute() {
     using namespace MARTe;
     uint32 s;

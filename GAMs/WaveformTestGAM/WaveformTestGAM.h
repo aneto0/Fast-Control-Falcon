@@ -37,7 +37,43 @@
 /*                           Class declaration                               */
 /*---------------------------------------------------------------------------*/
 /**
- * @brief TODO
+ * @brief The objective of this GAM is to generate time windows of data which can be
+ * fed to the DAC of the system.
+ * @details One and only one input signal with the time input vector (type shall be uint32)
+ * One and only one output signal with the generated signal (type shall be float32).
+ * See Initialise() for further details in the configuration.
+ *
+ * The configuration syntax is (names and signal quantities are only given as an example):
+ * +WaveformTestGAM = {
+ *     Class = WaveformTestGAM
+ *     WaveformType = Square //Compulsory. The type of the waveform (Cosine, Sine or Square)
+ *     Frequency = 10 //Compulsory. The frequency of the waveform
+ *     Amplitude = 1 //Compulsory. The amplitude of the waveform
+ *     SamplingPeriod = 500e-9 //Compulsory. The sampling period at which the signal should be generated.
+ *     TimeWindows = { //At least one time window with a start and an end time
+ *         T1 = {
+ *             StartTime = 0.0
+ *             EndTime = 1000.0
+ *         }
+ *         T2 = {
+ *             StartTime = 2000.0
+ *             EndTime = 3000.0
+ *         }
+ *         ...
+ *     }
+ *     InputSignals = {
+ *         Time = {
+ *             DataSource = DDB1
+ *             Type = uint32 //Only accepted type
+ *         }
+ *     }
+ *     OutputSignals = {
+ *         Sine = {
+ *             DataSource = DDB1
+ *             Type = float32 //Only accepted type
+ *         }
+ *     }
+ * }
  */
 class WaveformTestGAM: public MARTe::GAM {
 public:
@@ -53,78 +89,98 @@ WaveformTestGAM    ();
     virtual ~WaveformTestGAM();
 
     /**
-     * @brief TODO.
+     * @brief Verifies that:
+     *  - GetNumberOfInputSignals() == 1u &&
+     *  - GetNumberOfOutputSignals() == 1u &&
+     *  - GetSignalType(InputSignals, 0u) != UnsignedInteger32Bit &&
+     *  - GetSignalType(OutputSignals, 0u) != Float32Bit
      */
     virtual bool Setup();
 
     /**
-     * @brief TODO.
+     * @brief The following configuration data is required:
+     * WaveformType = Square //The type of the waveform (Cosine, Sine or Square)
+     * Frequency = 10 //The frequency of the waveform
+     * Amplitude = 1 //The amplitude of the waveform
+     * SamplingPeriod = 500e-9 //The sampling period at which the signal should be generated.
+     * TimeWindows = { //At least one time window with a start and an end time
+     *     T1 = {
+     *         StartTime = 0.0
+     *         EndTime = 1000.0
+     *     }
+     *     T2 = {
+     *         StartTime = 2000.0
+     *         EndTime = 3000.0
+     *     }
+     *     ...
+     * }
+     * @return true if the waveform is successfully generated.
      */
     virtual bool Initialise(MARTe::StructuredDataI & data);
 
     /**
-     * @brief TODO.
+     * @brief Generates the waveform.
      */
     virtual bool Execute();
 
 private:
     /**
-     * TODO
+     * The waveform start times.
      */
     MARTe::uint64 *startTimes;
 
     /**
-     * TODO
+     * The waveform end times.
      */
     MARTe::uint64 *endTimes;
 
     /**
-     * TODO
+     * The number of elements of the waveform.
      */
     MARTe::uint32 numberOfElements;
 
     /**
-     * TODO
+     * The amplitude of the waveform.
      */
     MARTe::float32 amplitude;
 
     /**
-     * TODO
+     * The frequency of the waveform.
      */
     MARTe::float32 frequency;
 
     /**
-     * TODO
+     * The sampling period of the waveform.
      */
     MARTe::float64 samplingPeriod;
 
     /**
-     * TODO
+     * The type of waveform (sine, cosine, square).
      */
     MARTe::uint32 wavetype;
 
     /**
-     * TODO
+     * The time input signal.
      */
     MARTe::uint32 *timeInput;
 
     /**
-     * TODO
+     * Last time input value.
      */
     MARTe::uint32 lastTimeInput;
 
     /**
-     * TODO
+     * The output signal.
      */
     MARTe::float32 *waveOutput;
 
     /**
-     * TODO
+     * Index with the value of the current time window.
      */
     MARTe::uint32 currentTimeWindow;
 
     /**
-     * TODO
+     * The number of configured time windows.
      */
     MARTe::uint32 numberOfWindows;
 };

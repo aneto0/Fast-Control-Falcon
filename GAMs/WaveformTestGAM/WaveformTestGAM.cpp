@@ -75,12 +75,12 @@ bool WaveformTestGAM::Setup() {
     using namespace MARTe;
     bool ok = (GetNumberOfInputSignals() == 1u);
     if (!ok) {
-        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() == 1u");
+        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 1u");
     }
     if (ok) {
         ok = (GetNumberOfOutputSignals() == 1u);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfOutputSignals() == 1u");
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfOutputSignals() != 1u");
         }
     }
     if (ok) {
@@ -92,7 +92,7 @@ bool WaveformTestGAM::Setup() {
     if (ok) {
         ok = (GetSignalType(OutputSignals, 0u) == Float32Bit);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 0u) != Float32Bit");
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(OutputSignals, 0u) != Float32Bit");
         }
     }
     if (ok) {

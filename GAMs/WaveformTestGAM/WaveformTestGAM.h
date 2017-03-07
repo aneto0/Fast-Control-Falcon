@@ -114,7 +114,7 @@ WaveformTestGAM    ();
      *     }
      *     ...
      * }
-     * @return true if the waveform is successfully generated.
+     * @return true if all the compulsory parameters are set.
      */
     virtual bool Initialise(MARTe::StructuredDataI & data);
 
@@ -125,12 +125,12 @@ WaveformTestGAM    ();
 
 private:
     /**
-     * The waveform start times.
+     * The waveform time windows start times.
      */
     MARTe::uint64 *startTimes;
 
     /**
-     * The waveform end times.
+     * The waveform time windows end times.
      */
     MARTe::uint64 *endTimes;
 

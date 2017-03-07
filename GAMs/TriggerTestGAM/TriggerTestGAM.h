@@ -37,7 +37,42 @@
 /*                           Class declaration                               */
 /*---------------------------------------------------------------------------*/
 /**
- * @brief TODO
+ * @brief The objective of this GAM is to generate time windows of triggers which can be
+ * fed to the DIO of the system.
+ * @details One and only one input signal with the time input vector (type shall be uint32)
+ * One and only one output signal with the generated digital value (type shall be uint32).
+ * See Initialise() for further details in the configuration.
+ *
+ * The configuration syntax is (names and signal quantities are only given as an example):
+ * +TriggerTest = {
+ *     Class = TriggerTestGAM
+ *     EnabledOutputValue = 2 //Compulsory. The value that the output signal shall have inside a valid time window.
+ *     DisabledOutputValue = 0 //Compulsory. The value that the output signal shall have outside a valid time window.
+ *     TimeWindows = { //At least one time window with a start and an end time
+ *         T1 = {
+ *             StartTime = 0.0
+ *             EndTime = 1000.0
+ *         }
+ *         T2 = {
+ *             StartTime = 2000.0
+ *             EndTime = 3000.0
+ *         }
+ *         ...
+ *     }
+ *     InputSignals = {
+ *         Time = {
+ *             DataSource = DDB1
+ *             Type = uint32 //Only accepted type
+ *         }
+ *     }
+ *     OutputSignals = {
+ *         PORT0 = {
+ *             DataSource = NI6368_DIO_0
+ *             Trigger = 1
+ *             Type = uint32 //Only accepted type
+ *         }
+ *     }
+ * }
  */
 class TriggerTestGAM: public MARTe::GAM {
 public:
@@ -53,63 +88,68 @@ TriggerTestGAM    ();
     virtual ~TriggerTestGAM();
 
     /**
-     * @brief TODO.
+     * @brief Verifies that:
+     *  - GetNumberOfInputSignals() == 1u &&
+     *  - GetNumberOfOutputSignals() == 1u &&
+     *  - GetSignalType(InputSignals, 0u) != UnsignedInteger32Bit &&
+     *  - GetSignalType(OutputSignals, 0u) != UnsignedInteger32Bit
      */
     virtual bool Setup();
 
     /**
-     * @brief TODO.
+     * @brief The configuration data detailed in the class description
+     * @return true if all the compulsory parameters are set.
      */
     virtual bool Initialise(MARTe::StructuredDataI & data);
 
     /**
-     * @brief TODO.
+     * @brief Generates the digital output value.
      */
     virtual bool Execute();
 
 private:
     /**
-     * TODO
+     * The trigger windows start times.
      */
     MARTe::uint64 *startTimes;
 
     /**
-     * TODO
+     * The trigger windows end times.
      */
     MARTe::uint64 *endTimes;
 
     /**
-     * TODO
+     * The time input signal.
      */
     MARTe::uint32 *timeInput;
 
     /**
-     * TODO
+     * Last time input value.
      */
     MARTe::uint32 lastTimeInput;
 
     /**
-     * TODO
+     * The trigger signal.
      */
     MARTe::uint32 *output;
 
     /**
-     * TODO
+     * The value to which to set the trigger when the output is enabled.
      */
     MARTe::uint32 enabledOutputValue;
 
     /**
-     * TODO
+     * The value to which to set the trigger when the output is disabled.
      */
     MARTe::uint32 disabledOutputValue;
 
     /**
-     * TODO
+     * Index with the value of the current time window.
      */
     MARTe::uint32 currentTimeWindow;
 
     /**
-     * TODO
+     * The number of configured time windows.
      */
     MARTe::uint32 numberOfWindows;
 };

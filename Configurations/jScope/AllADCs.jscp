@@ -1,0 +1,473 @@
+Scope.geometry: 1024x718+0+25
+Scope.update.disable: false
+Scope.update.disable_when_icon: true
+Scope.font: java.awt.Font[family=Dialog,name=Dialog,style=plain,size=14]
+
+
+Scope.color_0: Black,java.awt.Color[r=0,g=0,b=0]
+Scope.color_1: Blue,java.awt.Color[r=0,g=0,b=255]
+Scope.color_2: Cyan,java.awt.Color[r=0,g=255,b=255]
+Scope.color_3: Green,java.awt.Color[r=0,g=255,b=0]
+Scope.color_4: Magenta,java.awt.Color[r=255,g=0,b=255]
+Scope.color_5: Orange,java.awt.Color[r=255,g=200,b=0]
+Scope.color_6: Pink,java.awt.Color[r=255,g=175,b=175]
+Scope.color_7: Red,java.awt.Color[r=255,g=0,b=0]
+Scope.color_8: Yellow,java.awt.Color[r=255,g=255,b=0]
+
+Scope.data_server_name: MdsDataProviderLocalFalcon
+Scope.data_server_class: MdsDataProvider
+Scope.data_server_argument: localhost:8020
+Scope.fast_network_access: false
+Scope.reversed: false
+
+Scope.global_1_1.experiment: mds_falconf
+Scope.global_1_1.shot: 1
+Scope.global_1_1.horizontal_offset: 0
+Scope.global_1_1.vertical_offset: 0
+
+Scope.columns: 4
+Scope.rows_in_column_1: 4
+Scope.rows_in_column_2: 4
+Scope.rows_in_column_3: 4
+Scope.rows_in_column_4: 4
+
+
+Scope.plot_1_1.height: 150
+Scope.plot_1_1.grid_mode: 0
+Scope.plot_1_1.x_log: false
+Scope.plot_1_1.y_log: false
+Scope.plot_1_1.update_limits: true
+Scope.plot_1_1.legend: (0.5801024842307361,789218.6432437489)
+Scope.plot_1_1.palette: Green scale
+Scope.plot_1_1.bitShift: 0
+Scope.plot_1_1.bitClip: false
+Scope.plot_1_1.num_shot: 0
+Scope.plot_1_1.num_expr: 2
+Scope.plot_1_1.shot: 0
+Scope.plot_1_1.continuous_update: 0
+Scope.plot_1_1.global_defaults: 261761
+Scope.plot_1_1.y_expr_1: ADC0.FAST*1.52587890625e-04
+Scope.plot_1_1.mode_1D_1_1: Noline
+Scope.plot_1_1.mode_2D_1_1: xz(y)
+Scope.plot_1_1.color_1_1: 1
+Scope.plot_1_1.marker_1_1: 2
+Scope.plot_1_1.step_marker_1_1: 1
+Scope.plot_1_1.y_expr_2: ADC0.SLOW
+Scope.plot_1_1.mode_1D_2_1: Noline
+Scope.plot_1_1.mode_2D_2_1: xz(y)
+Scope.plot_1_1.color_2_1: 7
+Scope.plot_1_1.marker_2_1: 4
+Scope.plot_1_1.step_marker_2_1: 1
+
+
+Scope.plot_2_1.height: 150
+Scope.plot_2_1.grid_mode: 0
+Scope.plot_2_1.x_log: false
+Scope.plot_2_1.y_log: false
+Scope.plot_2_1.update_limits: true
+Scope.plot_2_1.palette: Green scale
+Scope.plot_2_1.bitShift: 0
+Scope.plot_2_1.bitClip: false
+Scope.plot_2_1.num_shot: 0
+Scope.plot_2_1.num_expr: 2
+Scope.plot_2_1.shot: 0
+Scope.plot_2_1.continuous_update: 0
+Scope.plot_2_1.global_defaults: 261761
+Scope.plot_2_1.y_expr_1: ADC4.FAST*1.52587890625e-04
+Scope.plot_2_1.mode_1D_1_1: Noline
+Scope.plot_2_1.mode_2D_1_1: xz(y)
+Scope.plot_2_1.color_1_1: 1
+Scope.plot_2_1.marker_1_1: 2
+Scope.plot_2_1.step_marker_1_1: 1
+Scope.plot_2_1.y_expr_2: ADC4.SLOW
+Scope.plot_2_1.mode_1D_2_1: Noline
+Scope.plot_2_1.mode_2D_2_1: xz(y)
+Scope.plot_2_1.color_2_1: 7
+Scope.plot_2_1.marker_2_1: 3
+Scope.plot_2_1.step_marker_2_1: 1
+
+
+Scope.plot_3_1.height: 150
+Scope.plot_3_1.grid_mode: 0
+Scope.plot_3_1.x_log: false
+Scope.plot_3_1.y_log: false
+Scope.plot_3_1.update_limits: true
+Scope.plot_3_1.palette: Green scale
+Scope.plot_3_1.bitShift: 0
+Scope.plot_3_1.bitClip: false
+Scope.plot_3_1.num_shot: 0
+Scope.plot_3_1.num_expr: 2
+Scope.plot_3_1.shot: 0
+Scope.plot_3_1.continuous_update: 0
+Scope.plot_3_1.global_defaults: 261761
+Scope.plot_3_1.y_expr_1: ADC8.FAST*1.52587890625e-04
+Scope.plot_3_1.mode_1D_1_1: Noline
+Scope.plot_3_1.mode_2D_1_1: xz(y)
+Scope.plot_3_1.color_1_1: 1
+Scope.plot_3_1.marker_1_1: 2
+Scope.plot_3_1.step_marker_1_1: 1
+Scope.plot_3_1.y_expr_2: ADC8.SLOW
+Scope.plot_3_1.mode_1D_2_1: Noline
+Scope.plot_3_1.mode_2D_2_1: xz(y)
+Scope.plot_3_1.color_2_1: 7
+Scope.plot_3_1.marker_2_1: 3
+Scope.plot_3_1.step_marker_2_1: 1
+
+
+Scope.plot_4_1.height: 150
+Scope.plot_4_1.grid_mode: 0
+Scope.plot_4_1.x_log: false
+Scope.plot_4_1.y_log: false
+Scope.plot_4_1.update_limits: true
+Scope.plot_4_1.palette: Green scale
+Scope.plot_4_1.bitShift: 0
+Scope.plot_4_1.bitClip: false
+Scope.plot_4_1.num_shot: 0
+Scope.plot_4_1.num_expr: 2
+Scope.plot_4_1.shot: 0
+Scope.plot_4_1.continuous_update: 0
+Scope.plot_4_1.global_defaults: 261761
+Scope.plot_4_1.y_expr_1: ADC12.FAST*1.52587890625e-04
+Scope.plot_4_1.mode_1D_1_1: Noline
+Scope.plot_4_1.mode_2D_1_1: xz(y)
+Scope.plot_4_1.color_1_1: 1
+Scope.plot_4_1.marker_1_1: 2
+Scope.plot_4_1.step_marker_1_1: 1
+Scope.plot_4_1.y_expr_2: ADC12.SLOW
+Scope.plot_4_1.mode_1D_2_1: Noline
+Scope.plot_4_1.mode_2D_2_1: xz(y)
+Scope.plot_4_1.color_2_1: 7
+Scope.plot_4_1.marker_2_1: 3
+Scope.plot_4_1.step_marker_2_1: 1
+
+
+
+Scope.plot_1_2.height: 150
+Scope.plot_1_2.grid_mode: 0
+Scope.plot_1_2.x_log: false
+Scope.plot_1_2.y_log: false
+Scope.plot_1_2.update_limits: true
+Scope.plot_1_2.palette: Green scale
+Scope.plot_1_2.bitShift: 0
+Scope.plot_1_2.bitClip: false
+Scope.plot_1_2.num_shot: 0
+Scope.plot_1_2.num_expr: 2
+Scope.plot_1_2.shot: 0
+Scope.plot_1_2.continuous_update: 0
+Scope.plot_1_2.global_defaults: 261761
+Scope.plot_1_2.y_expr_1: ADC1.FAST*1.52587890625e-04
+Scope.plot_1_2.mode_1D_1_1: Noline
+Scope.plot_1_2.mode_2D_1_1: xz(y)
+Scope.plot_1_2.color_1_1: 1
+Scope.plot_1_2.marker_1_1: 2
+Scope.plot_1_2.step_marker_1_1: 1
+Scope.plot_1_2.y_expr_2: ADC1.SLOW
+Scope.plot_1_2.mode_1D_2_1: Noline
+Scope.plot_1_2.mode_2D_2_1: xz(y)
+Scope.plot_1_2.color_2_1: 7
+Scope.plot_1_2.marker_2_1: 3
+Scope.plot_1_2.step_marker_2_1: 1
+
+
+Scope.plot_2_2.height: 150
+Scope.plot_2_2.grid_mode: 0
+Scope.plot_2_2.x_log: false
+Scope.plot_2_2.y_log: false
+Scope.plot_2_2.update_limits: true
+Scope.plot_2_2.palette: Green scale
+Scope.plot_2_2.bitShift: 0
+Scope.plot_2_2.bitClip: false
+Scope.plot_2_2.num_shot: 0
+Scope.plot_2_2.num_expr: 2
+Scope.plot_2_2.shot: 0
+Scope.plot_2_2.continuous_update: 0
+Scope.plot_2_2.global_defaults: 261761
+Scope.plot_2_2.y_expr_1: ADC5.FAST*1.52587890625e-04
+Scope.plot_2_2.mode_1D_1_1: Noline
+Scope.plot_2_2.mode_2D_1_1: xz(y)
+Scope.plot_2_2.color_1_1: 1
+Scope.plot_2_2.marker_1_1: 2
+Scope.plot_2_2.step_marker_1_1: 1
+Scope.plot_2_2.y_expr_2: ADC5.SLOW
+Scope.plot_2_2.mode_1D_2_1: Noline
+Scope.plot_2_2.mode_2D_2_1: xz(y)
+Scope.plot_2_2.color_2_1: 7
+Scope.plot_2_2.marker_2_1: 3
+Scope.plot_2_2.step_marker_2_1: 1
+
+
+Scope.plot_3_2.height: 150
+Scope.plot_3_2.grid_mode: 0
+Scope.plot_3_2.x_log: false
+Scope.plot_3_2.y_log: false
+Scope.plot_3_2.update_limits: true
+Scope.plot_3_2.palette: Green scale
+Scope.plot_3_2.bitShift: 0
+Scope.plot_3_2.bitClip: false
+Scope.plot_3_2.num_shot: 0
+Scope.plot_3_2.num_expr: 2
+Scope.plot_3_2.shot: 0
+Scope.plot_3_2.continuous_update: 0
+Scope.plot_3_2.global_defaults: 261761
+Scope.plot_3_2.y_expr_1: ADC9.FAST*1.52587890625e-04
+Scope.plot_3_2.mode_1D_1_1: Noline
+Scope.plot_3_2.mode_2D_1_1: xz(y)
+Scope.plot_3_2.color_1_1: 1
+Scope.plot_3_2.marker_1_1: 2
+Scope.plot_3_2.step_marker_1_1: 1
+Scope.plot_3_2.y_expr_2: ADC9.SLOW
+Scope.plot_3_2.mode_1D_2_1: Noline
+Scope.plot_3_2.mode_2D_2_1: xz(y)
+Scope.plot_3_2.color_2_1: 7
+Scope.plot_3_2.marker_2_1: 3
+Scope.plot_3_2.step_marker_2_1: 1
+
+
+Scope.plot_4_2.height: 150
+Scope.plot_4_2.grid_mode: 0
+Scope.plot_4_2.x_log: false
+Scope.plot_4_2.y_log: false
+Scope.plot_4_2.update_limits: true
+Scope.plot_4_2.palette: Green scale
+Scope.plot_4_2.bitShift: 0
+Scope.plot_4_2.bitClip: false
+Scope.plot_4_2.num_shot: 0
+Scope.plot_4_2.num_expr: 2
+Scope.plot_4_2.shot: 0
+Scope.plot_4_2.continuous_update: 0
+Scope.plot_4_2.global_defaults: 261761
+Scope.plot_4_2.y_expr_1: ADC13.FAST*1.52587890625e-04
+Scope.plot_4_2.mode_1D_1_1: Noline
+Scope.plot_4_2.mode_2D_1_1: xz(y)
+Scope.plot_4_2.color_1_1: 1
+Scope.plot_4_2.marker_1_1: 2
+Scope.plot_4_2.step_marker_1_1: 1
+Scope.plot_4_2.y_expr_2: ADC13.SLOW
+Scope.plot_4_2.mode_1D_2_1: Noline
+Scope.plot_4_2.mode_2D_2_1: xz(y)
+Scope.plot_4_2.color_2_1: 7
+Scope.plot_4_2.marker_2_1: 3
+Scope.plot_4_2.step_marker_2_1: 1
+
+
+Scope.plot_1_3.height: 150
+Scope.plot_1_3.grid_mode: 0
+Scope.plot_1_3.x_log: false
+Scope.plot_1_3.y_log: false
+Scope.plot_1_3.update_limits: true
+Scope.plot_1_3.palette: Green scale
+Scope.plot_1_3.bitShift: 0
+Scope.plot_1_3.bitClip: false
+Scope.plot_1_3.num_shot: 0
+Scope.plot_1_3.num_expr: 2
+Scope.plot_1_3.shot: 0
+Scope.plot_1_3.continuous_update: 0
+Scope.plot_1_3.global_defaults: 261761
+Scope.plot_1_3.y_expr_1: ADC2.FAST*1.52587890625e-04
+Scope.plot_1_3.mode_1D_1_1: Noline
+Scope.plot_1_3.mode_2D_1_1: xz(y)
+Scope.plot_1_3.color_1_1: 1
+Scope.plot_1_3.marker_1_1: 2
+Scope.plot_1_3.step_marker_1_1: 1
+Scope.plot_1_3.y_expr_2: ADC2.SLOW
+Scope.plot_1_3.mode_1D_2_1: Noline
+Scope.plot_1_3.mode_2D_2_1: xz(y)
+Scope.plot_1_3.color_2_1: 7
+Scope.plot_1_3.marker_2_1: 3
+Scope.plot_1_3.step_marker_2_1: 1
+
+
+
+Scope.plot_2_3.height: 150
+Scope.plot_2_3.grid_mode: 0
+Scope.plot_2_3.x_log: false
+Scope.plot_2_3.y_log: false
+Scope.plot_2_3.update_limits: true
+Scope.plot_2_3.palette: Green scale
+Scope.plot_2_3.bitShift: 0
+Scope.plot_2_3.bitClip: false
+Scope.plot_2_3.num_shot: 0
+Scope.plot_2_3.num_expr: 2
+Scope.plot_2_3.shot: 0
+Scope.plot_2_3.continuous_update: 0
+Scope.plot_2_3.global_defaults: 261761
+Scope.plot_2_3.y_expr_1: ADC6.FAST*1.52587890625e-04
+Scope.plot_2_3.mode_1D_1_1: Noline
+Scope.plot_2_3.mode_2D_1_1: xz(y)
+Scope.plot_2_3.color_1_1: 1
+Scope.plot_2_3.marker_1_1: 2
+Scope.plot_2_3.step_marker_1_1: 1
+Scope.plot_2_3.y_expr_2: ADC6.SLOW
+Scope.plot_2_3.mode_1D_2_1: Noline
+Scope.plot_2_3.mode_2D_2_1: xz(y)
+Scope.plot_2_3.color_2_1: 7
+Scope.plot_2_3.marker_2_1: 3
+Scope.plot_2_3.step_marker_2_1: 1
+
+
+Scope.plot_3_3.height: 150
+Scope.plot_3_3.grid_mode: 0
+Scope.plot_3_3.x_log: false
+Scope.plot_3_3.y_log: false
+Scope.plot_3_3.update_limits: true
+Scope.plot_3_3.palette: Green scale
+Scope.plot_3_3.bitShift: 0
+Scope.plot_3_3.bitClip: false
+Scope.plot_3_3.num_shot: 0
+Scope.plot_3_3.num_expr: 2
+Scope.plot_3_3.shot: 0
+Scope.plot_3_3.continuous_update: 0
+Scope.plot_3_3.global_defaults: 261761
+Scope.plot_3_3.y_expr_1: ADC10.FAST*1.52587890625e-04
+Scope.plot_3_3.mode_1D_1_1: Noline
+Scope.plot_3_3.mode_2D_1_1: xz(y)
+Scope.plot_3_3.color_1_1: 1
+Scope.plot_3_3.marker_1_1: 2
+Scope.plot_3_3.step_marker_1_1: 1
+Scope.plot_3_3.y_expr_2: ADC10.SLOW
+Scope.plot_3_3.mode_1D_2_1: Noline
+Scope.plot_3_3.mode_2D_2_1: xz(y)
+Scope.plot_3_3.color_2_1: 7
+Scope.plot_3_3.marker_2_1: 3
+Scope.plot_3_3.step_marker_2_1: 1
+
+
+Scope.plot_4_3.height: 150
+Scope.plot_4_3.grid_mode: 0
+Scope.plot_4_3.x_log: false
+Scope.plot_4_3.y_log: false
+Scope.plot_4_3.update_limits: true
+Scope.plot_4_3.palette: Green scale
+Scope.plot_4_3.bitShift: 0
+Scope.plot_4_3.bitClip: false
+Scope.plot_4_3.num_shot: 0
+Scope.plot_4_3.num_expr: 2
+Scope.plot_4_3.shot: 0
+Scope.plot_4_3.continuous_update: 0
+Scope.plot_4_3.global_defaults: 261761
+Scope.plot_4_3.y_expr_1: ADC14.FAST*1.52587890625e-04
+Scope.plot_4_3.mode_1D_1_1: Noline
+Scope.plot_4_3.mode_2D_1_1: xz(y)
+Scope.plot_4_3.color_1_1: 1
+Scope.plot_4_3.marker_1_1: 2
+Scope.plot_4_3.step_marker_1_1: 1
+Scope.plot_4_3.y_expr_2: ADC14.SLOW
+Scope.plot_4_3.mode_1D_2_1: Noline
+Scope.plot_4_3.mode_2D_2_1: xz(y)
+Scope.plot_4_3.color_2_1: 7
+Scope.plot_4_3.marker_2_1: 3
+Scope.plot_4_3.step_marker_2_1: 1
+
+
+Scope.plot_1_4.height: 150
+Scope.plot_1_4.grid_mode: 0
+Scope.plot_1_4.x_log: false
+Scope.plot_1_4.y_log: false
+Scope.plot_1_4.update_limits: true
+Scope.plot_1_4.palette: Green scale
+Scope.plot_1_4.bitShift: 0
+Scope.plot_1_4.bitClip: false
+Scope.plot_1_4.num_shot: 0
+Scope.plot_1_4.num_expr: 2
+Scope.plot_1_4.shot: 0
+Scope.plot_1_4.continuous_update: 0
+Scope.plot_1_4.global_defaults: 261761
+Scope.plot_1_4.y_expr_1: ADC3.FAST*1.52587890625e-04
+Scope.plot_1_4.mode_1D_1_1: Noline
+Scope.plot_1_4.mode_2D_1_1: xz(y)
+Scope.plot_1_4.color_1_1: 1
+Scope.plot_1_4.marker_1_1: 2
+Scope.plot_1_4.step_marker_1_1: 1
+Scope.plot_1_4.y_expr_2: ADC3.SLOW
+Scope.plot_1_4.mode_1D_2_1: Noline
+Scope.plot_1_4.mode_2D_2_1: xz(y)
+Scope.plot_1_4.color_2_1: 7
+Scope.plot_1_4.marker_2_1: 3
+Scope.plot_1_4.step_marker_2_1: 1
+
+
+
+Scope.plot_2_4.height: 150
+Scope.plot_2_4.grid_mode: 0
+Scope.plot_2_4.x_log: false
+Scope.plot_2_4.y_log: false
+Scope.plot_2_4.update_limits: true
+Scope.plot_2_4.palette: Green scale
+Scope.plot_2_4.bitShift: 0
+Scope.plot_2_4.bitClip: false
+Scope.plot_2_4.num_shot: 0
+Scope.plot_2_4.num_expr: 2
+Scope.plot_2_4.shot: 0
+Scope.plot_2_4.continuous_update: 0
+Scope.plot_2_4.global_defaults: 261761
+Scope.plot_2_4.y_expr_1: ADC7.FAST*1.52587890625e-04
+Scope.plot_2_4.mode_1D_1_1: Noline
+Scope.plot_2_4.mode_2D_1_1: xz(y)
+Scope.plot_2_4.color_1_1: 1
+Scope.plot_2_4.marker_1_1: 2
+Scope.plot_2_4.step_marker_1_1: 1
+Scope.plot_2_4.y_expr_2: ADC7.SLOW
+Scope.plot_2_4.mode_1D_2_1: Noline
+Scope.plot_2_4.mode_2D_2_1: xz(y)
+Scope.plot_2_4.color_2_1: 7
+Scope.plot_2_4.marker_2_1: 3
+Scope.plot_2_4.step_marker_2_1: 1
+
+
+Scope.plot_3_4.height: 150
+Scope.plot_3_4.grid_mode: 0
+Scope.plot_3_4.x_log: false
+Scope.plot_3_4.y_log: false
+Scope.plot_3_4.update_limits: true
+Scope.plot_3_4.palette: Green scale
+Scope.plot_3_4.bitShift: 0
+Scope.plot_3_4.bitClip: false
+Scope.plot_3_4.num_shot: 0
+Scope.plot_3_4.num_expr: 2
+Scope.plot_3_4.shot: 0
+Scope.plot_3_4.continuous_update: 0
+Scope.plot_3_4.global_defaults: 261761
+Scope.plot_3_4.y_expr_1: ADC11.FAST*1.52587890625e-04
+Scope.plot_3_4.mode_1D_1_1: Noline
+Scope.plot_3_4.mode_2D_1_1: xz(y)
+Scope.plot_3_4.color_1_1: 1
+Scope.plot_3_4.marker_1_1: 2
+Scope.plot_3_4.step_marker_1_1: 1
+Scope.plot_3_4.y_expr_2: ADC11.SLOW
+Scope.plot_3_4.mode_1D_2_1: Noline
+Scope.plot_3_4.mode_2D_2_1: xz(y)
+Scope.plot_3_4.color_2_1: 7
+Scope.plot_3_4.marker_2_1: 3
+Scope.plot_3_4.step_marker_2_1: 1
+
+
+
+Scope.plot_4_4.height: 150
+Scope.plot_4_4.grid_mode: 0
+Scope.plot_4_4.x_log: false
+Scope.plot_4_4.y_log: false
+Scope.plot_4_4.update_limits: true
+Scope.plot_4_4.palette: Green scale
+Scope.plot_4_4.bitShift: 0
+Scope.plot_4_4.bitClip: false
+Scope.plot_4_4.num_shot: 0
+Scope.plot_4_4.num_expr: 2
+Scope.plot_4_4.shot: 0
+Scope.plot_4_4.continuous_update: 0
+Scope.plot_4_4.global_defaults: 261761
+Scope.plot_4_4.y_expr_1: ADC15.FAST*1.52587890625e-04
+Scope.plot_4_4.mode_1D_1_1: Noline
+Scope.plot_4_4.mode_2D_1_1: xz(y)
+Scope.plot_4_4.color_1_1: 1
+Scope.plot_4_4.marker_1_1: 2
+Scope.plot_4_4.step_marker_1_1: 1
+Scope.plot_4_4.y_expr_2: ADC15.SLOW
+Scope.plot_4_4.mode_1D_2_1: Noline
+Scope.plot_4_4.mode_2D_2_1: xz(y)
+Scope.plot_4_4.color_2_1: 7
+Scope.plot_4_4.marker_2_1: 3
+Scope.plot_4_4.step_marker_2_1: 1
+
+Scope.vpane_1: 250
+Scope.vpane_2: 500
+Scope.vpane_3: 750

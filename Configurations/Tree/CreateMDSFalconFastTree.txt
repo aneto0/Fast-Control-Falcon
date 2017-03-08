@@ -16,6 +16,7 @@ add node .ADC12
 add node .ADC13
 add node .ADC14
 add node .ADC15
+add node .DEBUG
 
 set def \MDS_FALCONF::TOP.ADC0
 add node .FAST
@@ -112,6 +113,12 @@ add node .FAST
 add node .SLOW
 add node .FSTD
 add node .SLWD
+
+set def \MDS_FALCONF::TOP.DEBUG
+add node .TRIG
+add node .TRIGD
+add node .WAVE
+add node .WAVED
 
 set def \MDS_FALCONF::TOP
 add node PORT0/usage=signal

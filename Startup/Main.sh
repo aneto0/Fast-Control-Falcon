@@ -35,12 +35,18 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SDN_CORE_LIBRARY_DIR
 
 export mds_falconf_path=../Configurations/Tree
 
-#Disable CPU speed changing
-#cpupower frequency-set --governor performance
-#service cpuspeed stop
-
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 #cgdb --args ../Build/linux/Startup/Main.ex $1 $2 $3 $4
 #strace -o/tmp/strace.err ../Build/linux/Startup/Main.ex $1 $2  $3 $4
-../Build/linux/Startup/Main.ex $1 $2 $3 $4 
+
+#Disable CPU speed changing
+service cpuspeed 
+
+#Allocate dynamic ticks to CPU #0
+for i in `pgrep rcu[^c]` ; do taskset -pc 0 $i ; done
+
+#Isolate cpus 1-3 (tasks and interrupts)
+tuna -c 1-3 --isolate
+
+taskset 1 ../Build/linux/Startup/Main.ex $1 $2 $3 $4 

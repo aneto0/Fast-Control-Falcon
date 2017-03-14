@@ -38,6 +38,7 @@
 static const MARTe::uint32 SINE_WAVEFORM = 0u;
 static const MARTe::uint32 COSINE_WAVEFORM = 1u;
 static const MARTe::uint32 SQUARE_WAVEFORM = 2u;
+static const MARTe::uint32 RAMP_WAVEFORM = 3u;
 static const MARTe::float64 PI = 3.14159265359;
 
 /*---------------------------------------------------------------------------*/
@@ -59,6 +60,8 @@ WaveformTestGAM::WaveformTestGAM() :
     waveOutput = NULL_PTR(float32 *);
     numberOfWindows = 0u;
     lastTimeInput = 0u;
+    lastOutput = 0;
+    rampIncrement = 0;
 }
 
 WaveformTestGAM::~WaveformTestGAM() {
@@ -165,6 +168,9 @@ bool WaveformTestGAM::Initialise(MARTe::StructuredDataI & data) {
         else if (waveform == "Square") {
             wavetype = SQUARE_WAVEFORM;
         }
+        else if (waveform == "Ramp") {
+            wavetype = RAMP_WAVEFORM;
+        }
         else {
             REPORT_ERROR(ErrorManagement::ParametersError, "Unsupported WaveformType specified");
             ok = false;
@@ -186,6 +192,12 @@ bool WaveformTestGAM::Initialise(MARTe::StructuredDataI & data) {
         ok = data.Read("SamplingPeriod", samplingPeriod);
         if (!ok) {
             REPORT_ERROR(ErrorManagement::ParametersError, "SamplingPeriod must be specified");
+        }
+    }
+    if (ok) {
+        if (wavetype == RAMP_WAVEFORM) {
+            rampIncrement = (2.0F * amplitude * frequency * samplingPeriod);
+            REPORT_ERROR_PARAMETERS(ErrorManagement::Information, "Ramp increment = %f", rampIncrement)
         }
     }
     return ok;
@@ -217,6 +229,15 @@ bool WaveformTestGAM::Execute() {
                     waveOutput[i] = -amplitude;
                 }
             }
+            else if (wavetype == RAMP_WAVEFORM) {
+                if((lastOutput + rampIncrement) > amplitude) {
+                    waveOutput[i] = -amplitude;
+                }
+                else {
+                    waveOutput[i] = lastOutput + rampIncrement;
+                }
+            }
+            lastOutput = waveOutput[i];
         }
     }
     else {

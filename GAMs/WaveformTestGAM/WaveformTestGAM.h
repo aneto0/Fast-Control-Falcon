@@ -46,7 +46,7 @@
  * The configuration syntax is (names and signal quantities are only given as an example):
  * +WaveformTestGAM = {
  *     Class = WaveformTestGAM
- *     WaveformType = Square //Compulsory. The type of the waveform (Cosine, Sine or Square)
+ *     WaveformType = Square //Compulsory. The type of the waveform (Cosine, Sine, Ramp or Square)
  *     Frequency = 10 //Compulsory. The frequency of the waveform
  *     Amplitude = 1 //Compulsory. The amplitude of the waveform
  *     SamplingPeriod = 500e-9 //Compulsory. The sampling period at which the signal should be generated.
@@ -150,6 +150,11 @@ private:
     MARTe::float32 frequency;
 
     /**
+     * The increment for the ramp waveform.
+     */
+    MARTe::float32 rampIncrement;
+
+    /**
      * The sampling period of the waveform.
      */
     MARTe::float64 samplingPeriod;
@@ -173,6 +178,11 @@ private:
      * The output signal.
      */
     MARTe::float32 *waveOutput;
+
+    /**
+     * The last output signal
+     */
+    MARTe::float32 lastOutput;
 
     /**
      * Index with the value of the current time window.

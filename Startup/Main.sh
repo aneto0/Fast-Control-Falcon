@@ -33,7 +33,8 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/GAMs/DataCollectionGAM/linux/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/Interfaces/BaseLib2Adapter/linux/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SDN_CORE_LIBRARY_DIR
 
-export mds_falconf_path=../Configurations/Tree
+#export mds_falconf_path=../Configurations/Tree
+export mds_falconf_path="192.168.130.211:8020::/home/aneto/Projects/Fast-Control-Falcon/Configurations/Tree"
 
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
@@ -41,10 +42,13 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 #strace -o/tmp/strace.err ../Build/linux/Startup/Main.ex $1 $2  $3 $4
 
 #Disable CPU speed changing
-service cpuspeed 
+service cpuspeed stop
 
 #Allocate dynamic ticks to CPU #0
 for i in `pgrep rcu[^c]` ; do taskset -pc 0 $i ; done
+
+#Assign IRQ to correct CPU
+tuna -q nixseries -c 3 -x -m
 
 #Isolate cpus 1-3 (tasks and interrupts)
 tuna -c 1-3 --isolate

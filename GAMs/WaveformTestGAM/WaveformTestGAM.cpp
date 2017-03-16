@@ -197,7 +197,7 @@ bool WaveformTestGAM::Initialise(MARTe::StructuredDataI & data) {
     if (ok) {
         if (wavetype == RAMP_WAVEFORM) {
             rampIncrement = (2.0F * amplitude * frequency * samplingPeriod);
-            REPORT_ERROR_PARAMETERS(ErrorManagement::Information, "Ramp increment = %f", rampIncrement)
+            REPORT_ERROR(ErrorManagement::Information, "Ramp increment = %f", rampIncrement);
         }
     }
     return ok;

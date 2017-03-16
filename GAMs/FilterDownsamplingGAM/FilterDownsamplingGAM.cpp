@@ -214,12 +214,12 @@ bool FilterDownsamplingGAM::Initialise(MARTe::StructuredDataI & data) {
     if (ok) {
         float64 numerator = -2 * PI * cutOffFrequency;
         alphaFloat = exp(numerator / float64(samplingFrequency));
-        REPORT_ERROR_PARAMETERS(ErrorManagement::Information, "Computed alpha (in floating point) = %f", alphaFloat)
+        REPORT_ERROR(ErrorManagement::Information, "Computed alpha (in floating point) = %f", alphaFloat);
     }
     if (ok) {
         alpha20Bit = static_cast<uint64>(alphaFloat * (1LLU << 20u)); //Calibrate with 2**20 bit resolution
         oneMinusAlpha40Bit = ((1LLU << 40u) - (alpha20Bit * (1LLU << 20u))); //The (1-alpha) is performed at 40 bit resolution, thus (2**40 - alphaFloat * 2**40)
-        REPORT_ERROR_PARAMETERS(ErrorManagement::Information, "Computed alpha20Bit = %u and oneMinusAlpha40Bit %u", alpha20Bit, oneMinusAlpha40Bit)
+        REPORT_ERROR(ErrorManagement::Information, "Computed alpha20Bit = %u and oneMinusAlpha40Bit %u", alpha20Bit, oneMinusAlpha40Bit);
     }
 
     return ok;

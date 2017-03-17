@@ -119,6 +119,8 @@ add node .TRIG
 add node .TRIGD
 add node .WAVE
 add node .WAVED
+add node .CYCLET
+add node .CYCLETD
 
 set def \MDS_FALCONF::TOP
 add node PORT0/usage=signal

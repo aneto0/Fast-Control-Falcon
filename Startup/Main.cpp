@@ -26,7 +26,9 @@
 /*---------------------------------------------------------------------------*/
 /*                         Standard header includes                          */
 /*---------------------------------------------------------------------------*/
+#include <signal.h>
 #include <stdio.h>
+#include <sys/mman.h>
 
 /*---------------------------------------------------------------------------*/
 /*                         Project header includes                           */
@@ -55,6 +57,17 @@ void MainErrorProcessFunction(const MARTe::ErrorManagement::ErrorInformation &er
     MARTe::StreamString errorCodeStr;
     MARTe::ErrorManagement::ErrorCodeToStream(errorInfo.header.errorType, errorCodeStr);
     printf("[%s - %s:%d]: %s\n", errorCodeStr.Buffer(), errorInfo.fileName, errorInfo.header.lineNumber, errorDescription);
+}
+
+static MARTe::ReferenceT<MARTe::RealTimeApplication> rtApp;
+
+static void StopApp(int signal) {
+    printf("Stopping application.\n");
+    if (rtApp.IsValid()) {
+        rtApp->StopCurrentStateExecution();
+    }
+    MARTe::ObjectRegistryDatabase::Instance()->Purge();
+    printf("Application successfully stopped.\n");
 }
 
 /*---------------------------------------------------------------------------*/
@@ -101,6 +114,7 @@ int main(int argc, char **argv) {
         REPORT_ERROR_STATIC(ErrorManagement::ParametersError, "Arguments are -f FILENAME -s FIRST_STATE | -m MSG_DESTINATION:MSG_FUNCTION");
         return -1;
     }
+    mlockall(MCL_CURRENT | MCL_FUTURE);
 
     BasicFile f;
     bool ok = f.Open(filename.Buffer(), BasicFile::ACCESS_MODE_R);
@@ -136,7 +150,7 @@ int main(int argc, char **argv) {
         uint32 n;
         bool found = false;
         for (n = 0u; (n < nOfObjs) && (!found); n++) {
-            ReferenceT < RealTimeApplication > rtApp = objDb->Get(n);
+            rtApp = objDb->Get(n);
             found = rtApp.IsValid();
             if (found) {
                 ok = rtApp->ConfigureApplication();
@@ -144,35 +158,36 @@ int main(int argc, char **argv) {
                     REPORT_ERROR_STATIC(ErrorManagement::ParametersError, "Failed to load Configure RealTimeApplication");
                     return -1;
                 }
-                if (firstState.Size() > 0) {
-                    if (ok) {
+                if (ok) {
+                    if (firstState.Size() > 0) {
                         ok = rtApp->PrepareNextState(firstState.Buffer());
+
+                        if (ok) {
+                            rtApp->StartNextStateExecution();
+                        }
                     }
-                    if (ok) {
-                        rtApp->StartNextStateExecution();
-                    }
-                }
-                else {
-                    ReferenceT<Message> message(new Message());
-                    ConfigurationDatabase msgConfig;
-                    StreamString destination;
-                    StreamString function;
-                    char8 term;
-                    messageArgs.Seek(0LLU);
-                    ok = messageArgs.GetToken(destination, ":", term);
-                    if (ok) {
-                        ok = messageArgs.GetToken(function, ":", term);
-                    }
-                    if (!ok) {
-                        REPORT_ERROR_STATIC(ErrorManagement::ParametersError, "Message format is MSG_DESTINATION:MSG_FUNCTION");
-                    }
-                    msgConfig.Write("Destination", destination.Buffer());
-                    msgConfig.Write("Function", function.Buffer());
-                    if (ok) {
-                        ok = message->Initialise(msgConfig);
-                    }
-                    if (ok) {
-                        MessageI::SendMessage(message);
+                    else {
+                        ReferenceT<Message> message(new Message());
+                        ConfigurationDatabase msgConfig;
+                        StreamString destination;
+                        StreamString function;
+                        char8 term;
+                        messageArgs.Seek(0LLU);
+                        ok = messageArgs.GetToken(destination, ":", term);
+                        if (ok) {
+                            ok = messageArgs.GetToken(function, ":", term);
+                        }
+                        if (!ok) {
+                            REPORT_ERROR_STATIC(ErrorManagement::ParametersError, "Message format is MSG_DESTINATION:MSG_FUNCTION");
+                        }
+                        msgConfig.Write("Destination", destination.Buffer());
+                        msgConfig.Write("Function", function.Buffer());
+                        if (ok) {
+                            ok = message->Initialise(msgConfig);
+                        }
+                        if (ok) {
+                            MessageI::SendMessage(message);
+                        }
                     }
                 }
             }
@@ -180,11 +195,13 @@ int main(int argc, char **argv) {
     }
     f.Close();
     if (ok) {
+        signal(SIGTERM, StopApp);
         while (1) {
             Sleep::Sec(1.0);
         }
     }
 
+    munlockall();
     return 0;
 }
 

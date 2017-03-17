@@ -20,6 +20,7 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/G
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/GAMs/ConversionGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/GAMs/FilterGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/Interfaces/BaseLib2Wrapper/
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/Interfaces/SysLogger/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/BaseLib2/linux/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/MARTe/MARTeSupportLib/linux/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/Interfaces/HTTP/CFGUploader/linux/
@@ -34,7 +35,8 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/Interfaces/BaseLib2Adapter/linu
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SDN_CORE_LIBRARY_DIR
 
 #export mds_falconf_path=../Configurations/Tree
-export mds_falconf_path="192.168.130.211:8020::/home/aneto/Projects/Fast-Control-Falcon/Configurations/Tree"
+#export mds_falconf_path="192.168.130.211:8020::/home/aneto/Projects/Fast-Control-Falcon/Configurations/Tree"
+export mds_falconf_path="192.168.130.46:8020::/home/aneto/Projects/Fast-Control-Falcon/Configurations/Tree"
 
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH

@@ -29,6 +29,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <sys/mman.h>
+#include <unistd.h>
 
 /*---------------------------------------------------------------------------*/
 /*                         Project header includes                           */
@@ -61,13 +62,25 @@ void MainErrorProcessFunction(const MARTe::ErrorManagement::ErrorInformation &er
 
 static MARTe::ReferenceT<MARTe::RealTimeApplication> rtApp;
 
-static void StopApp(int signal) {
-    printf("Stopping application.\n");
+static bool keepRunning = true;
+static bool killApp = false;
+static void StopApp(int sig) {
+    //Second time this is called? Kill the application.
+    if (!killApp) {
+        killApp = true;
+    }
+    else {
+        printf("Application killed.\n");  
+        _exit(0);
+    }
+    printf("Stopping application.\n");  
     if (rtApp.IsValid()) {
         rtApp->StopCurrentStateExecution();
     }
     MARTe::ObjectRegistryDatabase::Instance()->Purge();
     printf("Application successfully stopped.\n");
+    keepRunning = false;
+    _exit(0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -196,7 +209,8 @@ int main(int argc, char **argv) {
     f.Close();
     if (ok) {
         signal(SIGTERM, StopApp);
-        while (1) {
+        signal(SIGINT, StopApp);
+        while (keepRunning) {
             Sleep::Sec(1.0);
         }
     }

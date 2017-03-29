@@ -1,0 +1,24 @@
+record( longin, "FALCON::FAST::STATUS_CMD")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( longin, "FALCON::FAST::STATUS")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( longin, "FALCON::FAST::PULSE")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( longin, "FALCON::FAST::ERROR")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( longin, "FALCON::FAST::ERROR_RST")
+{
+   field(DTYP, "Soft Channel")
+}

@@ -34,10 +34,17 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/GAMs/PlottingGAM/linux/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/GAMs/DataCollectionGAM/linux/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/Interfaces/BaseLib2Adapter/linux/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SDN_CORE_LIBRARY_DIR
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EPICS_BASE/lib/$EPICS_HOST_ARCH
 
 #export mds_falconf_path=../Configurations/Tree
 #export mds_falconf_path="192.168.130.211:8020::/home/aneto/Projects/Fast-Control-Falcon/Configurations/Tree"
 export mds_falconf_path="192.168.130.46:8020::/home/aneto/Projects/Fast-Control-Falcon/Configurations/Tree"
+
+caput FALCON::FAST::STATUS 0
+caput FALCON::FAST::PULSE 0
+caput FALCON::FAST::ERROR 0
+caput FALCON::FAST::STATUS_CMD 0
+caput FALCON::FAST::ERROR_RST 0
 
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH

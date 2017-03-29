@@ -1,3 +1,8 @@
+record( longin, "FALCON::FAST::STATUS_CMD")
+{
+   field(DTYP, "Soft Channel")
+}
+
 record( longin, "FALCON::FAST::STATUS")
 {
    field(DTYP, "Soft Channel")

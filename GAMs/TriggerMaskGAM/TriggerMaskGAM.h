@@ -37,7 +37,25 @@
 /*                           Class declaration                               */
 /*---------------------------------------------------------------------------*/
 /**
- * @brief TODO
+ * @brief GAM which masks a digital input triggering signal. If the mask & the input signal is not zero,
+ *  a value of 1 will be output, 0 otherwise.
+ * The configuration syntax is (names and signal quantities are only given as an example):
+ * +GAMTRMask = {
+ *     Class = TriggerMaskGAM
+ *     Mask = 0x1 //Compulsory. Mask which will be applied to the input signal
+ *     InputSignals = {
+ *         PORT0 = {//One and only one input signal shall be specified.
+ *              DataSource = DDB1
+ *              Type = uint32 //The type shall be uint32
+ *         }
+ *     }
+ *     OutputSignals = {
+ *         Trigger = { //One and only one output signal shall be specified.
+ *             DataSource = DDB1
+ *             Type = uint8 //The type shall be uint8
+ *         }
+ *     }
+ *}
  */
 class TriggerMaskGAM: public MARTe::GAM {
 public:
@@ -53,33 +71,40 @@ TriggerMaskGAM    ();
     virtual ~TriggerMaskGAM();
 
     /**
-     * @brief TODO.
+     * @brief Verifies that:
+     *  - GetNumberOfInputSignals() == GetNumberOfOutputSignals() &&
+     *  - GetNumberOfInputSignals() == 1 &&
+     *  - GetSignalType(InputSignals, *) == UnsignedInteger32Bit &&
+     *  - GetSignalType(OutputSignals, *) == UnsignedInteger8Bit
+     *  @return true if the conditions above are met.
      */
     virtual bool Setup();
 
     /**
-     * @brief TODO.
+     * @brief The configuration data detailed in the class description
+     * @return true if all the compulsory parameters are set.
      */
     virtual bool Initialise(MARTe::StructuredDataI & data);
 
     /**
-     * @brief TODO.
+     * @brief Applies the mask to the input signal and if the mask & input is not zero a value of 1 will be written to the output signal, zero otherwise.
+     * @return true.
      */
     virtual bool Execute();
 
 private:
     /**
-     * TODO
+     * The input signal memory
      */
     MARTe::uint32 *input;
 
     /**
-     * TODO
+     * The mask to apply
      */
     MARTe::uint32 mask;
 
     /**
-     * TODO
+     * The output signal memory
      */
     MARTe::uint8 *output;
 

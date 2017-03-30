@@ -36,10 +36,6 @@
 /*---------------------------------------------------------------------------*/
 /*                           Static definitions                              */
 /*---------------------------------------------------------------------------*/
-static const MARTe::uint32 SINE_WAVEFORM = 0u;
-static const MARTe::uint32 COSINE_WAVEFORM = 1u;
-static const MARTe::uint32 SQUARE_WAVEFORM = 2u;
-static const MARTe::float64 PI = 3.14159265359;
 
 /*---------------------------------------------------------------------------*/
 /*                           Method definitions                              */

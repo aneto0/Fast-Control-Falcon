@@ -96,8 +96,8 @@ FilterDownsamplingGAM    ();
     /**
      * @brief Verifies that:
      *  - GetNumberOfInputSignals() == GetNumberOfOutputSignals() &&
-     *  - GetSignalType(InputSignals, *) != SignedInteger16Bit &&
-     *  - GetSignalType(OutputSignals, *) != Float32Bit
+     *  - GetSignalType(InputSignals, *) == SignedInteger16Bit &&
+     *  - GetSignalType(OutputSignals, *) == Float32Bit
      *  @return true if the conditions above are met.
      */
     virtual bool Setup();

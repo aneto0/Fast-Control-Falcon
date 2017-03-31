@@ -157,9 +157,9 @@ private:
     MARTe::uint32 assertCounter;
 
     /**
-     * Counter that goes to zero when the threshold has been reached, i.e. when |*analogueInputSignal| >= |threshold|.
+     * The period of the analogue signal.
      */
-    MARTe::float64 timeSignalPeriod;
+    MARTe::float64 signalPeriod;
 
     /**
      * Correction value to apply to the time signal

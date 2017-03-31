@@ -51,7 +51,7 @@ TimeCorrectionGAM::TimeCorrectionGAM() :
     assertCycles = 0u;
     assertCounter = 0u;
     timeCorrection = 0u;
-    timeSignalPeriod = 0;
+    signalPeriod = 0;
     numberOfSamples = 0u;
     cycleTimeIncrement = 0u;
 }
@@ -99,7 +99,7 @@ bool TimeCorrectionGAM::Setup() {
     }
     if (ok) {
         ok = GetSignalNumberOfSamples(InputSignals, 1u, numberOfSamples);
-        cycleTimeIncrement = static_cast<uint32>(static_cast<float64>(numberOfSamples) * timeSignalPeriod);
+        cycleTimeIncrement = static_cast<uint32>(static_cast<float64>(numberOfSamples) * signalPeriod);
     }
     if (ok) {
         analogueInputSignal = static_cast<int16 *>(GetInputSignalMemory(1u));
@@ -132,13 +132,13 @@ bool TimeCorrectionGAM::Initialise(MARTe::StructuredDataI & data) {
         }
     }
     if (ok) {
-        ok = data.Read("TimeSignalPeriod", timeSignalPeriod);
+        ok = data.Read("SignalPeriod", signalPeriod);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "TimeSignalPeriod must be specified");
+            REPORT_ERROR(ErrorManagement::ParametersError, "SignalPeriod must be specified");
         }
     }
     if (ok) {
-        ok = (timeSignalPeriod > 0);
+        ok = (signalPeriod > 0);
         if (!ok) {
             REPORT_ERROR(ErrorManagement::ParametersError, "TimeSignalPeriod must be > 0");
         }
@@ -171,10 +171,10 @@ bool TimeCorrectionGAM::Execute() {
         if (assertCounter == 0u) {
             //Note that the assertCounter might go to zero between two Executes
             if (s >= (assertCycles - 1u)) {
-                timeCorrection = static_cast<uint32>(static_cast<float64>(s - (assertCycles - 1u)) * timeSignalPeriod);
+                timeCorrection = static_cast<uint32>(static_cast<float64>(s - (assertCycles - 1u)) * signalPeriod);
             }
             else {
-                timeCorrection = (static_cast<uint32>(numberOfSamples - (assertCycles - s - 1u)) * timeSignalPeriod);
+                timeCorrection = (static_cast<uint32>(numberOfSamples - (assertCycles - s - 1u)) * signalPeriod);
             }
             timeCorrection = cycleTimeIncrement - timeCorrection;
         }

@@ -43,7 +43,6 @@
 TimeCorrectionGAM::TimeCorrectionGAM() :
         MARTe::GAM() {
     using namespace MARTe;
-    timeSignal = NULL_PTR(uint32 *);
     correctedTimeSignal = NULL_PTR(uint32 *);
     triggerSignal = NULL_PTR(uint8 *);
     correctedTriggerSignal = NULL_PTR(uint8 *);
@@ -53,6 +52,8 @@ TimeCorrectionGAM::TimeCorrectionGAM() :
     assertCounter = 0u;
     timeCorrection = 0u;
     timeSignalPeriod = 0;
+    numberOfSamples = 0u;
+    cycleTimeIncrement = 0u;
 }
 
 TimeCorrectionGAM::~TimeCorrectionGAM() {
@@ -62,9 +63,9 @@ TimeCorrectionGAM::~TimeCorrectionGAM() {
 
 bool TimeCorrectionGAM::Setup() {
     using namespace MARTe;
-    bool ok = (GetNumberOfInputSignals() == 3u);
+    bool ok = (GetNumberOfInputSignals() == 2u);
     if (!ok) {
-        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 3u");
+        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 2u");
     }
     if (ok) {
         ok = (GetNumberOfOutputSignals() == 2u);
@@ -73,21 +74,15 @@ bool TimeCorrectionGAM::Setup() {
         }
     }
     if (ok) {
-        ok = (GetSignalType(InputSignals, 0u) == UnsignedInteger32Bit);
+        ok = (GetSignalType(InputSignals, 0u) == SignedInteger16Bit);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 0u) != UnsignedInteger32Bit");
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 0u) != SignedInteger16Bit");
         }
     }
     if (ok) {
-        ok = (GetSignalType(InputSignals, 1u) == SignedInteger16Bit);
+        ok = (GetSignalType(InputSignals, 1u) == UnsignedInteger8Bit);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 1u) != SignedInteger16Bit");
-        }
-    }
-    if (ok) {
-        ok = (GetSignalType(InputSignals, 2u) == UnsignedInteger8Bit);
-        if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 2u) != UnsignedInteger8Bit");
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 1u) != UnsignedInteger8Bit");
         }
     }
     if (ok) {
@@ -103,7 +98,10 @@ bool TimeCorrectionGAM::Setup() {
         }
     }
     if (ok) {
-        timeSignal = static_cast<uint32 *>(GetInputSignalMemory(0u));
+        ok = GetSignalNumberOfSamples(InputSignals, 1u, numberOfSamples);
+        cycleTimeIncrement = static_cast<uint32>(static_cast<float64>(numberOfSamples) * timeSignalPeriod);
+    }
+    if (ok) {
         analogueInputSignal = static_cast<int16 *>(GetInputSignalMemory(1u));
         triggerSignal = static_cast<uint8 *>(GetInputSignalMemory(2u));
         correctedTimeSignal = static_cast<uint32 *>(GetOutputSignalMemory(0u));
@@ -133,7 +131,6 @@ bool TimeCorrectionGAM::Initialise(MARTe::StructuredDataI & data) {
             REPORT_ERROR(ErrorManagement::ParametersError, "Threshold must be specified");
         }
     }
-
     if (ok) {
         ok = data.Read("TimeSignalPeriod", timeSignalPeriod);
         if (!ok) {
@@ -151,26 +148,40 @@ bool TimeCorrectionGAM::Initialise(MARTe::StructuredDataI & data) {
 
 bool TimeCorrectionGAM::PrepareNextState(const MARTe::char8 * const currentStateName, const MARTe::char8 * const nextStateName) {
     assertCounter = assertCycles;
+    *correctedTimeSignal = 0u;
     return true;
 }
 
 bool TimeCorrectionGAM::Execute() {
     using namespace MARTe;
-    if (assertCounter != 0u) {
-        if ((*analogueInputSignal >= threshold) || (*analogueInputSignal <= -threshold)){
-            assertCounter--;
-        }
-        else {
-            assertCounter = assertCycles;
-        }
-    }
     if (assertCounter == 0u) {
-        *correctedTimeSignal = ((*timeSignal) - timeCorrection);
+        *correctedTimeSignal += cycleTimeIncrement;
         *correctedTriggerSignal = *triggerSignal;
     }
     else {
-        *correctedTimeSignal = 0u;
-        *correctedTriggerSignal = 0u;
+        uint32 s;
+        for (s = 0u; (s < numberOfSamples) && (assertCounter != 0u); s++) {
+            if ((analogueInputSignal[s] >= threshold) || (analogueInputSignal[s] <= -threshold)) {
+                assertCounter--;
+            }
+            else {
+                assertCounter = assertCycles;
+            }
+        }
+        if (assertCounter == 0u) {
+            //Note that the assertCounter might go to zero between two Executes
+            if (s >= (assertCycles - 1u)) {
+                timeCorrection = static_cast<uint32>(static_cast<float64>(s - (assertCycles - 1u)) * timeSignalPeriod);
+            }
+            else {
+                timeCorrection = (static_cast<uint32>(numberOfSamples - (assertCycles - s - 1u)) * timeSignalPeriod);
+            }
+            timeCorrection = cycleTimeIncrement - timeCorrection;
+        }
+        else {
+            *correctedTimeSignal = 0u;
+            *correctedTriggerSignal = 0u;
+        }
     }
     return true;
 }

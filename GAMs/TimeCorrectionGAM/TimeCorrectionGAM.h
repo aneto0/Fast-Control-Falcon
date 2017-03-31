@@ -40,8 +40,8 @@
 /**
  * @brief GAM which corrects the time vector against the time of a given analogue event.
  * @details Until this event occurs the trigger signal (from the TriggerMaskGAM) will be forced to be disabled.
- * The corrected time signal will be equal to CORRECTED_TIME[k] = INPUT_TIME[k] - EVENT_TIME and CORRECTED_TRIGGER[k] = INPUT_TRIGGER[k]
- * Until the event is detected  CORRECTED_TIME[k] = 0 and CORRECTED_TRIGGER[k] = 0
+ * The corrected time signal will be equal to CORRECTED_TIME[k] += NUMBER_OF_SAMPLES_ADC * ADC_PERIOD, with CORRECTED_TIME[0] = NUMBER_OF_SAMPLES_ADC * ADC_PERIOD - TIME_ANALOGUE_EVENT_MICRO_SEC and CORRECTED_TRIGGER[k] = INPUT_TRIGGER[k]
+ * Before the event is detected  CORRECTED_TIME[k] = 0 and CORRECTED_TRIGGER[k] = 0
  *
  * The configuration syntax is (names and signal quantities are only given as an example):
  * +GAMTC = {
@@ -50,10 +50,6 @@
  *     Threshold = 300 //Compulsory. Threshold above which the analogue event is considered to be detected.
  *     TimePeriod = 500e-9 //Compulsory. Time signal period.
  *     InputSignals = {
- *         Time = {//A time signal shall be specified and shall be set in position zero.
- *              DataSource = DDB1
- *              Type = uint32 //The type shall be uint32
- *         }
  *         ADC = {//An analogue signal where the threshold will be detected
  *              DataSource = DDB1
  *              Type = int16 //The type shall be int16
@@ -121,11 +117,6 @@ TimeCorrectionGAM    ();
 
 private:
     /**
-     * The time input signal memory
-     */
-    MARTe::uint32 *timeSignal;
-
-    /**
      * The corrected time output signal memory
      */
     MARTe::uint32 *correctedTimeSignal;
@@ -144,6 +135,11 @@ private:
      * The analogue input signal memory
      */
     MARTe::int16 *analogueInputSignal;
+
+    /**
+     * The number of analogue input samples
+     */
+    MARTe::uint32 numberOfSamples;
 
     /**
      * The threshold set by the user.
@@ -169,6 +165,11 @@ private:
      * Correction value to apply to the time signal
      */
     MARTe::uint32 timeCorrection;
+
+    /**
+     * The time to increment at every cycle
+     */
+    MARTe::uint32 cycleTimeIncrement;
 
 };
 

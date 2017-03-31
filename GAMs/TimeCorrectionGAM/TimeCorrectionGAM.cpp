@@ -98,7 +98,7 @@ bool TimeCorrectionGAM::Setup() {
         }
     }
     if (ok) {
-        ok = GetSignalNumberOfSamples(InputSignals, 1u, numberOfSamples);
+        ok = GetSignalNumberOfElements(InputSignals, 1u, numberOfSamples);
         cycleTimeIncrement = static_cast<uint32>(static_cast<float64>(numberOfSamples) * signalPeriod);
     }
     if (ok) {

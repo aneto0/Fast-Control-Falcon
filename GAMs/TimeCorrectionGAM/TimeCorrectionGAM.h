@@ -39,9 +39,9 @@
 /*---------------------------------------------------------------------------*/
 /**
  * @brief GAM which corrects the time vector against the time of a given analogue event.
- * @details Until this event occurs the trigger signal (from the TriggerMaskGAM) will be forced to be disabled.
- * The corrected time signal will be equal to CORRECTED_TIME[k] += NUMBER_OF_SAMPLES_ADC * ADC_PERIOD, with CORRECTED_TIME[0] = NUMBER_OF_SAMPLES_ADC * ADC_PERIOD - TIME_ANALOGUE_EVENT_MICRO_SEC and CORRECTED_TRIGGER[k] = INPUT_TRIGGER[k]
- * Before the event is detected  CORRECTED_TIME[k] = 0 and CORRECTED_TRIGGER[k] = 0
+ * @details Until this event occurs the trigger signal (from the TriggerMaskGAM) will be forced to be disabled. The trigger signal for slow mdsplus will also be disabled.
+ * The corrected time signal will be equal to CORRECTED_TIME[k] += NUMBER_OF_SAMPLES_ADC * ADC_PERIOD, with CORRECTED_TIME[0] = NUMBER_OF_SAMPLES_ADC * ADC_PERIOD - TIME_ANALOGUE_EVENT_MICRO_SEC and CORRECTED_TRIGGER[k] = INPUT_TRIGGER[k] and CORRECTED_TRIGGER_SLOW[k] = 1
+ * Before the event is detected  CORRECTED_TIME[k] = 0 and CORRECTED_TRIGGER[k] = 0 and CORRECTED_TRIGGER_SLOW[k] = 0
  *
  * The configuration syntax is (names and signal quantities are only given as an example):
  * +GAMTC = {
@@ -64,11 +64,15 @@
  *              DataSource = DDB1
  *              Type = uint32 //The type shall be uint32
  *         }
- *         CorrectedTrigger = { //A corrected output time signal shall be specified and shall be set in position zero.
+ *         CorrectedTrigger = { //A corrected output trigger signal shall be specified and shall be set in position one
  *             DataSource = DDB1
  *             Type = uint8 //The type shall be uint8
  *         }
- *     }
+ *         CorrectedTriggerSlow = { //A corrected output slow trigger signal shall be specified and shall be set in position two
+ *             DataSource = DDB1
+ *             Type = uint8 //The type shall be uint8
+ *         }
+ *    }
  *}
  */
 class TimeCorrectionGAM: public MARTe::GAM, public MARTe::StatefulI {
@@ -86,13 +90,14 @@ TimeCorrectionGAM    ();
 
     /**
      * @brief Verifies that:
-     *  - GetNumberOfInputSignals() == 3 &&
-     *  - GetNumberOfOutputSignals() == 2 &&
+     *  - GetNumberOfInputSignals() == 2 &&
+     *  - GetNumberOfOutputSignals() == 3 &&
      *  - GetSignalType(InputSignals, 0) == UnsignedInteger32Bit &&
      *  - GetSignalType(InputSignals, 1) == SignedInteger16Bit &&
      *  - GetSignalType(InputSignals, 2) == UnsignedInteger8Bit &&
      *  - GetSignalType(OutputSignals, 0) == UnsignedInteger32Bit &&
      *  - GetSignalType(OutputSignals, 1) == UnsignedInteger8Bit &&
+     *  - GetSignalType(OutputSignals, 2) == UnsignedInteger8Bit
      *  @return true if the conditions above are met.
      */
     virtual bool Setup();
@@ -130,6 +135,11 @@ private:
      * The corrected trigger output signal memory
      */
     MARTe::uint8 *correctedTriggerSignal;
+
+    /**
+     * The corrected trigger output signal for the slow signal
+     */
+    MARTe::uint8 *correctedTriggerSignalSlow;
 
     /**
      * The analogue input signal memory

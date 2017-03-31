@@ -46,6 +46,7 @@ TimeCorrectionGAM::TimeCorrectionGAM() :
     correctedTimeSignal = NULL_PTR(uint32 *);
     triggerSignal = NULL_PTR(uint8 *);
     correctedTriggerSignal = NULL_PTR(uint8 *);
+    correctedTriggerSignalSlow = NULL_PTR(uint8 *);
     analogueInputSignal = NULL_PTR(int16 *);
     threshold = 0;
     assertCycles = 0u;
@@ -68,9 +69,9 @@ bool TimeCorrectionGAM::Setup() {
         REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 2u");
     }
     if (ok) {
-        ok = (GetNumberOfOutputSignals() == 2u);
+        ok = (GetNumberOfOutputSignals() == 3u);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfOutputSignals() != 1u");
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfOutputSignals() != 3u");
         }
     }
     if (ok) {
@@ -98,14 +99,21 @@ bool TimeCorrectionGAM::Setup() {
         }
     }
     if (ok) {
-        ok = GetSignalNumberOfElements(InputSignals, 1u, numberOfSamples);
-        cycleTimeIncrement = static_cast<uint32>(static_cast<float64>(numberOfSamples) * signalPeriod);
+        ok = (GetSignalType(OutputSignals, 2u) == UnsignedInteger8Bit);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(OutputSignals, 2u) != UnsignedInteger8Bit");
+        }
     }
     if (ok) {
-        analogueInputSignal = static_cast<int16 *>(GetInputSignalMemory(1u));
-        triggerSignal = static_cast<uint8 *>(GetInputSignalMemory(2u));
+        ok = GetSignalNumberOfElements(InputSignals, 0u, numberOfSamples);
+        cycleTimeIncrement = static_cast<uint32>(static_cast<float64>(numberOfSamples * 1e6) * signalPeriod);
+    }
+    if (ok) {
+        analogueInputSignal = static_cast<int16 *>(GetInputSignalMemory(0u));
+        triggerSignal = static_cast<uint8 *>(GetInputSignalMemory(1u));
         correctedTimeSignal = static_cast<uint32 *>(GetOutputSignalMemory(0u));
         correctedTriggerSignal = static_cast<uint8 *>(GetOutputSignalMemory(1u));
+        correctedTriggerSignalSlow = static_cast<uint8 *>(GetOutputSignalMemory(2u));
     }
     return ok;
 }
@@ -157,6 +165,7 @@ bool TimeCorrectionGAM::Execute() {
     if (assertCounter == 0u) {
         *correctedTimeSignal += cycleTimeIncrement;
         *correctedTriggerSignal = *triggerSignal;
+        *correctedTriggerSignalSlow = 1;
     }
     else {
         uint32 s;
@@ -176,11 +185,12 @@ bool TimeCorrectionGAM::Execute() {
             else {
                 timeCorrection = (static_cast<uint32>(numberOfSamples - (assertCycles - s - 1u)) * signalPeriod);
             }
-            timeCorrection = cycleTimeIncrement - timeCorrection;
+            *correctedTimeSignal = (cycleTimeIncrement - timeCorrection);
         }
         else {
             *correctedTimeSignal = 0u;
             *correctedTriggerSignal = 0u;
+            *correctedTriggerSignalSlow = 0u;
         }
     }
     return true;

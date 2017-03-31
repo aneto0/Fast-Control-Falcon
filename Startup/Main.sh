@@ -1,3 +1,41 @@
+#!/bin/bash
+#Arguments -f FILENAME -m MESSAGE [-d cgdb|strace]
+#-f FILENAME=MARTe configuration file
+#-m MESSAGE=Start message
+#-d 1=Run with cgdb
+#-s 1=Run with strace
+
+#Run with cgdb or strace?
+DEBUG=""
+
+#Consume input arguments
+while [[ $# -gt 1 ]]
+do
+key="$1"
+
+case $key in
+    -f|--file)
+    FILE="$2"
+    shift # past argument
+    ;;
+    -m|--message)
+    MESSAGE="$2"
+    shift # past argument
+    ;;
+    -d|--debug)
+    DEBUG="$2"
+    shift # past argument
+    ;;
+    --default)
+    DEFAULT=YES
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+shift # past argument or value
+done
+
 if [ -z ${MARTe2_DIR+x} ]; then echo "Please set the MARTe2_DIR environment variable"; exit; fi
 if [ -z ${MARTe2_Components_DIR+x} ]; then echo "Please set the MARTe2_Components_DIR environment variable"; exit; fi
 if [ -z ${EFDA_MARTe_DIR+x} ]; then echo "Please set the EFDA_MARTe_DIR environment variable"; exit; fi
@@ -7,6 +45,7 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/linux/GAMs/FilterDownsamplingGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/linux/GAMs/WaveformTestGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/linux/GAMs/TriggerTestGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/linux/GAMs/TriggerMaskGAM/
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/linux/GAMs/TimeCorrectionGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_DIR/Build/linux/Core/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/LinuxTimer/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/LoggerDataSource/
@@ -48,8 +87,6 @@ caput FALCON::FAST::ERROR_RST 0
 
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-#cgdb --args ../Build/linux/Startup/Main.ex $1 $2 $3 $4
-#strace -o/tmp/strace.err ../Build/linux/Startup/Main.ex $1 $2  $3 $4
 
 #Disable CPU speed changing
 service cpuspeed stop
@@ -63,4 +100,13 @@ tuna -q nixseries -c 3 -x -m
 #Isolate cpus 1-3 (tasks and interrupts)
 tuna -c 1-3 --isolate
 
-taskset 1 ../Build/linux/Startup/Main.ex $1 $2 $3 $4 
+if [ "$DEBUG" = "cgdb" ]
+then
+    cgdb --args ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE
+elif [ "$DEBUG" = "strace" ]
+then
+    strace -o/tmp/strace.err ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE
+else
+    taskset 1 ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE
+fi
+

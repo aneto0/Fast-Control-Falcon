@@ -30,7 +30,6 @@
 /*                         Project header includes                           */
 /*---------------------------------------------------------------------------*/
 #include "AdvancedErrorManagement.h"
-
 #include "TriggerMaskGAM.h"
 
 /*---------------------------------------------------------------------------*/
@@ -75,7 +74,7 @@ bool TriggerMaskGAM::Setup() {
     if (ok) {
         ok = (GetSignalType(OutputSignals, 0u) == UnsignedInteger8Bit);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 0u) != UnsignedInteger8Bit");
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(OutputSignals, 0u) != UnsignedInteger8Bit");
         }
     }
     if (ok) {

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  DAN Configuration
+  Root: danApi
+  CODAC-VERSION: 5.1b5
+  WARNING: This is an automatically generated file. PLEASE DO NOT MODIFY.
+-->
+
+ <danApi >
+     <version >1.0.0</version>
+
+     <source name="DANWriter_int16" >
+         <itemDanType >danInt16</itemDanType>
+
+         <checkPolicy >NO_CHECK</checkPolicy>
+
+         <maxTransferRate >100000</maxTransferRate>
+
+         <streamType >DATA_D0</streamType>
+
+         <dataModel >DM_BLOCK2D_VAR</dataModel>
+
+         <advancedSource >
+             <queueSize >1000</queueSize>
+
+             <profMonitoring >1</profMonitoring>
+
+             <timeFormat >UTC</timeFormat>
+
+             <debug >
+                 <srvChunkHeaderSize >20</srvChunkHeaderSize>
+
+                 <srvChunkSize >10000</srvChunkSize>
+
+                 <srvBufferSize >2</srvBufferSize>
+            </debug>
+        </advancedSource>
+
+         <deviceInfo >
+             <deviceName >FalconFast</deviceName>
+
+             <deviceVersion >v1.0</deviceVersion>
+
+             <operationalMode >0</operationalMode>
+
+             <manufactureCode >0</manufactureCode>
+        </deviceInfo>
+
+         <channelsInfo sequence="SEQUENCIAL" >
+             <channel number="0" pvName="FALCON:FAST:ADC0F" label="ADC0F" status="ENABLE" ></channel>
+             <channel number="1" pvName="FALCON:FAST:ADC1F" label="ADC1F" status="ENABLE" ></channel>
+             <channel number="2" pvName="FALCON:FAST:ADC2F" label="ADC2F" status="ENABLE" ></channel>
+             <channel number="3" pvName="FALCON:FAST:ADC3F" label="ADC3F" status="ENABLE" ></channel>
+             <channel number="4" pvName="FALCON:FAST:ADC4F" label="ADC4F" status="ENABLE" ></channel>
+             <channel number="5" pvName="FALCON:FAST:ADC5F" label="ADC5F" status="ENABLE" ></channel>
+             <channel number="6" pvName="FALCON:FAST:ADC6F" label="ADC6F" status="ENABLE" ></channel>
+             <channel number="7" pvName="FALCON:FAST:ADC7F" label="ADC7F" status="ENABLE" ></channel>
+             <channel number="8" pvName="FALCON:FAST:ADC8F" label="ADC8F" status="ENABLE" ></channel>
+             <channel number="9" pvName="FALCON:FAST:ADC9F" label="ADC9F" status="ENABLE" ></channel>
+             <channel number="10" pvName="FALCON:FAST:ADC10F" label="ADC10F" status="ENABLE" ></channel>             
+             <channel number="11" pvName="FALCON:FAST:ADC11F" label="ADC11F" status="ENABLE" ></channel>
+             <channel number="12" pvName="FALCON:FAST:ADC12F" label="ADC12F" status="ENABLE" ></channel>
+             <channel number="13" pvName="FALCON:FAST:ADC13F" label="ADC13F" status="ENABLE" ></channel>
+             <channel number="14" pvName="FALCON:FAST:ADC14F" label="ADC14F" status="ENABLE" ></channel>
+             <channel number="15" pvName="FALCON:FAST:ADC15F" label="ADC15F" status="ENABLE" ></channel>
+        </channelsInfo>
+    </source>
+	<source name="DANWriterSlow_uint32" >
+         <itemDanType>danUInt32</itemDanType>
+
+         <checkPolicy >NO_CHECK</checkPolicy>
+
+         <maxTransferRate >100000</maxTransferRate>
+
+         <streamType >DATA_D0</streamType>
+
+         <dataModel >DM_BLOCK2D_VAR</dataModel>
+
+         <advancedSource >
+             <queueSize >1000</queueSize>
+
+             <profMonitoring >1</profMonitoring>
+
+             <timeFormat >UTC</timeFormat>
+
+             <debug >
+                 <srvChunkHeaderSize >20</srvChunkHeaderSize>
+
+                 <srvChunkSize >10000</srvChunkSize>
+
+                 <srvBufferSize >2</srvBufferSize>
+            </debug>
+        </advancedSource>
+
+         <deviceInfo >
+             <deviceName >FalconSlow</deviceName>
+
+             <deviceVersion >v1.0</deviceVersion>
+
+             <operationalMode >0</operationalMode>
+
+             <manufactureCode >0</manufactureCode>
+        </deviceInfo>
+
+         <channelsInfo sequence="SEQUENCIAL" >
+             <channel number="0" pvName="FALCON:SLOW:TIME" label="TIME" status="ENABLE" ></channel>
+             <channel number="1" pvName="FALCON:SLOW:PORT0" label="PORT0" status="ENABLE" ></channel>
+             <channel number="2" pvName="FALCON:SLOW:COUNTER" label="COUNTER" status="ENABLE" ></channel>
+             <channel number="3" pvName="FALCON:SLOW:PORT0OUT" label="PORT0OUT" status="ENABLE" ></channel>
+             <channel number="4" pvName="FALCON:SLOW:T1CT" label="THREAD1CT" status="ENABLE" ></channel>             
+        </channelsInfo>
+    </source>
+    <source name="DANWriterSlow_float32" >
+         <itemDanType >danFloat</itemDanType>
+
+         <checkPolicy >NO_CHECK</checkPolicy>
+
+         <maxTransferRate >100000</maxTransferRate>
+
+         <streamType >DATA_D0</streamType>
+
+         <dataModel >DM_BLOCK2D_VAR</dataModel>
+
+         <advancedSource >
+             <queueSize >1000</queueSize>
+
+             <profMonitoring >1</profMonitoring>
+
+             <timeFormat >UTC</timeFormat>
+
+             <debug >
+                 <srvChunkHeaderSize >20</srvChunkHeaderSize>
+
+                 <srvChunkSize >10000</srvChunkSize>
+
+                 <srvBufferSize >2</srvBufferSize>
+            </debug>
+        </advancedSource>
+
+         <deviceInfo >
+             <deviceName >FalconSlow</deviceName>
+
+             <deviceVersion >v1.0</deviceVersion>
+
+             <operationalMode >0</operationalMode>
+
+             <manufactureCode >0</manufactureCode>
+        </deviceInfo>
+
+         <channelsInfo sequence="SEQUENCIAL" >
+             <channel number="0" pvName="FALCON:SLOW:ADC0S" label="ADC0S" status="ENABLE" ></channel>
+             <channel number="1" pvName="FALCON:SLOW:ADC1S" label="ADC1S" status="ENABLE" ></channel>
+             <channel number="2" pvName="FALCON:SLOW:ADC2S" label="ADC2S" status="ENABLE" ></channel>
+             <channel number="3" pvName="FALCON:SLOW:ADC3S" label="ADC3S" status="ENABLE" ></channel>
+             <channel number="4" pvName="FALCON:SLOW:ADC4S" label="ADC4S" status="ENABLE" ></channel>
+             <channel number="5" pvName="FALCON:SLOW:ADC5S" label="ADC5S" status="ENABLE" ></channel>
+             <channel number="6" pvName="FALCON:SLOW:ADC6S" label="ADC6S" status="ENABLE" ></channel>
+             <channel number="7" pvName="FALCON:SLOW:ADC7S" label="ADC7S" status="ENABLE" ></channel>
+             <channel number="8" pvName="FALCON:SLOW:ADC8S" label="ADC8S" status="ENABLE" ></channel>
+             <channel number="9" pvName="FALCON:SLOW:ADC9S" label="ADC9S" status="ENABLE" ></channel>
+             <channel number="10" pvName="FALCON:SLOW:ADC10S" label="ADC10S" status="ENABLE" ></channel>             
+             <channel number="11" pvName="FALCON:SLOW:ADC11S" label="ADC11S" status="ENABLE" ></channel>
+             <channel number="12" pvName="FALCON:SLOW:ADC12S" label="ADC12S" status="ENABLE" ></channel>
+             <channel number="13" pvName="FALCON:SLOW:ADC13S" label="ADC13S" status="ENABLE" ></channel>
+             <channel number="14" pvName="FALCON:SLOW:ADC14S" label="ADC14S" status="ENABLE" ></channel>
+             <channel number="15" pvName="FALCON:SLOW:ADC15S" label="ADC15S" status="ENABLE" ></channel>
+             <channel number="16" pvName="FALCON:SLOW:WAVEFORM" label="WAVEFORM_DEBUG" status="ENABLE" ></channel>
+        </channelsInfo>
+    </source>
+     <danStreamer name="DANSTREAMER0" >
+         <link >ALL</link>
+
+         <internal >
+             <danInterface >eth0</danInterface>
+
+             <servers >
+                 <policy >IF_FAIL_NEXT</policy>
+
+                 <server >${DAN_ARCHIVE_MASTER}</server>
+
+                 <server >${DAN_ARCHIVE_SLAVE}</server>
+            </servers>
+        </internal>
+    </danStreamer>
+</danApi>

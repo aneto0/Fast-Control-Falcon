@@ -2,8 +2,8 @@
 #Arguments -f FILENAME -m MESSAGE [-d cgdb|strace]
 #-f FILENAME=MARTe configuration file
 #-m MESSAGE=Start message
-#-d 1=Run with cgdb
-#-s 1=Run with strace
+#-d cgdb=Run with cgdb
+#-d strace=Run with strace
 
 #Run with cgdb or strace?
 DEBUG=""
@@ -49,6 +49,7 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/linux/GAMs/TimeCorrectionGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_DIR/Build/linux/Core/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/LinuxTimer/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/LoggerDataSource/
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/DAN/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/NI6259/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/NI6368/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/linux/Components/DataSources/SDN/
@@ -100,6 +101,8 @@ tuna -q nixseries -c 3 -x -m
 #Isolate cpus 1-3 (tasks and interrupts)
 tuna -c 1-3 --isolate
 
+#/opt/codac/bin/danApiTool api init ~/Projects/Fast-Control-Falcon/Configurations/DANTestConfig.xml
+
 if [ "$DEBUG" = "cgdb" ]
 then
     cgdb --args ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE
@@ -109,4 +112,6 @@ then
 else
     taskset 1 ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE
 fi
+
+#/opt/codac/bin/danApiTool api close
 

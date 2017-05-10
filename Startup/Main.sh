@@ -4,6 +4,8 @@
 #-m MESSAGE=Start message
 #-d cgdb=Run with cgdb
 #-d strace=Run with strace
+#-x DAN_CONFIG_LOCATION=Location of the DANConfig.xml (e.g. ~/Projects/Fast-Control-Falcon/Configurations/DANTestConfig.xml)
+#-p MDS_FALCON_PATH=location of the mds tree (e.g. -p="192.168.130.46:8020::/home/aneto/Projects/Fast-Control-Falcon/Configurations/Tree")
 
 #Run with cgdb or strace?
 DEBUG=""
@@ -24,6 +26,14 @@ case $key in
     ;;
     -d|--debug)
     DEBUG="$2"
+    shift # past argument
+    ;;
+    -x|--dan_config)
+    DAN_CONFIG_LOCATION="$2"
+    shift # past argument
+    ;;
+    -p|--mds_falcon_path)
+    MDS_FALCON_PATH="$2"
     shift # past argument
     ;;
     --default)
@@ -76,10 +86,13 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/Interfaces/BaseLib2Adapter/linu
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SDN_CORE_LIBRARY_DIR
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EPICS_BASE/lib/$EPICS_HOST_ARCH
 
-#export mds_falconf_path=../Configurations/Tree
-#export mds_falconf_path="192.168.130.211:8020::/home/aneto/Projects/Fast-Control-Falcon/Configurations/Tree"
-export mds_falconf_path="192.168.130.46:8020::/home/aneto/Projects/Fast-Control-Falcon/Configurations/Tree"
+#Set the default value if it not set
+if [ -z "$MDS_FALCON_PATH" ]
+then
+export mds_falconf_path="../Configurations/Tree"
+fi
 
+#Resets the PV values
 caput FALCON::FAST::STATUS 0
 caput FALCON::FAST::PULSE 0
 caput FALCON::FAST::ERROR 0
@@ -101,8 +114,13 @@ tuna -q nixseries -c 3 -x -m
 #Isolate cpus 1-3 (tasks and interrupts)
 tuna -c 1-3 --isolate
 
-#/opt/codac/bin/danApiTool api init ~/Projects/Fast-Control-Falcon/Configurations/DANTestConfig.xml
+#Starts the DAN services only if required
+if [ ! -z "$DAN_CONFIG_LOCATION" ]
+then
+/opt/codac/bin/danApiTool api init $DAN_CONFIG_LOCATION
+fi
 
+#Start with cgdb or with strace
 if [ "$DEBUG" = "cgdb" ]
 then
     cgdb --args ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE
@@ -113,5 +131,8 @@ else
     taskset 1 ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE
 fi
 
-#/opt/codac/bin/danApiTool api close
+if [ ! -z "$DAN_CONFIG_LOCATION" ]
+then
+/opt/codac/bin/danApiTool api close
+fi
 

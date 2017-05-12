@@ -90,7 +90,10 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EPICS_BASE/lib/$EPICS_HOST_ARCH
 if [ -z "$MDS_FALCON_PATH" ]
 then
 export mds_falconf_path="../Configurations/Tree"
+else
+export mds_falconf_path="$MDS_FALCON_PATH"
 fi
+echo $mds_falcon_path
 
 #Resets the PV values
 caput FALCON::FAST::STATUS 0

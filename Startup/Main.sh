@@ -91,18 +91,18 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EPICS_BASE/lib/$EPICS_HOST_ARCH
 #Set the default value if it not set
 if [ -z "$MDS_FALCON_PATH" ]
 then
-export mds_falconf_path="../Configurations/Tree"
+export falcon_fast_path="../Configurations/Tree"
 else
-export mds_falconf_path="$MDS_FALCON_PATH"
+export falcon_fast_path="$MDS_FALCON_PATH"
 fi
 echo $mds_falcon_path
 
 #Resets the PV values
-caput FALCON::FAST::STATUS 0
-caput FALCON::FAST::PULSE 0
-caput FALCON::FAST::ERROR 0
-caput FALCON::FAST::STATUS_CMD 0
-caput FALCON::FAST::ERROR_RST 0
+caput FALCON:FAST:STATUS 0
+caput FALCON:FAST:PULSE 0
+caput FALCON:FAST:ERROR 0
+caput FALCON:FAST:STATUS_CMD 0
+caput FALCON:FAST:ERROR_RST 0
 
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH

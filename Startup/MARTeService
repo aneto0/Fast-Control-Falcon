@@ -1,0 +1,95 @@
+#############################################################
+##
+## Copyright 2015 F4E | European Joint Undertaking for ITER 
+##  and the Development of Fusion Energy ('Fusion for Energy')
+## 
+## Licensed under the EUPL, Version 1.1 or - as soon they 
+## will be approved by the European Commission - subsequent  
+## versions of the EUPL (the "Licence"); 
+## You may not use this work except in compliance with the 
+## Licence. 
+## You may obtain a copy of the Licence at: 
+##  
+## http://ec.europa.eu/idabc/eupl
+##
+## Unless required by applicable law or agreed to in 
+## writing, software distributed under the Licence is 
+## distributed on an "AS IS" basis, 
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+## express or implied. 
+## See the Licence for the specific language governing 
+## permissions and limitations under the Licence. 
+##
+##############################################################
+#!/bin/sh
+# 1. Copy this file to /etc/init.d/
+# 2. Change CODE_DIRECTORY and CONFIG_FILE_LOC to the correct locations
+# 3. Run: /sbin/chkconfig --add MARTeService
+# 4. Check if everything is ok by running: /sbin/chkconfig --list | grep MARTeService
+# 5. Run: /sbin/chkconfig --level 3 MARTeService on
+# 6. Run: /sbin/chkconfig --level 5 MARTeService on
+# 7. Recheck everything by running: /sbin/chkconfig --list | grep MARTeService
+# DESCRIPTION
+# 
+# chkconfig: - 98 35
+# description: Starts and stops the MARTeService for FastControlFalcon
+
+PROJECT_NAME="Falcon Fast Control"
+CODE_DIRECTORY=/home/codac-dev/Projects/Fast-Control-Falcon
+CONFIG_FILE_LOC=$CODE_DIRECTORY/Configurations/Startup.cfg
+SERVICE_LOC=$CODE_DIRECTORY/Startup/Main.sh
+MARTe2_DIR_LOC=/home/codac-dev/Projects/MARTe2-dev
+MARTe2_Components_DIR_LOC=/home/codac-dev/Projects/MARTe2-components
+EFDA_MARTe_DIR_LOC=/home/codac-dev/Projects/EFDA-MARTe/trunk/
+MDSPLUS_LOC="192.168.130.46:8020::/tmp"
+APP_NAME=Main.ex
+
+start() {
+    if pgrep -x $APP_NAME > /dev/null
+    then
+        echo $"Another instance of the MARTe2 $PROJECT_NAME already appears to be to running. If you sure that this isn't the case, manually kill the application and start the service again!"
+        exit 1
+    else
+        echo $"Starting MARTe2 $PROJECT_NAME"
+        export MARTe2_DIR=$MARTe2_DIR_LOC
+        export MARTe2_Components_DIR=$MARTe2_Components_DIR_LOC
+        export EFDA_MARTe_DIR=$EFDA_MARTe_DIR_LOC
+
+        $SERVICE_LOC $CONFIG_FILE_LOC -f $CONFIG_FILE_LOC -m "StateMachine:START" -p $MDSPLUS_LOC 
+    fi
+}
+
+stop() {
+    echo $"Shutting down MARTe2 $PROJECT_NAME"
+    pkill $APP_NAME
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart|reload)
+        stop
+        sleep 20
+        start
+        ;;
+  condrestart)
+        ;;
+  status)
+        if pgrep -x $APP_NAME > /dev/null
+        then
+            echo $"running..."
+        else
+            echo $"stopped..."
+        fi
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart|condrestart|status}"
+        exit 1
+esac
+
+exit $RETVAL
+

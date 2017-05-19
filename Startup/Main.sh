@@ -133,7 +133,7 @@ elif [ "$DEBUG" = "strace" ]
 then
     strace -o/tmp/strace.err ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE
 else
-    taskset 1 ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE
+    taskset 1 ../Build/linux/Startup/Main.ex -f $FILE -m $MESSAGE &
 fi
 
 if [ ! -z "$DAN_CONFIG_LOCATION" ]

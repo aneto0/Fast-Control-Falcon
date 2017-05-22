@@ -55,6 +55,7 @@ start() {
         export MARTe2_Components_DIR=$MARTe2_Components_DIR_LOC
         export EFDA_MARTe_DIR=$EFDA_MARTe_DIR_LOC
 
+        cd $CODE_DIRECTORY/Startup
         $SERVICE_LOC $CONFIG_FILE_LOC -f $CONFIG_FILE_LOC -m "StateMachine:START" -p $MDSPLUS_LOC 
     fi
 }

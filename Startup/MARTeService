@@ -41,7 +41,7 @@ SERVICE_LOC=$CODE_DIRECTORY/Startup/Main.sh
 MARTe2_DIR_LOC=/home/codac-dev/Projects/MARTe2-dev
 MARTe2_Components_DIR_LOC=/home/codac-dev/Projects/MARTe2-components
 EFDA_MARTe_DIR_LOC=/home/codac-dev/Projects/EFDA-MARTe/trunk/
-MDSPLUS_LOC="192.168.130.46:8020::/tmp"
+MDSPLUS_LOC="192.168.130.46:8000::/tmp"
 APP_NAME=Main.ex
 
 start() {

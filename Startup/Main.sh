@@ -99,7 +99,6 @@ echo $mds_falcon_path
 
 #Resets the PV values
 caput FALCON:FAST:STATUS 0
-caput FALCON:FAST:PULSE 0
 caput FALCON:FAST:ERROR 0
 caput FALCON:FAST:STATUS_CMD 0
 caput FALCON:FAST:ERROR_RST 0

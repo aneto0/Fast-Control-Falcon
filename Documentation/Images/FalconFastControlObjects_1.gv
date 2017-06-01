@@ -1,0 +1,8 @@
+digraph G {
+bgcolor=white
+subgraph cluster_LoggerService {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">LoggerService <BR/>(LoggerService)</font></TD></TR></TABLE>>
+LoggerServiceConLogger [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ConLogger <BR/>(ConsoleLogger)</font></TD></TR></TABLE>>]
+LoggerServiceSysLogger [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SysLogger <BR/>(SysLogger)</font></TD></TR></TABLE>>]
+}
+}

@@ -1,0 +1,4 @@
+digraph G {
+bgcolor=white
+BaseLib2Wrapper [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">BaseLib2Wrapper <BR/>(BaseLib2Wrapper)</font></TD></TR></TABLE>>]
+}

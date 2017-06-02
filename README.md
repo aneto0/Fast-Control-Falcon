@@ -2,6 +2,8 @@
 
 The Falcon *Fast Data Acquisition* acquires and stores data from an NI PXIe-6368 based system into an MDSplus pulse file (see \[F3.2.2\] in the [Falcon-Data-Storage](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon)). 
 
+![alt text](Documentation/Images/fastarch.png "Fast data acquisition architecture")
+
 ## Functions
 
 The main functions of the Falcon *Fast Data Acquisition* are to:
@@ -127,3 +129,182 @@ The data interconnection in each of the states is defined in the following figur
 
 #### State = Error
 ![alt text](Documentation/Images/FalconFastControlStateError.png "Interconnection of the modules executed in the Error state.")
+
+
+## Installation
+
+### Linux setup
+ 
+1. Edit the inittab file and change *id:5:initdefault:* to *id:3:initdefault:* 
+ 
+```
+su
+vim /etc/inittab
+exit
+```
+
+2. Disable unused services
+
+```
+su
+setup
+```
+
+Disable the following services:
+
+* bluetooth
+* ip6tables
+* iptables
+* postgresql-9.3
+* CTRL-*
+* MAG-*
+* TEST-*
+* sup-*
+* css-*
+
+```
+OK->Quit
+```
+
+3. Reboot
+
+### MDSplus
+
+1. Log-in as *codac-dev* to the Fast Controller 1 server (10.136.50.30).
+2. Install the [MDSplus alpha version](http://www.mdsplus.org/index.php/Latest_RPM%27s_and_Yum_repositories)
+3. Install the mdsplus-alpha libraries
+ 
+```
+yum install mdsplus-alpha
+yum install mdsplus-alpha-devel
+yum install mdsplus-alpha-java
+yum install mdsplus-alpha-kernel
+yum install mdsplus-alpha-python
+```
+ 
+4. Edit the file /etc/mdsplus.conf and write:
+
+```
+falcon_path 10.136.30.21:8000::/path/tofolder/where/mdsplustrees/arestored/TODO
+falcon_conf_path 10.136.30.21:8000::/path/tofolder/where/mdsplustrees/arestored/TODO
+falcon_mon_path 10.136.30.21:8000::/path/tofolder/where/mdsplustrees/arestored/TODO
+falcon_fast_path 10.136.30.21:8000::/path/tofolder/where/mdsplustrees/arestored/TODO
+falcon_trend_path 10.136.30.21:8000::/path/tofolder/where/mdsplustrees/arestored/TODO
+```
+
+**Note** it is assumed that the falcon_fast tree was created as described in the [Falcon-Data-Storage](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon) procedure.
+
+### *Fast Data Acquisition* and dependencies
+
+#### Procedure
+
+1. Log-in as *codac-dev* to the Fast Controller 1 server (10.136.50.30).
+
+2. Download the source code 
+
+```
+cd ~
+mkdir Projects
+cd ~Projects
+git clone https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2.git MARTe2-dev
+git clone https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components.git
+cd MARTe2-components
+git checkout develop
+cd ..
+git clone https://aneto@vcis-gitlab.f4e.europa.eu/aneto/Fast-Control-Falcon.git
+cd Fast-Control-Falcon
+git checkout develop
+cd -
+mkdir EFDA-MARTe
+cd EFDA-MARTe
+svn co https://efda-marte.ipfn.ist.utl.pt/svn/EFDA-MARTe/trunk/
+cd ..
+```
+
+**Note** Replace aneto with your username.
+
+3. Compile the source code
+
+```
+export MARTe2_DIR=/home/codac-dev/Projects/MARTe2-dev/
+export MARTe2_Components_DIR=/home/codac-dev/Projects/MARTe2-components/
+export EFDA_MARTe_DIR=/home/codac-dev/Projects/EFDA-MARTe/trunk/
+
+cd $EFDA_MARTe_DIR
+./compile.MARTe linux config.MARTe
+cd GAMs/TypeConvertGAM/
+make -f Makefile.linux
+cd ../../Interfaces/BaseLib2Adapter/
+make -f Makefile.linux
+
+cd $MARTe2_DIR
+make -f Makefile.linux
+
+cd $MARTe2_Components_DIR
+make -f Makefile.linux
+cd -
+
+cd ~/Projects/Fast-Control-Falcon
+make -f Makefile.linux
+cd -
+```
+
+
+### Service
+
+1. Create the service
+
+```
+su
+ln -s /home/codac-dev/Projects/Fast-Control-Falcon/Startup/MARTeService /etc/init.d/
+/sbin/chkconfig --level 3 MARTeService on
+/sbin/chkconfig --level 5 MARTeService on
+/etc/init.d/MARTeService restart
+exit 
+```
+
+
+## Current deployment
+ 
+| Server             | IP            | Service                                 | Restart command | Log |
+| ------             | ---           | ------                                  | ------- | --- |
+| Fast Controller 1  | 10.136.50.30 (SSH) <br/> 10.136.100.27 (PON) <br/> 10.136.20.21 (SDN) <br/> 10.136.30.23 (DAN)| *MARTeService* | /etc/init.d/MARTeService restart | /var/log/messages | 
+ 
+## Maintenance
+
+### Changing the MDSplus signal names
+
+1. Change the signal names in MDSplus and regenerate the tree as described in the procedures of [Falcon-Data-Storage](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon). 
+
+Note that the fast signal names are defined in the [CreateFalconMDSPlusFastTree.tcl file](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon/blob/master/Tools/CreateFalconMDSPlusFastTree.tcl). **Remember to commit and push any changes to this file!**
+
+
+2. Copy the latest version of the Startup configuration file
+
+```
+cd ~/Projects/Fast-Control-Falcon/Configuration
+cp Startup.cfg NewConfiguration.cfg
+```
+
+**Note:** the *NewConfiguration.cfg* can be any file name and **shall be commited and pushed to the vcis server**.
+
+3. In the MDSWriter and MDSWriterSlow signals edit the *NodeName* fields accordingly to what was set in the [CreateFalconMDSPlusFastTree.tcl file](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon/blob/master/Tools/CreateFalconMDSPlusFastTree.tcl)
+
+4. Create the link to the Startup file.
+
+```
+rm Startup.cfg
+ln -s /home/codac-dev/Projects/Fast-Control-Falcon/Configuration/NewConfiguration.cfg /home/codac-dev/Projects/Fast-Control-Falcon/Configuration/Startup.cfg
+``` 
+
+5. Restart the service
+
+```
+su
+/etc/init.d/MARTeService restart
+exit 
+```
+
+## Troubleshooting
+
+TODO

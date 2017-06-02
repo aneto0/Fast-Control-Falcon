@@ -1,0 +1,67 @@
+digraph G {
+
+    rankdir=LR
+    concentrate=true
+
+    subgraph cluster_VMServer { 
+        rank = same
+        subgraph cluster_PONSamplerVM {
+            PONSampler [margin=0 shape=record, style=filled, fillcolor=white, color=blue, 
+                        label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="service.png" scale="true"/></TD><td><font point-size="10">PON Sampler</font></td></TR></TABLE>>]
+            label = "PON Sampler VM";
+            style=dashed
+        }
+        mdsip [margin=0 shape=record, style=filled, fillcolor=white, color=blue, 
+               label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="database.png" scale="true"/></TD><td><font point-size="10">mdsip</font></td></TR></TABLE>>]
+        label = "Virtual Machines Server";
+
+    }
+    subgraph cluster_FastDAQ {
+        fastDAQ [margin=0 shape=record, style=filled, fillcolor=white, color=blue, 
+                    label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="service.png" scale="true"/></TD><td><font point-size="10">Fast Data Acquisition<br/>(MARTe2 app)</font></td></TR></TABLE>>]
+        label = "Fast Data Acquisition Server";
+    }
+    
+    subgraph cluster_Networks {
+        PON [margin=0 shape=record, style=filled, fillcolor=white, color=red, 
+                    label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="cloud.png" scale="true"/></TD><td><font point-size="10">PON</font></td></TR></TABLE>>]
+        DAN [margin=0 shape=record, style=filled, fillcolor=white, color=red, 
+                    label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="cloud.png" scale="true"/></TD><td><font point-size="10">DAN</font></td></TR></TABLE>>]
+        SDN [margin=0 shape=record, style=filled, fillcolor=white, color=red, 
+                    label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="cloud.png" scale="true"/></TD><td><font point-size="10">SDN</font></td></TR></TABLE>>]
+        style=invis
+    }
+
+    subgraph cluster_DAQ {
+        pxie1082 [margin=0 shape=record, style=filled, fillcolor=white, color=white, 
+                    label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="chassis.png" scale="true"/></TD><td><font point-size="10">PXIe-1082</font></td></TR></TABLE>>]
+        pxie6368 [margin=0 shape=record, style=filled, fillcolor=white, color=white, 
+                    label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="pxie6368.png" scale="true"/></TD><td><font point-size="10">PXIe-6368</font></td></TR></TABLE>>]
+        terminalBlock [margin=0 shape=record, style=filled, fillcolor=white, color=white, 
+                    label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="terminal-block.png" scale="true"/></TD><td><font point-size="10">Terminal blocks</font></td></TR></TABLE>>]
+        color = red
+    }
+
+    plant [margin=0 shape=record, style=filled, fillcolor=white, color=white, 
+                label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="120" fixedsize="true"><IMG SRC="gyrotron.png" scale="true"/></TD><td><font point-size="10">Plant</font></td></TR></TABLE>>]
+    fastLogicSolver [margin=0 shape=record, style=filled, fillcolor=white, color=white, 
+                label=<<TABLE border="0" cellborder="0"><TR><TD width="30" height="30" fixedsize="true"><IMG SRC="fastLogicSolver.png" scale="true"/></TD><td><font point-size="10">Fast Logic Solver</font></td></TR></TABLE>>]
+    /*plcs [margin=0 shape=record, style=filled, fillcolor=white, color=white, 
+                label=<<TABLE border="0" cellborder="0"><TR><TD width="120" height="30" fixedsize="true"><IMG SRC="plcs.png" scale="true"/></TD><td><font point-size="10">PLCs</font></td></TR></TABLE>>]*/
+
+
+
+    fastDAQ -> DAN [color = "orange"]
+    fastDAQ -> PON [dir="both"]
+    //PON -> PONSampler 
+    SDN -> PONSampler [color = "red"]
+    fastDAQ -> SDN [color = "red"]
+    DAN -> mdsip [color = "orange", style="bold"]
+    pxie1082 -> fastDAQ [color = "green"]
+    pxie6368 -> pxie1082 [color = "green"]
+    terminalBlock -> pxie6368 [color = "green"]
+/*    plant->plcs [dir="both"]
+    plcs->PON*/
+    plant->terminalBlock [label="analogue", fontsize=10]
+    fastLogicSolver->terminalBlock [label="digital {START and CLOCK}", fontsize=10]
+}

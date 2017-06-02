@@ -274,12 +274,12 @@ exit
 
 ### Changing the MDSplus signal names
 
-1. Change the signal names in MDSplus and regenerate the tree as described in the procedures of [Falcon-Data-Storage](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon). 
+1- Change the signal names in MDSplus and regenerate the tree as described in the procedures of [Falcon-Data-Storage](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon). 
 
 Note that the fast signal names are defined in the [CreateFalconMDSPlusFastTree.tcl file](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon/blob/master/Tools/CreateFalconMDSPlusFastTree.tcl). **Remember to commit and push any changes to this file!**
 
 
-2. Copy the latest version of the Startup configuration file
+2- Copy the latest version of the Startup configuration file
 
 ```
 cd ~/Projects/Fast-Control-Falcon/Configuration
@@ -288,16 +288,16 @@ cp Startup.cfg NewConfiguration.cfg
 
 **Note:** the *NewConfiguration.cfg* can be any file name and **shall be commited and pushed to the vcis server**.
 
-3. In the MDSWriter and MDSWriterSlow signals edit the *NodeName* fields accordingly to what was set in the [CreateFalconMDSPlusFastTree.tcl file](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon/blob/master/Tools/CreateFalconMDSPlusFastTree.tcl)
+3- In the MDSWriter and MDSWriterSlow signals edit the *NodeName* fields accordingly to what was set in the [CreateFalconMDSPlusFastTree.tcl file](https://vcis-gitlab.f4e.europa.eu/aneto/Data-Storage-Falcon/blob/master/Tools/CreateFalconMDSPlusFastTree.tcl)
 
-4. Create the link to the Startup file.
+4- Create the link to the Startup file.
 
 ```
 rm Startup.cfg
 ln -s /home/codac-dev/Projects/Fast-Control-Falcon/Configuration/NewConfiguration.cfg /home/codac-dev/Projects/Fast-Control-Falcon/Configuration/Startup.cfg
 ``` 
 
-5. Restart the service
+5- Restart the service
 
 ```
 su

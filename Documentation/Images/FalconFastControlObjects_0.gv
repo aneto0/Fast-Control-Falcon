@@ -1,0 +1,10 @@
+digraph G {
+bgcolor=white
+subgraph cluster_EPICS_CA {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICS_CA <BR/>(EPICS::EPICSCAClient)</font></TD></TR></TABLE>>
+EPICS_CAPV_STATUS [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PV_STATUS <BR/>(EPICS::EPICSPV)</font></TD></TR></TABLE>>]
+EPICS_CAPV_COMMAND [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PV_COMMAND <BR/>(EPICS::EPICSPV)</font></TD></TR></TABLE>>]
+EPICS_CAPV_ERROR [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PV_ERROR <BR/>(EPICS::EPICSPV)</font></TD></TR></TABLE>>]
+EPICS_CAPV_ERROR_RST [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PV_ERROR_RST <BR/>(EPICS::EPICSPV)</font></TD></TR></TABLE>>]
+}
+}

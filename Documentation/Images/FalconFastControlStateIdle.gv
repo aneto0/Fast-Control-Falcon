@@ -1,0 +1,42 @@
+digraph G {
+rankdir=LR
+concentrate=true
+"Idle.Thread1.GAMADC" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMDI" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMSDNPub" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMFilterDownsampling" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMFilterDownsampling <BR/>(FilterDownsamplingGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMTRMask" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTRMask <BR/>(TriggerMaskGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMTC" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTC <BR/>(TimeCorrectionGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.BL2WebStatistic" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">BL2WebStatistic <BR/>(BaseLib2GAM)</font></TD></TR></TABLE>>]
+subgraph cluster_Idle {
+label = "State: Idle"
+subgraph cluster_Idle_Thread1 {
+label = "Thread: Thread1"
+color= "red"
+"Idle.Thread1.GAMADC"->"Idle.Thread1.GAMDI"->"Idle.Thread1.GAMSDNPub"->"Idle.Thread1.GAMFilterDownsampling"->"Idle.Thread1.GAMTRMask"->"Idle.Thread1.GAMTC"->"Idle.Thread1.BL2WebStatistic"
+}
+}
+"+DDB1" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+DDB1 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+"+LoggerDataSource" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LoggerDataSource <BR/>(LoggerDataSource)</font></TD></TR></TABLE>>]
+"+Timings" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+Timings <BR/>(TimingDataSource)</font></TD></TR></TABLE>>]
+"+NI6368_0" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_0 <BR/>(NI6368::NI6368ADC)</font></TD></TR></TABLE>>]
+"+NI6368_DIO_0" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_DIO_0 <BR/>(NI6368::NI6368DIO)</font></TD></TR></TABLE>>]
+"+MDSWriter" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriter <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+MDSWriterSlow" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriterSlow <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+SDNPub" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+SDNPub <BR/>(SDN::SDNPublisher)</font></TD></TR></TABLE>>]
+"+NI6368_0"->"Idle.Thread1.GAMADC"
+"+Timings"->"Idle.Thread1.GAMADC"
+"Idle.Thread1.GAMADC"->"+DDB1"
+"+NI6368_DIO_0"->"Idle.Thread1.GAMDI"
+"Idle.Thread1.GAMDI"->"+DDB1"
+"+DDB1"->"Idle.Thread1.GAMSDNPub"
+"Idle.Thread1.GAMSDNPub"->"+SDNPub"
+"+DDB1"->"Idle.Thread1.GAMFilterDownsampling"
+"Idle.Thread1.GAMFilterDownsampling"->"+DDB1"
+"+DDB1"->"Idle.Thread1.GAMTRMask"
+"Idle.Thread1.GAMTRMask"->"+DDB1"
+"+DDB1"->"Idle.Thread1.GAMTC"
+"Idle.Thread1.GAMTC"->"+DDB1"
+"+DDB1"->"Idle.Thread1.BL2WebStatistic"
+"+Timings"->"Idle.Thread1.BL2WebStatistic"
+}

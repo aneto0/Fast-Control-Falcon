@@ -51,13 +51,13 @@ The following PVs are used to interface with the application:
 
 | PV | Type (R/W) | Value | Function |
 | --- | ----- | ---- | ------ | 
-| FALCON:FAST:STATUS | R     | 0    | Gets the current status of the application. When 0 the application is IDLE and no data is sent to MDSplus | 
-| FALCON:FAST:STATUS | R     | 1    | Gets the current status of the application. When 1 the application is ACQUIRING and data is being sent to MDSplus |
-| FALCON:FAST:STATUS_CMD | W     | 0    | Changes the current status of the application. When 0 the application is set to IDLE |
-| FALCON:FAST:STATUS_CMD | W     | 1    | Changes the current status of the application. When 1 the application is set to ACQUIRING |
-| FALCON:FAST:ERROR | R | 0 | Gets the current error status of the application. When 0 the application is running with no errors |
-| FALCON:FAST:ERROR | R | 1 | Gets the current error status of the application. When 1 the application is in an error state |
-| FALCON:FAST:ERROR_RST | W | 1 | Resets the application. If successful FALCON:FAST:ERROR will change to 0 |
+| TEST-AUX-FDAQ:Fast_Status | R     | 0    | Gets the current status of the application. When 0 the application is IDLE and no data is sent to MDSplus | 
+| TEST-AUX-FDAQ:Fast_Status | R     | 1    | Gets the current status of the application. When 1 the application is ACQUIRING and data is being sent to MDSplus |
+| TEST-AUX-FDAQ:Fast_Status_CMD | W     | 0    | Changes the current status of the application. When 0 the application is set to IDLE |
+| TEST-AUX-FDAQ:Fast_Status_CMD | W     | 1    | Changes the current status of the application. When 1 the application is set to ACQUIRING |
+| TEST-AUX-FDAQ:Fast_Error | R | 0 | Gets the current error status of the application. When 0 the application is running with no errors |
+| TEST-AUX-FDAQ:Fast_Error | R | 1 | Gets the current error status of the application. When 1 the application is in an error state |
+| TEST-AUX-FDAQ:Fast_Error_Rst | W | 1 | Resets the application. If successful TEST-AUX-FDAQ:Fast_Error will change to 0 |
 
 ### LoggerService
 
@@ -68,7 +68,7 @@ Sends the logging information to the console from where the service was started 
 
 ### StateMachine
 
-The application state-machine is managed by the FALCON:FAST:STATUS_CMD and FALCON:FAST:ERROR_RST PVs.
+The application state-machine is managed by the TEST-AUX-FDAQ:Fast_Status_CMD and TEST-AUX-FDAQ:Fast_Error_Rst PVs.
 
 ![alt text](Documentation/Images/FalconFastControlStateMachine.png "StateMachine")
 
@@ -77,10 +77,10 @@ Upon every state change, a set of MARTe2 messages is triggered. In particular:
 | From | To | Main actions |
 | --- | ----- | ----- |
 | INITIAL | IDLE | Starts the MARTe2 internal services. |
-| IDLE | ACQUIRING | - Opens the MDSplus tree; <br/> - Changes the RealTimeApplication to the Acquire state (see below); <br/> - Sets FALCON:FAST:STATUS  to 1. <br/><br/> **Any error on the above will cause the state machine to go the ERROR state**.|
-| ACQUIRING | IDLE | - Flushes the MDSplus tree with the latest acquired values; <br/> - Changes the RealTimeApplication to the Idle state (see below); <br/> - Sets FALCON:FAST:STATUS  to 0. <br/><br/> **Any error on the above will cause the state machine to go the ERROR state**.|
-| * | ERROR | - Sets FALCON:FAST:ERROR to 1. <br/> - Changes the RealTimeApplication to the Error state (ignoring any request to start an acquisition) |
-| ERROR | IDLE | - Sets FALCON:FAST:ERROR to 0. <br/> - Changes the RealTimeApplication to the Idle state (allowing to start an acquisition) |
+| IDLE | ACQUIRING | - Opens the MDSplus tree; <br/> - Changes the RealTimeApplication to the Acquire state (see below); <br/> - Sets TEST-AUX-FDAQ:Fast_Status  to 1. <br/><br/> **Any error on the above will cause the state machine to go the ERROR state**.|
+| ACQUIRING | IDLE | - Flushes the MDSplus tree with the latest acquired values; <br/> - Changes the RealTimeApplication to the Idle state (see below); <br/> - Sets TEST-AUX-FDAQ:Fast_Status  to 0. <br/><br/> **Any error on the above will cause the state machine to go the ERROR state**.|
+| * | ERROR | - Sets TEST-AUX-FDAQ:Fast_Error to 1. <br/> - Changes the RealTimeApplication to the Error state (ignoring any request to start an acquisition) |
+| ERROR | IDLE | - Sets TEST-AUX-FDAQ:Fast_Error to 0. <br/> - Changes the RealTimeApplication to the Idle state (allowing to start an acquisition) |
 
 
 ### RealTimeApplication 

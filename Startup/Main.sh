@@ -98,10 +98,10 @@ fi
 echo $mds_falcon_path
 
 #Resets the PV values
-caput FALCON:FAST:STATUS 0
-caput FALCON:FAST:ERROR 0
-caput FALCON:FAST:STATUS_CMD 0
-caput FALCON:FAST:ERROR_RST 0
+caput TEST-AUX-FDAQ:Fast_Status 0
+caput TEST-AUX-FDAQ:Fast_Error 0
+caput TEST-AUX-FDAQ:Fast_Status_CMD 0
+caput TEST-AUX-FDAQ:Fast_Error_Rst 0
 
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH

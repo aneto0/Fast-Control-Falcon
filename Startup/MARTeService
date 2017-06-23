@@ -43,6 +43,8 @@ MARTe2_Components_DIR_LOC=/home/codac-dev/Projects/MARTe2-components
 EFDA_MARTe_DIR_LOC=/home/codac-dev/Projects/EFDA-MARTe/trunk/
 #MDSPLUS_LOC="192.168.130.46:8000::/tmp"
 MDSPLUS_LOC="10.136.30.21:8000::/raiddata/mdsplus/trees"
+#MDSPLUS_LOC="/mnt/Tree"
+MDSEVENT_INTERFACE=bond0
 APP_NAME=Main.ex
 
 start() {
@@ -57,7 +59,7 @@ start() {
         export EFDA_MARTe_DIR=$EFDA_MARTe_DIR_LOC
 
         cd $CODE_DIRECTORY/Startup
-        $SERVICE_LOC $CONFIG_FILE_LOC -f $CONFIG_FILE_LOC -m "StateMachine:START" -p $MDSPLUS_LOC 
+        $SERVICE_LOC $CONFIG_FILE_LOC -f $CONFIG_FILE_LOC -m "StateMachine:START" -p $MDSPLUS_LOC -e $MDSEVENT_INTERFACE
     fi
 }
 

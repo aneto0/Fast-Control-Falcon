@@ -36,6 +36,10 @@ case $key in
     MDS_FALCON_PATH="$2"
     shift # past argument
     ;;
+    -e|--mdsevent_interface)
+    MDS_EVENT_INTERFACE="$2"
+    shift # past argument
+    ;;
     --default)
     DEFAULT=YES
     ;;
@@ -87,6 +91,7 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/GAMs/DataCollectionGAM/linux/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EFDA_MARTe_DIR/Interfaces/BaseLib2Adapter/linux/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SDN_CORE_LIBRARY_DIR
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EPICS_BASE/lib/$EPICS_HOST_ARCH
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/mdsplus/lib64/
 
 #Set the default value if it not set
 if [ -z "$MDS_FALCON_PATH" ]
@@ -96,6 +101,7 @@ else
 export falcon_fast_path="$MDS_FALCON_PATH"
 fi
 echo $mds_falcon_path
+export mdsevent_interface=$MDS_EVENT_INTERFACE
 
 #Resets the PV values
 caput TEST-AUX-FDAQ:Fast_Status 0

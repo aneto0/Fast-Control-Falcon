@@ -269,7 +269,43 @@ exit
 | Server             | IP            | Service                                 | Restart command | Log |
 | ------             | ---           | ------                                  | ------- | --- |
 | Fast Controller 1  | 10.136.50.30 (SSH) <br/> 10.136.100.27 (PON) <br/> 10.136.20.21 (SDN) <br/> 10.136.30.23 (DAN)| *MARTeService* | /etc/init.d/MARTeService restart | /var/log/messages | 
- 
+
+Note that the DAN interface is a 2 Gb link aggregation of two ports:
+
+ifcfg-bond0
+```
+DEVICE=bond0
+BOOTPROTO=none
+IPADDR="10.136.30.23"
+NETMASK="255.255.255.0"
+NM_CONTROLLED="yes"
+ONBOOT="yes"
+TYPE=Bond
+BONDING_MASTER=yes
+```
+
+ifcfg-eth4
+```
+DEVICE=eth4
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+USERCTL=no
+NM_CONTROLLED=yes
+```
+
+ifcfg-eth5
+```
+DEVICE=eth5
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+USERCTL=no
+NM_CONTROLLED=yes
+```
+
 ## Maintenance
 
 ### Changing the MDSplus signal names

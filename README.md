@@ -28,7 +28,7 @@ These functions are implemented in the following components of a [MARTe2](https:
 The following data acquisition networks are used by the *PON Sampler*:
 * PON: to manage and monitor the *Fast Data Acqusition* state-machine;
 * DAN: to store the acquired data. The traffic is MDSplus *mdsip*;
-* SDN: to provide the data acquisition sampling time. The traffic is multicast UDP. (**note** that currently unicast traffic is being used. TODO update documentation when the switch configuration will allow for multicast)   
+* SDN: to provide the data acquisition sampling time. The traffic is multicast UDP. 
 
 ## Architecture
 

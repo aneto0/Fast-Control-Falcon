@@ -1,24 +1,20 @@
-record( longin, "FALCON::FAST::STATUS_CMD")
+record( longin, "TEST-AUX-FDAQ:Fast_Status")
 {
    field(DTYP, "Soft Channel")
 }
 
-record( longin, "FALCON::FAST::STATUS")
+record( longin, "TEST-AUX-FDAQ:Fast_Error")
 {
    field(DTYP, "Soft Channel")
 }
 
-record( longin, "FALCON::FAST::PULSE")
+record( longin, "TEST-AUX-FDAQ:Fast_Status_CMD")
 {
    field(DTYP, "Soft Channel")
 }
 
-record( longin, "FALCON::FAST::ERROR")
+record( longin, "TEST-AUX-FDAQ:Fast_Error_Rst")
 {
    field(DTYP, "Soft Channel")
 }
 
-record( longin, "FALCON::FAST::ERROR_RST")
-{
-   field(DTYP, "Soft Channel")
-}

@@ -128,12 +128,6 @@ bool TimeCorrectionGAM::Initialise(MARTe::StructuredDataI & data) {
         }
     }
     if (ok) {
-        ok = (assertCycles > 0u);
-        if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "AssertCycles must be > 0");
-        }
-    }
-    if (ok) {
         ok = data.Read("Threshold", threshold);
         if (!ok) {
             REPORT_ERROR(ErrorManagement::ParametersError, "Threshold must be specified");

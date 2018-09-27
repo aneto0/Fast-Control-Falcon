@@ -54,7 +54,7 @@ RealTimeStateMachineGAM::RealTimeStateMachineGAM() :
     sdnPower = 0u;
 
     plcState = NULL_PTR(MARTe::uint8 *);
-    plcCommand = NULL_PTR(MARTe::uint8 *);
+    plcAbortCommand = NULL_PTR(MARTe::uint8 *);
     sdnEvent = NULL_PTR(MARTe::uint8 *);
     sdnPowerCommand = NULL_PTR(MARTe::uint8 *);
     outputState = NULL_PTR(MARTe::uint8 *);
@@ -99,11 +99,12 @@ bool RealTimeStateMachineGAM::Setup() {
     }
     if (ok) {
         plcState = reinterpret_cast<uint8 *>(GetInputSignalMemory(0u));
-        plcCommand = reinterpret_cast<uint8 *>(GetInputSignalMemory(1u));
+        plcAbortCommand = reinterpret_cast<uint8 *>(GetInputSignalMemory(1u));
         sdnEvent = reinterpret_cast<uint8 *>(GetInputSignalMemory(2u));
         sdnPowerCommand = reinterpret_cast<uint8 *>(GetInputSignalMemory(3u));
         outputState = reinterpret_cast<uint8 *>(GetOutputSignalMemory(0u));
         trigger = reinterpret_cast<uint32 *>(GetOutputSignalMemory(1u));
+        *outputState = offlineStateCode;
     }
     return ok;
 }
@@ -153,6 +154,39 @@ bool RealTimeStateMachineGAM::Initialise(MARTe::StructuredDataI& data) {
             REPORT_ERROR(ErrorManagement::ParametersError, "The PowerSupplyTrigger value shall be specified");
         }
     }
+    if (ok) {
+        ok = data.Read("PLCOnline", plcOnline);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "The PLCOnline value shall be specified");
+        }
+    }
+    if (ok) {
+        ok = data.Read("PLCAbort", plcAbort);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "The PLCAbort value shall be specified");
+        }
+    }
+    if (ok) {
+        ok = data.Read("SDNRTStart", sdnRTStart);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "The SDNRTStart value shall be specified");
+        }
+    }
+    if (ok) {
+        ok = data.Read("SDNRTStop", sdnRTStop);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "The SDNRTStop value shall be specified");
+        }
+    }
+    if (ok) {
+        ok = data.Read("SDNPowerOn", sdnPower);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "The SDNPowerOn value shall be specified");
+        }
+    }
+
+
+
     return ok;
 }
 
@@ -167,7 +201,10 @@ bool RealTimeStateMachineGAM::Execute() {
     }
     else if (*outputState == onlineOffStateCode) {
         if (*plcState == plcOnline) {
-            if (*sdnEvent == sdnRTStop) {
+            if (*plcAbortCommand == plcAbort) {
+                *outputState = offlineStateCode;
+            }
+            else if (*sdnEvent == sdnRTStop) {
                 *outputState = endStateCode;
             }
             else if (*sdnPowerCommand == sdnPower) {
@@ -181,7 +218,10 @@ bool RealTimeStateMachineGAM::Execute() {
     }
     else if (*outputState == onlineStateCode) {
         if (*plcState == plcOnline) {
-            if (*sdnEvent == sdnRTStop) {
+            if (*plcAbortCommand == plcAbort) {
+                *outputState = offlineStateCode;
+            }
+            else if (*sdnEvent == sdnRTStop) {
                 *outputState = endStateCode;
             }
             else if (*sdnPowerCommand == sdnPower) {
@@ -195,7 +235,7 @@ bool RealTimeStateMachineGAM::Execute() {
     }
     else if (*outputState == endStateCode) {
         if (*plcState == plcOnline) {
-            if (*plcCommand == plcAbort) {
+            if (*plcAbortCommand == plcAbort) {
                 *outputState = offlineStateCode;
             }
         }
@@ -205,7 +245,7 @@ bool RealTimeStateMachineGAM::Execute() {
         }
     }
     else if (*outputState == faultStateCode) {
-        if (*plcCommand == plcAbort) {
+        if (*plcAbortCommand == plcAbort) {
             *outputState = offlineStateCode;
         }
         else if (*plcState == plcOnline) {

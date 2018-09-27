@@ -45,8 +45,8 @@ INCLUDES += -I$(MARTe2_DIR)/Source/Core/Scheduler/L4Messages
 
 
 all: $(OBJS) $(SUBPROJ) \
-	$(BUILD_DIR)/TimeCorrectionGAM$(LIBEXT) \
-	$(BUILD_DIR)/TimeCorrectionGAM$(DLLEXT)
+	$(BUILD_DIR)/RealTimeStateMachineGAM$(LIBEXT) \
+	$(BUILD_DIR)/RealTimeStateMachineGAM$(DLLEXT)
 	    echo  $(OBJS)
 
 include $(MAKEDEFAULTDIR)/MakeStdLibRules.$(TARGET)

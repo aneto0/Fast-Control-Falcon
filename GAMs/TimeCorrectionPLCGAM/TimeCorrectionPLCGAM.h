@@ -1,7 +1,7 @@
 /**
- * @file TimeCorrectionGAM.h
- * @brief Header file for class TimeCorrectionGAM
- * @date 30/03/2017
+ * @file TimeCorrectionPLCGAM.h
+ * @brief Header file for class TimeCorrectionPLCGAM
+ * @date 27/09/2017
  * @author Andre Neto
  *
  * @copyright Copyright 2015 F4E | European Joint Undertaking for ITER and
@@ -16,7 +16,7 @@
  * basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence permissions and limitations under the Licence.
 
- * @details This header file contains the declaration of the class TimeCorrectionGAM
+ * @details This header file contains the declaration of the class TimeCorrectionPLCGAM
  * with all of its public, protected and private members. It may also include
  * definitions for inline methods which need to be visible to the compiler.
  */
@@ -38,21 +38,25 @@
 /*                           Class declaration                               */
 /*---------------------------------------------------------------------------*/
 /**
- * @brief GAM which corrects the time vector against the time of a given analogue event.
+ * @brief GAM which corrects the time vector against the time on which the PLC goes online and when the RT_START event is detected.
  * @details Until this event occurs the trigger signal (from the TriggerMaskGAM) will be forced to be disabled. The trigger signal for slow mdsplus will also be disabled.
- * The corrected time signal will be equal to CORRECTED_TIME[k] += NUMBER_OF_SAMPLES_ADC * ADC_PERIOD, with CORRECTED_TIME[0] = NUMBER_OF_SAMPLES_ADC * ADC_PERIOD - TIME_ANALOGUE_EVENT_MICRO_SEC and CORRECTED_TRIGGER[k] = INPUT_TRIGGER[k] and CORRECTED_TRIGGER_SLOW[k] = 1
+ * The corrected time signal will be equal to CORRECTED_TIME[k] += TimePeriod, with CORRECTED_TIME[0] = 0 and CORRECTED_TRIGGER[k] = INPUT_TRIGGER[k] and CORRECTED_TRIGGER_SLOW[k] = 1
  * Before the event is detected  CORRECTED_TIME[k] = 0 and CORRECTED_TRIGGER[k] = 0 and CORRECTED_TRIGGER_SLOW[k] = 0
  *
  * The configuration syntax is (names and signal quantities are only given as an example):
  * +GAMTC = {
- *     Class = TimeCorrectionGAM
- *     AssertCycles = 3 //Compulsory > 0. Number of consecutive cycles above which the analogue signal shall be greater (in absolute value) of the Threshold
- *     Threshold = 300 //Compulsory. Threshold above which the analogue event is considered to be detected.
- *     TimePeriod = 500e-9 //Compulsory. Time signal period.
+ *     Class = TimeCorrectionPLCGAM
+ *     TimePeriod = 1000 //Compulsory. Time signal period in micro-seconds.
+ *     PLCOnline = 1 //ID which identifies the PLC online state.
+ *     RTStartEvent = 1 //ID which identifies the RT_START event.
  *     InputSignals = {
- *         ADC = {//An analogue signal where the threshold will be detected
+ *         PLCState = {//Signal describing the PLC state
  *              DataSource = DDB1
- *              Type = int16 //The type shall be int16
+ *              Type = uint8 //The type shall be int8
+ *         }
+ *         SDNEvent = {//Signal describing the PLC state
+ *              DataSource = DDB1
+ *              Type = uint8 //The type shall be int8
  *         }
  *         Trigger = {//A trigger signal shall be specified and shall be set in position one.
  *              DataSource = DDB1
@@ -75,25 +79,26 @@
  *    }
  *}
  */
-class TimeCorrectionGAM: public MARTe::GAM, public MARTe::StatefulI {
+class TimeCorrectionPLCGAM: public MARTe::GAM, public MARTe::StatefulI {
 public:
     CLASS_REGISTER_DECLARATION()
     /**
      * @brief Constructor. NOOP.
      */
-TimeCorrectionGAM    ();
+TimeCorrectionPLCGAM    ();
 
     /**
      * @brief Destructor. NOOP.
      */
-    virtual ~TimeCorrectionGAM();
+    virtual ~TimeCorrectionPLCGAM();
 
     /**
      * @brief Verifies that:
      *  - GetNumberOfInputSignals() == 2 &&
      *  - GetNumberOfOutputSignals() == 3 &&
-     *  - GetSignalType(InputSignals, 0) == SignedInteger16Bit &&
+     *  - GetSignalType(InputSignals, 0) == UnsignedInteger8Bit &&
      *  - GetSignalType(InputSignals, 1) == UnsignedInteger8Bit &&
+     *  - GetSignalType(InputSignals, 2) == UnsignedInteger8Bit &&
      *  - GetSignalType(OutputSignals, 0) == UnsignedInteger32Bit &&
      *  - GetSignalType(OutputSignals, 1) == UnsignedInteger8Bit &&
      *  - GetSignalType(OutputSignals, 2) == UnsignedInteger8Bit
@@ -141,44 +146,34 @@ private:
     MARTe::uint8 *correctedTriggerSignalSlow;
 
     /**
-     * The analogue input signal memory
+     * The PLC state signal
      */
-    MARTe::int16 *analogueInputSignal;
+    MARTe::uint8 *plcStateSignal;
 
     /**
-     * The number of analogue input samples
+     * The sdn event signal
      */
-    MARTe::uint32 numberOfSamples;
+    MARTe::uint8 *sdnEventSignal;
 
     /**
-     * The threshold set by the user.
+     * The state number which identifies the PLC as online
      */
-    MARTe::int16 threshold;
+    MARTe::uint8 plcOnline;
 
     /**
-     * The assert set by the user.
+     * The event number which identifies the RT_START
      */
-    MARTe::uint32 assertCycles;
-
-    /**
-     * Counter that goes to zero when the threshold has been reached, i.e. when |*analogueInputSignal| >= |threshold|.
-     */
-    MARTe::uint32 assertCounter;
-
-    /**
-     * The period of the analogue signal.
-     */
-    MARTe::float64 signalPeriod;
-
-    /**
-     * Correction value to apply to the time signal
-     */
-    MARTe::uint32 timeCorrection;
+    MARTe::uint8 rtStartEvent;
 
     /**
      * The time to increment at every cycle
      */
-    MARTe::uint32 cycleTimeIncrement;
+    MARTe::uint32 timePeriod;
+
+    /**
+     * True when the start event was detected.
+     */
+    bool startDetected;
 
 };
 

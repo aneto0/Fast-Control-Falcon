@@ -57,21 +57,21 @@
  *
  *     SDNPowerOn = 1 //Code which describes the power on command
  *
- *     PowerSupplyTrigger = 2 //The value to trigger the power supply write
+ *     PowerSupplyTrigger = 2 //The value to write in the DIO in order trigger the power supply write
  *     InputSignals = {
  *         PLCState = { //The state as reported by the PLC
  *              DataSource = DDB1
- *              Type = int8 //The type shall be uint8
+ *              Type = uint8 //The type shall be uint8
  *         }
- *         PLCCommand = { //The commands received from the PLC
- *              DataSource = DDB1
- *              Type = int8 //The type shall be uint8
- *         }
- *         SDNEvent = {//The event received from the SDN
+ *         PLCAbortCommand = { //The abort command received from the PLC
  *              DataSource = DDB1
  *              Type = uint8 //The type shall be uint8
  *         }
- *         SDNPowerCommand = {//The power command received from the SDN
+ *         SDNEvent = {//The event received from the SDN (ECPC master)
+ *              DataSource = DDB1
+ *              Type = uint8 //The type shall be uint8
+ *         }
+ *         SDNPowerCommand = {//The power command received from the SDN (ECPC master)
  *              DataSource = DDB1
  *              Type = uint8 //The type shall be uint8
  *         }
@@ -193,7 +193,7 @@ private:
     /**
      * PLC commands
      */
-    MARTe::uint8 *plcCommand;
+    MARTe::uint8 *plcAbortCommand;
 
     /**
      * SDN power command signal

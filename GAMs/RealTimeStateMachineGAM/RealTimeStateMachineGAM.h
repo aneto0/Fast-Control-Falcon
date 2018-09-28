@@ -37,8 +37,10 @@
 /*                           Class declaration                               */
 /*---------------------------------------------------------------------------*/
 /**
- * @brief GAM which implements the real-time state machine as per the design document
- * .
+ * @brief GAM which implements the real-time state machine as per the design document.
+ *
+ * The PLC Abort function is registered as an RPC.
+ *
  * The configuration syntax is (names and signal quantities are only given as an example):
  * +GAMRTSM = {
  *     Class = RealTimeStateMachineGAM
@@ -50,7 +52,6 @@
  *     Fault = 15 // Code which describes the Fault State
  *
  *     PLCOnline = 1 //Code which describes the PLC online state
- *     PLCAbort = 1 //Code which describes the PLC abort command
  *
  *     SDNRTStart = 1 //Code which describes the SDN RT START event
  *     SDNRTStop = 0 //Code which describes the SDN RT STOP event
@@ -60,10 +61,6 @@
  *     PowerSupplyTrigger = 2 //The value to write in the DIO in order trigger the power supply write
  *     InputSignals = {
  *         PLCState = { //The state as reported by the PLC
- *              DataSource = DDB1
- *              Type = uint8 //The type shall be uint8
- *         }
- *         PLCAbortCommand = { //The abort command received from the PLC
  *              DataSource = DDB1
  *              Type = uint8 //The type shall be uint8
  *         }
@@ -103,7 +100,7 @@ RealTimeStateMachineGAM    ();
 
     /**
      * @brief Verifies that:
-     *  - GetNumberOfInputSignals() == 4 &&
+     *  - GetNumberOfInputSignals() == 3 &&
      *  - GetNumberOfOutputSignals() == 2 &&
      *  - GetSignalType(*, *) == UnsignedInteger8Bit &&
      *  - GetSignalType(OutputSignals, 1) == UnsignedInteger32Bit
@@ -122,6 +119,11 @@ RealTimeStateMachineGAM    ();
      * @return true.
      */
     virtual bool Execute();
+
+    /**
+     * @brief Requests an abort
+     */
+    virtual MARTe::ErrorManagement::ErrorType Abort();
 
 private:
 
@@ -166,11 +168,6 @@ private:
     MARTe::uint8 plcOnline;
 
     /**
-     * PLC abort
-     */
-    MARTe::uint8 plcAbort;
-
-    /**
      * SDN RT Start
      */
     MARTe::uint8 sdnRTStart;
@@ -191,11 +188,6 @@ private:
     MARTe::uint8 *plcState;
 
     /**
-     * PLC commands
-     */
-    MARTe::uint8 *plcAbortCommand;
-
-    /**
      * SDN power command signal
      */
     MARTe::uint8 *sdnPowerCommand;
@@ -214,6 +206,11 @@ private:
      * The trigger output value
      */
     MARTe::uint32 *trigger;
+
+    /**
+     * True when an abort from the PLC is requested.
+     */
+    bool abortRequested;
 };
 
 /*---------------------------------------------------------------------------*/

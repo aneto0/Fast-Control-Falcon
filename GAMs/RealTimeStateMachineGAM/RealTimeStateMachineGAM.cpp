@@ -29,6 +29,7 @@
 /*                         Project header includes                           */
 /*---------------------------------------------------------------------------*/
 #include "AdvancedErrorManagement.h"
+#include "CLASSMETHODREGISTER.h"
 #include "RealTimeStateMachineGAM.h"
 
 /*---------------------------------------------------------------------------*/
@@ -48,13 +49,12 @@ RealTimeStateMachineGAM::RealTimeStateMachineGAM() :
     faultStateCode = 0u;
     powerSupplyTrigger = 0u;
     plcOnline = 0u;
-    plcAbort = 1u;
     sdnRTStart = 0u;
     sdnRTStop = 0u;
     sdnPower = 0u;
+    abortRequested = false;
 
     plcState = NULL_PTR(MARTe::uint8 *);
-    plcAbortCommand = NULL_PTR(MARTe::uint8 *);
     sdnEvent = NULL_PTR(MARTe::uint8 *);
     sdnPowerCommand = NULL_PTR(MARTe::uint8 *);
     outputState = NULL_PTR(MARTe::uint8 *);
@@ -66,7 +66,7 @@ RealTimeStateMachineGAM::~RealTimeStateMachineGAM() {
 
 bool RealTimeStateMachineGAM::Setup() {
     using namespace MARTe;
-    bool ok = (GetNumberOfInputSignals() == 4u);
+    bool ok = (GetNumberOfInputSignals() == 3u);
     if (!ok) {
         REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 4u");
     }
@@ -99,9 +99,8 @@ bool RealTimeStateMachineGAM::Setup() {
     }
     if (ok) {
         plcState = reinterpret_cast<uint8 *>(GetInputSignalMemory(0u));
-        plcAbortCommand = reinterpret_cast<uint8 *>(GetInputSignalMemory(1u));
-        sdnEvent = reinterpret_cast<uint8 *>(GetInputSignalMemory(2u));
-        sdnPowerCommand = reinterpret_cast<uint8 *>(GetInputSignalMemory(3u));
+        sdnEvent = reinterpret_cast<uint8 *>(GetInputSignalMemory(1u));
+        sdnPowerCommand = reinterpret_cast<uint8 *>(GetInputSignalMemory(2u));
         outputState = reinterpret_cast<uint8 *>(GetOutputSignalMemory(0u));
         trigger = reinterpret_cast<uint32 *>(GetOutputSignalMemory(1u));
         *outputState = offlineStateCode;
@@ -161,12 +160,6 @@ bool RealTimeStateMachineGAM::Initialise(MARTe::StructuredDataI& data) {
         }
     }
     if (ok) {
-        ok = data.Read("PLCAbort", plcAbort);
-        if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "The PLCAbort value shall be specified");
-        }
-    }
-    if (ok) {
         ok = data.Read("SDNRTStart", sdnRTStart);
         if (!ok) {
             REPORT_ERROR(ErrorManagement::ParametersError, "The SDNRTStart value shall be specified");
@@ -194,6 +187,9 @@ bool RealTimeStateMachineGAM::Execute() {
     bool ok = true;
     using namespace MARTe;
     *trigger = 0u;
+    bool hasToAbort = abortRequested;
+    abortRequested = false;
+
     if (*outputState == offlineStateCode) {
         if ((*plcState == plcOnline) && (*sdnEvent == sdnRTStart)) {
             *outputState = onlineOffStateCode;
@@ -201,7 +197,7 @@ bool RealTimeStateMachineGAM::Execute() {
     }
     else if (*outputState == onlineOffStateCode) {
         if (*plcState == plcOnline) {
-            if (*plcAbortCommand == plcAbort) {
+            if (hasToAbort) {
                 *outputState = offlineStateCode;
             }
             else if (*sdnEvent == sdnRTStop) {
@@ -218,7 +214,7 @@ bool RealTimeStateMachineGAM::Execute() {
     }
     else if (*outputState == onlineStateCode) {
         if (*plcState == plcOnline) {
-            if (*plcAbortCommand == plcAbort) {
+            if (hasToAbort) {
                 *outputState = offlineStateCode;
             }
             else if (*sdnEvent == sdnRTStop) {
@@ -235,7 +231,7 @@ bool RealTimeStateMachineGAM::Execute() {
     }
     else if (*outputState == endStateCode) {
         if (*plcState == plcOnline) {
-            if (*plcAbortCommand == plcAbort) {
+            if (hasToAbort) {
                 *outputState = offlineStateCode;
             }
         }
@@ -245,7 +241,7 @@ bool RealTimeStateMachineGAM::Execute() {
         }
     }
     else if (*outputState == faultStateCode) {
-        if (*plcAbortCommand == plcAbort) {
+        if (hasToAbort) {
             *outputState = offlineStateCode;
         }
         else if (*plcState == plcOnline) {
@@ -254,7 +250,14 @@ bool RealTimeStateMachineGAM::Execute() {
             }
         }
     }
+
     return ok;
 }
 
+MARTe::ErrorManagement::ErrorType RealTimeStateMachineGAM::Abort() {
+    abortRequested = true;
+    return MARTe::ErrorManagement::NoError;
+}
+
 CLASS_REGISTER(RealTimeStateMachineGAM, "1.0")
+CLASS_METHOD_REGISTER(RealTimeStateMachineGAM, Abort)

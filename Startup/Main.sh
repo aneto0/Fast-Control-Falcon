@@ -63,6 +63,7 @@ if [ -z ${MARTe2_Components_DIR+x} ]; then echo "Please set the MARTe2_Component
 
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/FakeDataSource/
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/ESDNCommandEmuGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/FilterDownsamplingGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/RealTimeStateMachineGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/WaveformTestGAM/

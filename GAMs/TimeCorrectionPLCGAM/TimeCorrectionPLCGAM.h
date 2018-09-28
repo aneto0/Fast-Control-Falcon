@@ -1,7 +1,7 @@
 /**
  * @file TimeCorrectionPLCGAM.h
  * @brief Header file for class TimeCorrectionPLCGAM
- * @date 27/09/2017
+ * @date 27/09/2018
  * @author Andre Neto
  *
  * @copyright Copyright 2015 F4E | European Joint Undertaking for ITER and
@@ -52,11 +52,11 @@
  *     InputSignals = {
  *         PLCState = {//Signal describing the PLC state
  *              DataSource = DDB1
- *              Type = uint8 //The type shall be int8
+ *              Type = uint8 //The type shall be uint8
  *         }
- *         SDNEvent = {//Signal describing the PLC state
+ *         SDNEvent = {//Signal describing the ESDN state
  *              DataSource = DDB1
- *              Type = uint8 //The type shall be int8
+ *              Type = uint8 //The type shall be uint8
  *         }
  *         Trigger = {//A trigger signal shall be specified and shall be set in position one.
  *              DataSource = DDB1

@@ -1,7 +1,7 @@
 /**
  * @file TimeCorrectionPLCGAM.cpp
  * @brief Source file for class TimeCorrectionPLCGAM
- * @date 30/03/2017
+ * @date 27/09/2018
  * @author Andre Neto
  *
  * @copyright Copyright 2015 F4E | European Joint Undertaking for ITER and

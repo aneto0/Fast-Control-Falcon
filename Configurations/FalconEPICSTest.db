@@ -18,3 +18,17 @@ record( longin, "TEST-AUX-FDAQ:Fast_Error_Rst")
    field(DTYP, "Soft Channel")
 }
 
+record( longin, "TEST-AUX-CRIO:Pulse_Length_Sec_rNew")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( longin, "TEST-AUX-CRIO:Pulse_Length_mSec_rNew")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( longin, "TEST-AUX-CRIO:Pulse_Length_Min_rNew")
+{
+   field(DTYP, "Soft Channel")
+}

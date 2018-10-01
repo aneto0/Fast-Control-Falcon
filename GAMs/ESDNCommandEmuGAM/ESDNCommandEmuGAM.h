@@ -32,6 +32,7 @@
 /*                        Project header includes                            */
 /*---------------------------------------------------------------------------*/
 #include "GAM.h"
+#include "MessageI.h"
 #include "StatefulI.h"
 
 /*---------------------------------------------------------------------------*/
@@ -48,9 +49,10 @@
  * +GAMESDNEMU = {
  *     Class = ESDNCommandEmuGAM
  *     PowerDelayTime = 100000 //Compulsory. Delay in micro-seconds before putting power on the ESDNCommand.
- *     Offline = 8 //The ID which identifies the offline state
+ *     Offline = 8 //Code which identifies the RT Offline state.
  *     RTStartEvent = 1 //ID which identifies the RT_START event.
  *     RTStopEvent = 0 //ID which identifies the RT_STOP event.
+ *     RTStopTime = 3600000 //Time in micro-seconds at which to stop the pulse.
  *     PowerOnCommand = 1 //ID which identifies the Power ON command.
  *     PowerOffCommand = 0 //ID which identifies the Power OFF command.
  *     InputSignals = {
@@ -87,7 +89,7 @@
  *    }
  *}
  */
-class ESDNCommandEmuGAM: public MARTe::GAM, public MARTe::StatefulI {
+class ESDNCommandEmuGAM: public MARTe::GAM, public MARTe::MessageI, public MARTe::StatefulI {
 public:
     CLASS_REGISTER_DECLARATION()
     /**
@@ -207,9 +209,15 @@ private:
     MARTe::uint8 powerOffCommand;
 
     /**
-     * Id which identifies the Offline RTState
+     * Value which identifies the offline state.
      */
     MARTe::uint8 offlineState;
+
+    /**
+     * Time at which to stop the experiment.
+     */
+    MARTe::uint32 rtStopTime;
+
 };
 
 /*---------------------------------------------------------------------------*/

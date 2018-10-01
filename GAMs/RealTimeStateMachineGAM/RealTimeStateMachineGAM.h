@@ -32,12 +32,15 @@
 /*                        Project header includes                            */
 /*---------------------------------------------------------------------------*/
 #include "GAM.h"
+#include "MessageI.h"
 
 /*---------------------------------------------------------------------------*/
 /*                           Class declaration                               */
 /*---------------------------------------------------------------------------*/
 /**
  * @brief GAM which implements the real-time state machine as per the design document.
+ *
+ * Note that this module will only execute when the PrepareNextState, nextStateName == OnlineMainStateMachine
  *
  * The PLC Abort function is registered as an RPC.
  *
@@ -51,7 +54,7 @@
  *     End = 5 //Code which describes the End State
  *     Fault = 15 // Code which describes the Fault State
  *
- *     PLCOnline = 1 //Code which describes the PLC online state
+ *     OnlineMainStateMachine = "Online" //Code which describes the MARTe online state
  *
  *     SDNRTStart = 1 //Code which describes the SDN RT START event
  *     SDNRTStop = 0 //Code which describes the SDN RT STOP event
@@ -60,10 +63,6 @@
  *
  *     PowerSupplyTrigger = 2 //The value to write in the DIO in order trigger the power supply write
  *     InputSignals = {
- *         PLCState = { //The state as reported by the PLC
- *              DataSource = DDB1
- *              Type = uint8 //The type shall be uint8
- *         }
  *         SDNEvent = {//The event received from the SDN (ECPC master)
  *              DataSource = DDB1
  *              Type = uint8 //The type shall be uint8
@@ -85,7 +84,7 @@
  *    }
  *}
  */
-class RealTimeStateMachineGAM: public MARTe::GAM {
+class RealTimeStateMachineGAM: public MARTe::GAM, public MARTe::StatefulI, public MARTe::MessageI {
 public:
     CLASS_REGISTER_DECLARATION()
     /**
@@ -100,7 +99,7 @@ RealTimeStateMachineGAM    ();
 
     /**
      * @brief Verifies that:
-     *  - GetNumberOfInputSignals() == 3 &&
+     *  - GetNumberOfInputSignals() == 2 &&
      *  - GetNumberOfOutputSignals() == 2 &&
      *  - GetSignalType(*, *) == UnsignedInteger8Bit &&
      *  - GetSignalType(OutputSignals, 1) == UnsignedInteger32Bit
@@ -124,6 +123,12 @@ RealTimeStateMachineGAM    ();
      * @brief Requests an abort
      */
     virtual MARTe::ErrorManagement::ErrorType Abort();
+
+    /**
+     * @brief Sets the state to Offline
+     */
+    virtual bool PrepareNextState(const MARTe::char8 * const currentStateName,
+            const MARTe::char8 * const nextStateName);
 
 private:
 
@@ -163,11 +168,6 @@ private:
     MARTe::uint32 powerSupplyTrigger;
 
     /**
-     * PLC online
-     */
-    MARTe::uint8 plcOnline;
-
-    /**
      * SDN RT Start
      */
     MARTe::uint8 sdnRTStart;
@@ -181,11 +181,6 @@ private:
      * SDN RT Stop
      */
     MARTe::uint8 sdnRTStop;
-
-    /**
-     * PLC state signal
-     */
-    MARTe::uint8 *plcState;
 
     /**
      * SDN power command signal
@@ -208,9 +203,19 @@ private:
     MARTe::uint32 *trigger;
 
     /**
+     * String which identifies the main statemachine state
+     */
+    MARTe::StreamString onlineMainStateMachine;
+
+    /**
      * True when an abort from the PLC is requested.
      */
     bool abortRequested;
+
+    /**
+     * True when the next state is the onlineMainStateMachine
+     */
+    bool mainStateMachineIsOnline;
 };
 
 /*---------------------------------------------------------------------------*/

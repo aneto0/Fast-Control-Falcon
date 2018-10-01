@@ -31,6 +31,7 @@
 #include "AdvancedErrorManagement.h"
 #include "CLASSMETHODREGISTER.h"
 #include "RealTimeStateMachineGAM.h"
+#include "RegisteredMethodsMessageFilter.h"
 
 /*---------------------------------------------------------------------------*/
 /*                           Static definitions                              */
@@ -40,7 +41,8 @@
 /*                           Method definitions                              */
 /*---------------------------------------------------------------------------*/
 RealTimeStateMachineGAM::RealTimeStateMachineGAM() :
-        GAM() {
+        GAM(), MessageI() {
+    using namespace MARTe;
     offlineStateCode = 0u;
     onlineStateCode = 0u;
     onlineOffStateCode = 0u;
@@ -48,17 +50,26 @@ RealTimeStateMachineGAM::RealTimeStateMachineGAM() :
     endStateCode = 0u;
     faultStateCode = 0u;
     powerSupplyTrigger = 0u;
-    plcOnline = 0u;
+    onlineMainStateMachine = "";
     sdnRTStart = 0u;
     sdnRTStop = 0u;
     sdnPower = 0u;
+
+    mainStateMachineIsOnline = false;
     abortRequested = false;
 
-    plcState = NULL_PTR(MARTe::uint8 *);
     sdnEvent = NULL_PTR(MARTe::uint8 *);
     sdnPowerCommand = NULL_PTR(MARTe::uint8 *);
     outputState = NULL_PTR(MARTe::uint8 *);
     trigger = NULL_PTR(MARTe::uint32 *);
+
+    ReferenceT<RegisteredMethodsMessageFilter> filter(GlobalObjectsDatabase::Instance()->GetStandardHeap());
+    filter->SetDestination(this);
+    ErrorManagement::ErrorType ret = MessageI::InstallMessageFilter(filter);
+    if (!ret.ErrorsCleared()) {
+        REPORT_ERROR(ErrorManagement::FatalError, "Failed to install message filters");
+    }
+
 }
 
 RealTimeStateMachineGAM::~RealTimeStateMachineGAM() {
@@ -66,9 +77,9 @@ RealTimeStateMachineGAM::~RealTimeStateMachineGAM() {
 
 bool RealTimeStateMachineGAM::Setup() {
     using namespace MARTe;
-    bool ok = (GetNumberOfInputSignals() == 3u);
+    bool ok = (GetNumberOfInputSignals() == 2u);
     if (!ok) {
-        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 4u");
+        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 2u");
     }
     if (ok) {
         ok = (GetNumberOfOutputSignals() == 2u);
@@ -98,9 +109,8 @@ bool RealTimeStateMachineGAM::Setup() {
         }
     }
     if (ok) {
-        plcState = reinterpret_cast<uint8 *>(GetInputSignalMemory(0u));
-        sdnEvent = reinterpret_cast<uint8 *>(GetInputSignalMemory(1u));
-        sdnPowerCommand = reinterpret_cast<uint8 *>(GetInputSignalMemory(2u));
+        sdnEvent = reinterpret_cast<uint8 *>(GetInputSignalMemory(0u));
+        sdnPowerCommand = reinterpret_cast<uint8 *>(GetInputSignalMemory(1u));
         outputState = reinterpret_cast<uint8 *>(GetOutputSignalMemory(0u));
         trigger = reinterpret_cast<uint32 *>(GetOutputSignalMemory(1u));
         *outputState = offlineStateCode;
@@ -154,9 +164,9 @@ bool RealTimeStateMachineGAM::Initialise(MARTe::StructuredDataI& data) {
         }
     }
     if (ok) {
-        ok = data.Read("PLCOnline", plcOnline);
+        ok = data.Read("OnlineMainStateMachine", onlineMainStateMachine);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "The PLCOnline value shall be specified");
+            REPORT_ERROR(ErrorManagement::ParametersError, "The OnlineMainStateMachine value shall be specified");
         }
     }
     if (ok) {
@@ -178,8 +188,6 @@ bool RealTimeStateMachineGAM::Initialise(MARTe::StructuredDataI& data) {
         }
     }
 
-
-
     return ok;
 }
 
@@ -191,12 +199,12 @@ bool RealTimeStateMachineGAM::Execute() {
     abortRequested = false;
 
     if (*outputState == offlineStateCode) {
-        if ((*plcState == plcOnline) && (*sdnEvent == sdnRTStart)) {
+        if ((mainStateMachineIsOnline) && (*sdnEvent == sdnRTStart)) {
             *outputState = onlineOffStateCode;
         }
     }
     else if (*outputState == onlineOffStateCode) {
-        if (*plcState == plcOnline) {
+        if (mainStateMachineIsOnline) {
             if (hasToAbort) {
                 *outputState = offlineStateCode;
             }
@@ -209,11 +217,11 @@ bool RealTimeStateMachineGAM::Execute() {
         }
         else {
             *outputState = faultStateCode;
-            REPORT_ERROR(ErrorManagement::FatalError, "outputState == onlineOffStateCode && plcState != plcOnline");
+            REPORT_ERROR(ErrorManagement::FatalError, "outputState == onlineOffStateCode && !mainStateMachineIsOnline");
         }
     }
     else if (*outputState == onlineStateCode) {
-        if (*plcState == plcOnline) {
+        if (mainStateMachineIsOnline) {
             if (hasToAbort) {
                 *outputState = offlineStateCode;
             }
@@ -226,25 +234,25 @@ bool RealTimeStateMachineGAM::Execute() {
         }
         else {
             *outputState = faultStateCode;
-            REPORT_ERROR(ErrorManagement::FatalError, "outputState == onlineStateCode && plcState != plcOnline");
+            REPORT_ERROR(ErrorManagement::FatalError, "outputState == onlineStateCode && !mainStateMachineIsOnline");
         }
     }
     else if (*outputState == endStateCode) {
-        if (*plcState == plcOnline) {
+        if (mainStateMachineIsOnline) {
             if (hasToAbort) {
                 *outputState = offlineStateCode;
             }
         }
         else {
             *outputState = faultStateCode;
-            REPORT_ERROR(ErrorManagement::FatalError, "outputState == endStateCode && plcState != plcOnline");
+            REPORT_ERROR(ErrorManagement::FatalError, "outputState == endStateCode && !mainStateMachineIsOnline");
         }
     }
     else if (*outputState == faultStateCode) {
         if (hasToAbort) {
             *outputState = offlineStateCode;
         }
-        else if (*plcState == plcOnline) {
+        else if (mainStateMachineIsOnline) {
             if (*sdnEvent == sdnRTStop) {
                 *outputState = endStateCode;
             }
@@ -256,8 +264,20 @@ bool RealTimeStateMachineGAM::Execute() {
 
 MARTe::ErrorManagement::ErrorType RealTimeStateMachineGAM::Abort() {
     abortRequested = true;
+    REPORT_ERROR(MARTe::ErrorManagement::Information, "Abort requested!");
     return MARTe::ErrorManagement::NoError;
 }
+
+
+bool RealTimeStateMachineGAM::PrepareNextState(const MARTe::char8* const currentStateName, const MARTe::char8* const nextStateName) {
+    *outputState = offlineStateCode;
+    mainStateMachineIsOnline = (onlineMainStateMachine == nextStateName);
+    if (mainStateMachineIsOnline) {
+        REPORT_ERROR(MARTe::ErrorManagement::Information, "Main state machine is detected to be online");
+    }
+    return true;
+}
+
 
 CLASS_REGISTER(RealTimeStateMachineGAM, "1.0")
 CLASS_METHOD_REGISTER(RealTimeStateMachineGAM, Abort)

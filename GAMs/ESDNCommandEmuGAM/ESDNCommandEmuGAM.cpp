@@ -31,6 +31,7 @@
 #include "AdvancedErrorManagement.h"
 #include "CLASSMETHODREGISTER.h"
 #include "ESDNCommandEmuGAM.h"
+#include "RegisteredMethodsMessageFilter.h"
 
 /*---------------------------------------------------------------------------*/
 /*                           Static definitions                              */
@@ -41,7 +42,7 @@
 /*---------------------------------------------------------------------------*/
 
 ESDNCommandEmuGAM::ESDNCommandEmuGAM() :
-        MARTe::GAM() {
+        MARTe::GAM(), MARTe::MessageI() {
     using namespace MARTe;
 
     timeSignal = NULL_PTR(MARTe::uint32 *);
@@ -58,7 +59,15 @@ ESDNCommandEmuGAM::ESDNCommandEmuGAM() :
     powerOnCommand = 0u;
     powerOffCommand = 0u;
     offlineState = 0u;
+    rtStopTime = 0u;
     loadRequested = false;
+
+    ReferenceT<RegisteredMethodsMessageFilter> filter(GlobalObjectsDatabase::Instance()->GetStandardHeap());
+    filter->SetDestination(this);
+    ErrorManagement::ErrorType ret = MessageI::InstallMessageFilter(filter);
+    if (!ret.ErrorsCleared()) {
+        REPORT_ERROR(ErrorManagement::FatalError, "Failed to install message filters");
+    }
 }
 
 ESDNCommandEmuGAM::~ESDNCommandEmuGAM() {
@@ -154,6 +163,12 @@ bool ESDNCommandEmuGAM::Initialise(MARTe::StructuredDataI & data) {
         }
     }
     if (ok) {
+        ok = data.Read("RTStopTime", rtStopTime);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "rtStopTime must be specified");
+        }
+    }
+    if (ok) {
         ok = data.Read("PowerOnCommand", powerOnCommand);
         if (!ok) {
             REPORT_ERROR(ErrorManagement::ParametersError, "PowerOnCommand must be specified");
@@ -182,6 +197,13 @@ bool ESDNCommandEmuGAM::Execute() {
     using namespace MARTe;
     bool wasLoadRequested = loadRequested;
     loadRequested = false;
+    if (*timeSignal < rtStopTime) {
+        *esdnEvent = rtStartEvent;
+    }
+    else {
+        *esdnEvent = rtStopEvent;
+    }
+
     if ((*timeSignal > powerDelayTime) && (*timeSignal < powerTotalTime)) {
         *esdnCommand = powerOnCommand;
     }
@@ -190,9 +212,11 @@ bool ESDNCommandEmuGAM::Execute() {
     }
     if (wasLoadRequested) {
         if (*rtState == offlineState) {
-            powerTotalTime = (*pulseDurationMillis * 1000u);
+            powerTotalTime = powerDelayTime;
+            powerTotalTime += (*pulseDurationMillis * 1000u);
             powerTotalTime += (*pulseDurationSeconds * 1000000u);
             powerTotalTime += (*pulseDurationMinutes * 60u * 1000000u);
+            REPORT_ERROR(ErrorManagement::Information, "Loaded power total time = %u", powerTotalTime);
         }
         else {
             REPORT_ERROR(ErrorManagement::ParametersError, "Refused to Load with a RTState != Offline");

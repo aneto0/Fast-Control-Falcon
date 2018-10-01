@@ -48,10 +48,9 @@ TimeCorrectionPLCGAM::TimeCorrectionPLCGAM() :
     triggerSignal = NULL_PTR(uint8 *);
     correctedTriggerSignal = NULL_PTR(uint8 *);
     correctedTriggerSignalSlow = NULL_PTR(uint8 *);
-    plcStateSignal = 0u;
-    sdnEventSignal = 0u;
-    plcOnline = 0u;
-    rtStartEvent = 0u;
+    rtStateSignal = NULL_PTR(uint8 *);
+    onlineOffCode = 0u;
+    endCode = 0u;
     timePeriod = 0u;
     startDetected = false;
 }
@@ -63,9 +62,9 @@ TimeCorrectionPLCGAM::~TimeCorrectionPLCGAM() {
 
 bool TimeCorrectionPLCGAM::Setup() {
     using namespace MARTe;
-    bool ok = (GetNumberOfInputSignals() == 3u);
+    bool ok = (GetNumberOfInputSignals() == 2u);
     if (!ok) {
-        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 3u");
+        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 2u");
     }
     if (ok) {
         ok = (GetNumberOfOutputSignals() == 3u);
@@ -83,12 +82,6 @@ bool TimeCorrectionPLCGAM::Setup() {
         ok = (GetSignalType(InputSignals, 1u) == UnsignedInteger8Bit);
         if (!ok) {
             REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 1u) != UnsignedInteger8Bit");
-        }
-    }
-    if (ok) {
-        ok = (GetSignalType(InputSignals, 2u) == UnsignedInteger8Bit);
-        if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 2u) != UnsignedInteger8Bit");
         }
     }
     if (ok) {
@@ -110,9 +103,8 @@ bool TimeCorrectionPLCGAM::Setup() {
         }
     }
     if (ok) {
-        plcStateSignal = static_cast<uint8 *>(GetInputSignalMemory(0u));
-        sdnEventSignal = static_cast<uint8 *>(GetInputSignalMemory(1u));
-        triggerSignal = static_cast<uint8 *>(GetInputSignalMemory(2u));
+        rtStateSignal = static_cast<uint8 *>(GetInputSignalMemory(0u));
+        triggerSignal = static_cast<uint8 *>(GetInputSignalMemory(1u));
         correctedTimeSignal = static_cast<uint32 *>(GetOutputSignalMemory(0u));
         correctedTriggerSignal = static_cast<uint8 *>(GetOutputSignalMemory(1u));
         correctedTriggerSignalSlow = static_cast<uint8 *>(GetOutputSignalMemory(2u));
@@ -130,15 +122,15 @@ bool TimeCorrectionPLCGAM::Initialise(MARTe::StructuredDataI & data) {
         }
     }
     if (ok) {
-        ok = data.Read("PLCOnline", plcOnline);
+        ok = data.Read("OnlineOff", onlineOffCode);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "PLCOnline must be specified");
+            REPORT_ERROR(ErrorManagement::ParametersError, "OnlineOff must be specified");
         }
     }
     if (ok) {
-        ok = data.Read("RTStartEvent", rtStartEvent);
+        ok = data.Read("End", endCode);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "RTStartEvent must be specified");
+            REPORT_ERROR(ErrorManagement::ParametersError, "End must be specified");
         }
     }
     return ok;
@@ -154,12 +146,14 @@ bool TimeCorrectionPLCGAM::Execute() {
     using namespace MARTe;
     if (startDetected) {
         *correctedTimeSignal += timePeriod;
-        *correctedTriggerSignal = *triggerSignal;
-        *correctedTriggerSignalSlow = 1;
+        if (*rtStateSignal != endCode) {
+            *correctedTriggerSignal = *triggerSignal;
+            *correctedTriggerSignalSlow = 1;
+        }
     }
     else {
-        startDetected = ((*plcStateSignal == plcOnline) && (*sdnEventSignal == rtStartEvent));
         if (!startDetected) {
+            startDetected = ((*rtStateSignal == onlineOffCode));
             *correctedTimeSignal = 0u;
             *correctedTriggerSignal = 0u;
             *correctedTriggerSignalSlow = 0u;

@@ -38,23 +38,21 @@
 /*                           Class declaration                               */
 /*---------------------------------------------------------------------------*/
 /**
- * @brief GAM which corrects the time vector against the time on which the PLC goes online and when the RT_START event is detected.
+ * @brief GAM which corrects the time vector against the time on which the system goes for the first time to the OnlineOff state (this is Reset every time the main state machine cycles).
  * @details Until this event occurs the trigger signal (from the TriggerMaskGAM) will be forced to be disabled. The trigger signal for slow mdsplus will also be disabled.
  * The corrected time signal will be equal to CORRECTED_TIME[k] += TimePeriod, with CORRECTED_TIME[0] = 0 and CORRECTED_TRIGGER[k] = INPUT_TRIGGER[k] and CORRECTED_TRIGGER_SLOW[k] = 1
  * Before the event is detected  CORRECTED_TIME[k] = 0 and CORRECTED_TRIGGER[k] = 0 and CORRECTED_TRIGGER_SLOW[k] = 0
+ *
+ * Note that if the RTState == End, the outputs will also be disabled.
  *
  * The configuration syntax is (names and signal quantities are only given as an example):
  * +GAMTC = {
  *     Class = TimeCorrectionPLCGAM
  *     TimePeriod = 1000 //Compulsory. Time signal period in micro-seconds.
- *     PLCOnline = 1 //ID which identifies the PLC online state.
- *     RTStartEvent = 1 //ID which identifies the RT_START event.
+ *     OnlineOff = 1 //ID which identifies the OnlineOff RT state.
+ *     End = 2 //ID which identifies the End RT state.
  *     InputSignals = {
- *         PLCState = {//Signal describing the PLC state
- *              DataSource = DDB1
- *              Type = uint8 //The type shall be uint8
- *         }
- *         SDNEvent = {//Signal describing the ESDN state
+ *         RTState = {//Signal describing the RT state
  *              DataSource = DDB1
  *              Type = uint8 //The type shall be uint8
  *         }
@@ -98,7 +96,6 @@ TimeCorrectionPLCGAM    ();
      *  - GetNumberOfOutputSignals() == 3 &&
      *  - GetSignalType(InputSignals, 0) == UnsignedInteger8Bit &&
      *  - GetSignalType(InputSignals, 1) == UnsignedInteger8Bit &&
-     *  - GetSignalType(InputSignals, 2) == UnsignedInteger8Bit &&
      *  - GetSignalType(OutputSignals, 0) == UnsignedInteger32Bit &&
      *  - GetSignalType(OutputSignals, 1) == UnsignedInteger8Bit &&
      *  - GetSignalType(OutputSignals, 2) == UnsignedInteger8Bit
@@ -136,6 +133,11 @@ private:
     MARTe::uint8 *triggerSignal;
 
     /**
+     * The RT state signal
+     */
+    MARTe::uint8 *rtStateSignal;
+
+    /**
      * The corrected trigger output signal memory
      */
     MARTe::uint8 *correctedTriggerSignal;
@@ -146,24 +148,14 @@ private:
     MARTe::uint8 *correctedTriggerSignalSlow;
 
     /**
-     * The PLC state signal
+     * The state number which identifies the OnlineOff state
      */
-    MARTe::uint8 *plcStateSignal;
+    MARTe::uint8 onlineOffCode;
 
     /**
-     * The sdn event signal
+     * The state number which identifies the End state
      */
-    MARTe::uint8 *sdnEventSignal;
-
-    /**
-     * The state number which identifies the PLC as online
-     */
-    MARTe::uint8 plcOnline;
-
-    /**
-     * The event number which identifies the RT_START
-     */
-    MARTe::uint8 rtStartEvent;
+    MARTe::uint8 endCode;
 
     /**
      * The time to increment at every cycle

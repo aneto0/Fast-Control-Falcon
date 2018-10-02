@@ -32,3 +32,13 @@ record( longin, "TEST-AUX-CRIO:Pulse_Length_Min_rNew")
 {
    field(DTYP, "Soft Channel")
 }
+
+record( longin, "TEST-AUX-CRIO:GyroType")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( longin, "TEST-AUX-CRIO:GyroMode")
+{
+   field(DTYP, "Soft Channel")
+}

@@ -43,15 +43,17 @@ class UDPSubscriber (threading.Thread):
                 self.window.FindElement('subHNS').Update('{0:0x}'.format(plcHeader[3]))
                 self.window.FindElement('subHNA').Update('{0:0x}'.format(plcHeader[4]))
                 self.window.FindElement('subHSP').Update('{0:0x}{1:0x}{2:0x}'.format(plcHeader[5], plcHeader[6], plcHeader[7]))
-                payload = struct.unpack('<fH6B', data[56:70])
+                payload = struct.unpack('<fH8B', data[56:72])
                 self.window.FindElement('subFLT0').Update('{0}'.format(payload[0]))
                 self.window.FindElement('subINT0').Update('{0:0x}'.format(payload[1]))
                 self.window.FindElement('subACKA').Update('{0:0x}'.format(payload[2]))
                 self.window.FindElement('subACKL').Update('{0:0x}'.format(payload[3]))
                 self.window.FindElement('subACKR').Update('{0:0x}'.format(payload[4]))
-                self.window.FindElement('subSTMT').Update('{0:0x}'.format(payload[5]))
-                self.window.FindElement('subSTRT').Update('{0:0x}'.format(payload[6]))
-                self.window.FindElement('subALA0').Update('{0:0x}'.format(payload[7]))
+                self.window.FindElement('subACKSP').Update('{0:0x}'.format(payload[5]))
+                self.window.FindElement('subACKEP').Update('{0:0x}'.format(payload[6]))
+                self.window.FindElement('subSTMT').Update('{0:0x}'.format(payload[7]))
+                self.window.FindElement('subSTRT').Update('{0:0x}'.format(payload[8]))
+                self.window.FindElement('subALA0').Update('{0:0x}'.format(payload[9]))
                 print("Datagram Recieved from client is:".format(data))
         self.server.close()
         self.terminateServer = False
@@ -93,6 +95,8 @@ subscriberLayout = [
                         sg.Text('ACKA'), sg.InputText(key = 'subACKA', do_not_clear = True, size = (4, None)),
                         sg.Text('ACKL'), sg.InputText(key = 'subACKL', do_not_clear = True, size = (4, None)),
                         sg.Text('ACKR'), sg.InputText(key = 'subACKR', do_not_clear = True, size = (4, None)),
+                        sg.Text('ACKSP'), sg.InputText(key = 'subACKSP', do_not_clear = True, size = (4, None)),
+                        sg.Text('ACKEP'), sg.InputText(key = 'subACKEP', do_not_clear = True, size = (4, None)),
                         sg.Text('STMT'), sg.InputText(key = 'subSTMT', do_not_clear = True, size = (4, None)),
                         sg.Text('STRT'), sg.InputText(key = 'subSTRT', do_not_clear = True, size = (4, None)),
                         sg.Text('ALA0'), sg.InputText(key = 'subALA0', do_not_clear = True, size = (4, None))
@@ -129,6 +133,8 @@ publisherLayout = [
                         sg.Text('CMDA'), sg.InputText('0', key = 'pubCMDA', do_not_clear = True, size = (4, None)),
                         sg.Text('CMDL'), sg.InputText('0', key = 'pubCMDL', do_not_clear = True, size = (4, None)),
                         sg.Text('CMDR'), sg.InputText('0', key = 'pubCMDR', do_not_clear = True, size = (4, None)),
+                        sg.Text('CMDSP'), sg.InputText('0', key = 'pubCMDSP', do_not_clear = True, size = (4, None)),
+                        sg.Text('CMDEP'), sg.InputText('0', key = 'pubCMDEP', do_not_clear = True, size = (4, None)),
                         sg.Text('STPL'), sg.InputText('0', key = 'pubSTPL', do_not_clear = True, size = (4, None)),
                         sg.Text('ALA0'), sg.InputText('0', key = 'pubALA0', do_not_clear = True, size = (4, None))
                     ],
@@ -174,6 +180,8 @@ while True:
         packetStr += '{0:0>2}'.format(values['pubCMDA'])
         packetStr += '{0:0>2}'.format(values['pubCMDL'])
         packetStr += '{0:0>2}'.format(values['pubCMDR'])
+        packetStr += '{0:0>2}'.format(values['pubCMDSP'])
+        packetStr += '{0:0>2}'.format(values['pubCMDEP'])
         packetStr += '{0:0>2}'.format(values['pubSTPL'])
         packetStr += '{0:0>2}'.format(values['pubALA0'])
 

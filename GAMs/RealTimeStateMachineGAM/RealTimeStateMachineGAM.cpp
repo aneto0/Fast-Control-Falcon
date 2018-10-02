@@ -57,6 +57,8 @@ RealTimeStateMachineGAM::RealTimeStateMachineGAM() :
 
     mainStateMachineIsOnline = false;
     abortRequested = false;
+    resumeRequested = false;
+    suspendRequested = false;
 
     sdnEvent = NULL_PTR(MARTe::uint8 *);
     sdnPowerCommand = NULL_PTR(MARTe::uint8 *);
@@ -196,7 +198,17 @@ bool RealTimeStateMachineGAM::Execute() {
     using namespace MARTe;
     *trigger = 0u;
     bool hasToAbort = abortRequested;
-    abortRequested = false;
+    bool hasToResume = resumeRequested;
+    bool hasToSuspend = suspendRequested;
+    if (hasToAbort) {
+        abortRequested = false;
+    }
+    if (hasToResume) {
+        resumeRequested = false;
+    }
+    if (hasToSuspend) {
+        suspendRequested = false;
+    }
 
     if (*outputState == offlineStateCode) {
         if ((mainStateMachineIsOnline) && (*sdnEvent == sdnRTStart)) {
@@ -206,7 +218,10 @@ bool RealTimeStateMachineGAM::Execute() {
     else if (*outputState == onlineOffStateCode) {
         if (mainStateMachineIsOnline) {
             if (hasToAbort) {
-                *outputState = offlineStateCode;
+                *outputState = endStateCode;
+            }
+            else if (hasToSuspend) {
+                *outputState = faultStateCode;
             }
             else if (*sdnEvent == sdnRTStop) {
                 *outputState = endStateCode;
@@ -223,13 +238,21 @@ bool RealTimeStateMachineGAM::Execute() {
     else if (*outputState == onlineStateCode) {
         if (mainStateMachineIsOnline) {
             if (hasToAbort) {
-                *outputState = offlineStateCode;
+                *outputState = endStateCode;
+            }
+            else if (hasToSuspend) {
+                *outputState = faultStateCode;
             }
             else if (*sdnEvent == sdnRTStop) {
                 *outputState = endStateCode;
             }
-            else if (*sdnPowerCommand == sdnPower) {
-                *trigger = powerSupplyTrigger;
+            else if (*sdnEvent == sdnRTStart) {
+                if (*sdnPowerCommand == sdnPower) {
+                    *trigger = powerSupplyTrigger;
+                }
+                else {
+                    *outputState = onlineOffStateCode;
+                }
             }
         }
         else {
@@ -238,23 +261,18 @@ bool RealTimeStateMachineGAM::Execute() {
         }
     }
     else if (*outputState == endStateCode) {
-        if (mainStateMachineIsOnline) {
-            if (hasToAbort) {
-                *outputState = offlineStateCode;
-            }
-        }
-        else {
-            *outputState = faultStateCode;
-            REPORT_ERROR(ErrorManagement::FatalError, "outputState == endStateCode && !mainStateMachineIsOnline");
-        }
+        //Can only get out through PrepareNextState
     }
     else if (*outputState == faultStateCode) {
         if (hasToAbort) {
-            *outputState = offlineStateCode;
+            *outputState = endStateCode;
         }
         else if (mainStateMachineIsOnline) {
             if (*sdnEvent == sdnRTStop) {
                 *outputState = endStateCode;
+            }
+            else if (hasToResume) {
+                *outputState = onlineOffStateCode;
             }
         }
     }
@@ -268,6 +286,17 @@ MARTe::ErrorManagement::ErrorType RealTimeStateMachineGAM::Abort() {
     return MARTe::ErrorManagement::NoError;
 }
 
+MARTe::ErrorManagement::ErrorType RealTimeStateMachineGAM::Resume() {
+    resumeRequested = true;
+    REPORT_ERROR(MARTe::ErrorManagement::Information, "Resume requested!");
+    return MARTe::ErrorManagement::NoError;
+}
+
+MARTe::ErrorManagement::ErrorType RealTimeStateMachineGAM::Suspend() {
+    suspendRequested = true;
+    REPORT_ERROR(MARTe::ErrorManagement::Information, "Suspend requested!");
+    return MARTe::ErrorManagement::NoError;
+}
 
 bool RealTimeStateMachineGAM::PrepareNextState(const MARTe::char8* const currentStateName, const MARTe::char8* const nextStateName) {
     *outputState = offlineStateCode;
@@ -278,6 +307,6 @@ bool RealTimeStateMachineGAM::PrepareNextState(const MARTe::char8* const current
     return true;
 }
 
-
 CLASS_REGISTER(RealTimeStateMachineGAM, "1.0")
 CLASS_METHOD_REGISTER(RealTimeStateMachineGAM, Abort)
+CLASS_METHOD_REGISTER(RealTimeStateMachineGAM, Resume)

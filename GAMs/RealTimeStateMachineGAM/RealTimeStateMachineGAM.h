@@ -42,7 +42,7 @@
  *
  * Note that this module will only execute when the PrepareNextState, nextStateName == OnlineMainStateMachine
  *
- * The PLC Abort function is registered as an RPC.
+ * The PLC Abort, Resume and Suspend functions are registered as RPCs.
  *
  * The configuration syntax is (names and signal quantities are only given as an example):
  * +GAMRTSM = {
@@ -123,6 +123,16 @@ RealTimeStateMachineGAM    ();
      * @brief Requests an abort
      */
     virtual MARTe::ErrorManagement::ErrorType Abort();
+
+    /**
+     * @brief Requests to resume from a Fault
+     */
+    virtual MARTe::ErrorManagement::ErrorType Resume();
+
+    /**
+     * @brief Requests to suspend into a Fault
+     */
+    virtual MARTe::ErrorManagement::ErrorType Suspend();
 
     /**
      * @brief Sets the state to Offline
@@ -211,6 +221,16 @@ private:
      * True when an abort from the PLC is requested.
      */
     bool abortRequested;
+
+    /**
+     * True when a resume from the PLC is requested.
+     */
+    bool resumeRequested;
+
+    /**
+     * True when a suspend from the PLC is requested.
+     */
+    bool suspendRequested;
 
     /**
      * True when the next state is the onlineMainStateMachine

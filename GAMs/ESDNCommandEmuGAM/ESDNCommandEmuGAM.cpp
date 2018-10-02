@@ -36,7 +36,10 @@
 /*---------------------------------------------------------------------------*/
 /*                           Static definitions                              */
 /*---------------------------------------------------------------------------*/
-
+const MARTe::uint32 RU_GYROTRON = 0u;
+const MARTe::uint32 EU_GYROTRON = 1u;
+const MARTe::uint32 GYROTRON_MODE_PREPROG = 0u;
+const MARTe::uint32 GYROTRON_MODE_MANUAL = 1u;
 /*---------------------------------------------------------------------------*/
 /*                           Method definitions                              */
 /*---------------------------------------------------------------------------*/
@@ -50,6 +53,8 @@ ESDNCommandEmuGAM::ESDNCommandEmuGAM() :
     pulseDurationMillis = NULL_PTR(MARTe::uint32 *);
     pulseDurationSeconds = NULL_PTR(MARTe::uint32 *);
     pulseDurationMinutes = NULL_PTR(MARTe::uint32 *);
+    selectedGyrotronSignal = NULL_PTR(MARTe::uint32 *);
+    selectedModeSignal = NULL_PTR(MARTe::uint32 *);
     esdnEvent = NULL_PTR(MARTe::uint8 *);
     esdnCommand = NULL_PTR(MARTe::uint8 *);
     powerDelayTime = 0u;
@@ -60,6 +65,9 @@ ESDNCommandEmuGAM::ESDNCommandEmuGAM() :
     powerOffCommand = 0u;
     offlineState = 0u;
     rtStopTime = 0u;
+    lastPowerRequestTime = 0u;
+    selectedGyrotron = 0u;
+    selectedMode = 0u;
     loadRequested = false;
 
     ReferenceT<RegisteredMethodsMessageFilter> filter(GlobalObjectsDatabase::Instance()->GetStandardHeap());
@@ -77,9 +85,9 @@ ESDNCommandEmuGAM::~ESDNCommandEmuGAM() {
 
 bool ESDNCommandEmuGAM::Setup() {
     using namespace MARTe;
-    bool ok = (GetNumberOfInputSignals() == 5u);
+    bool ok = (GetNumberOfInputSignals() == 7u);
     if (!ok) {
-        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 5u");
+        REPORT_ERROR(ErrorManagement::ParametersError, "GetNumberOfInputSignals() != 7u");
     }
     if (ok) {
         ok = (GetNumberOfOutputSignals() == 2u);
@@ -118,6 +126,18 @@ bool ESDNCommandEmuGAM::Setup() {
         }
     }
     if (ok) {
+        ok = (GetSignalType(InputSignals, 5u) == UnsignedInteger32Bit);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 5u) != UnsignedInteger32Bit");
+        }
+    }
+    if (ok) {
+        ok = (GetSignalType(InputSignals, 6u) == UnsignedInteger32Bit);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(InputSignals, 6u) != UnsignedInteger32Bit");
+        }
+    }
+    if (ok) {
         ok = (GetSignalType(OutputSignals, 0u) == UnsignedInteger8Bit);
         if (!ok) {
             REPORT_ERROR(ErrorManagement::ParametersError, "GetSignalType(OutputSignals, 0u) != UnsignedInteger8Bit");
@@ -135,6 +155,8 @@ bool ESDNCommandEmuGAM::Setup() {
         pulseDurationMillis = static_cast<uint32 *>(GetInputSignalMemory(2u));
         pulseDurationSeconds = static_cast<uint32 *>(GetInputSignalMemory(3u));
         pulseDurationMinutes = static_cast<uint32 *>(GetInputSignalMemory(4u));
+        selectedGyrotronSignal = static_cast<uint32 *>(GetInputSignalMemory(5u));
+        selectedModeSignal = static_cast<uint32 *>(GetInputSignalMemory(6u));
         esdnEvent = static_cast<uint8 *>(GetOutputSignalMemory(0u));
         esdnCommand = static_cast<uint8 *>(GetOutputSignalMemory(1u));
     }
@@ -190,6 +212,12 @@ bool ESDNCommandEmuGAM::Initialise(MARTe::StructuredDataI & data) {
 }
 
 bool ESDNCommandEmuGAM::PrepareNextState(const MARTe::char8 * const currentStateName, const MARTe::char8 * const nextStateName) {
+    if (selectedMode == GYROTRON_MODE_MANUAL) {
+        lastPowerRequestTime = 0xEFFFFFFFFFFFFFFF;
+    }
+    else {
+        lastPowerRequestTime = 0;
+    }
     return true;
 }
 
@@ -197,21 +225,36 @@ bool ESDNCommandEmuGAM::Execute() {
     using namespace MARTe;
     bool wasLoadRequested = loadRequested;
     loadRequested = false;
-    if (*timeSignal < rtStopTime) {
+
+    uint64 absoluteTime = *timeSignal;
+    uint64 relativeTime = 0xEFFFFFFFFFFFFFFF;
+    if (absoluteTime > lastPowerRequestTime) {
+        relativeTime = (absoluteTime - lastPowerRequestTime);
+    }
+
+    if (absoluteTime < rtStopTime) {
         *esdnEvent = rtStartEvent;
     }
     else {
         *esdnEvent = rtStopEvent;
     }
 
-    if ((*timeSignal > powerDelayTime) && (*timeSignal < powerTotalTime)) {
-        *esdnCommand = powerOnCommand;
+    if (selectedGyrotron == RU_GYROTRON) {
+        if ((relativeTime > powerDelayTime) && (relativeTime < powerTotalTime)) {
+            *esdnCommand = powerOnCommand;
+        }
+        else {
+            *esdnCommand = powerOffCommand;
+        }
     }
     else {
-        *esdnCommand = powerOffCommand;
+        *esdnCommand = 1u;
     }
     if (wasLoadRequested) {
         if (*rtState == offlineState) {
+            selectedMode = *selectedModeSignal;
+            selectedGyrotron = *selectedGyrotronSignal;
+
             powerTotalTime = powerDelayTime;
             powerTotalTime += (*pulseDurationMillis * 1000u);
             powerTotalTime += (*pulseDurationSeconds * 1000000u);
@@ -230,6 +273,25 @@ MARTe::ErrorManagement::ErrorType ESDNCommandEmuGAM::Load() {
     return MARTe::ErrorManagement::NoError;
 }
 
+MARTe::ErrorManagement::ErrorType ESDNCommandEmuGAM::PutManualPower() {
+    using namespace MARTe;
+    if (selectedMode == GYROTRON_MODE_MANUAL) {
+        lastPowerRequestTime = *timeSignal;
+    }
+    else {
+        REPORT_ERROR(ErrorManagement::ParametersError, "Refused to PutManualPower with a SelectedMode != GYROTRON_MODE_MANUAL");
+    }
+    return MARTe::ErrorManagement::NoError;
+}
+
+MARTe::ErrorManagement::ErrorType ESDNCommandEmuGAM::StopPower() {
+    using namespace MARTe;
+    lastPowerRequestTime = 0xEFFFFFFFFFFFFFFF;
+    return MARTe::ErrorManagement::NoError;
+}
+
 CLASS_REGISTER(ESDNCommandEmuGAM, "1.0")
 CLASS_METHOD_REGISTER(ESDNCommandEmuGAM, Load)
+CLASS_METHOD_REGISTER(ESDNCommandEmuGAM, PutManualPower)
+CLASS_METHOD_REGISTER(ESDNCommandEmuGAM, StopPower)
 

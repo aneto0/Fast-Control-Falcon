@@ -41,9 +41,17 @@
 /**
  * @brief GAM which emulates the ESDN commands (in particular the power on command, and the RT_START and the RT_STOP events).
  *
- * @details The RT_START will be latched to one until the RT_STOP is received. The Power on command (sent through the ESDNCommand)
+ * @details The RT_START will be latched to one until the RT_STOP is received.
  *
  * The total power duration will be computed only when the Load RPC is called and if the RTState is Offline.
+ *
+ * If the SelectedGyrotron is EU then the ESDNCommand will be latched to one, otherwise:
+ *
+ * If the SelectedGyrotron is RU and If PulseMode is MANUAL the ESDNCommand will be set to one when the time ellapsed from the last power request is > PowerDelayTime and < then the total power duration
+ *
+ * If the SelectedGyrotron is RU and If PulseMode is PRE-PROGRAMMED the ESDNCommand will be set to one when the time ellapsed from zero is > PowerDelayTime and < then the total power duration
+ *
+ * The following functions are registered as RPCs: Load, PutManualPower and StopPower
  *
  * The configuration syntax is (names and signal quantities are only given as an example):
  * +GAMESDNEMU = {
@@ -75,6 +83,14 @@
  *         PulseDurationMinutes = {//The expected pulse duration in minutes
  *              DataSource = DDB1
  *              Type = uint32 //The type shall be uint32
+ *         }
+ *         SelectedGyrotron = {//The selected gyrotron (EU vs RU)
+ *              DataSource = EPICSCAInput
+ *              Type = uint32
+ *         }
+ *         PulseMode = {//The pulse mode can be either MANUAL or PRE-PROGRAMMED
+ *              DataSource = EPICSCAInput
+ *              Type = uint32
  *         }
  *     }
  *     OutputSignals = {
@@ -131,11 +147,20 @@ ESDNCommandEmuGAM    ();
      */
     virtual bool Execute();
 
-
     /**
      * @brief To be called when a new pulse duration is to be loaded.
      */
     virtual MARTe::ErrorManagement::ErrorType Load();
+
+    /**
+     * @brief In manual mode trigger a power request
+     */
+    virtual MARTe::ErrorManagement::ErrorType PutManualPower();
+
+    /**
+     * @brief Forces to terminate the power.
+     */
+    virtual MARTe::ErrorManagement::ErrorType StopPower();
 
 private:
     /**
@@ -164,6 +189,26 @@ private:
     MARTe::uint32 *pulseDurationMinutes;
 
     /**
+     * The selected gyrotron signal
+     */
+    MARTe::uint32 *selectedGyrotronSignal;
+
+    /**
+     * The gyrotron operation mode signal
+     */
+    MARTe::uint32 *selectedModeSignal;
+
+    /**
+     * The selected gyrotron
+     */
+    MARTe::uint32 selectedGyrotron;
+
+    /**
+     * The selected operation mode
+     */
+    MARTe::uint32 selectedMode;
+
+    /**
      * The simulated ESDN event signal
      */
     MARTe::uint8 *esdnEvent;
@@ -176,12 +221,12 @@ private:
     /**
      * Time in us to delay the power on command.
      */
-    MARTe::uint32 powerDelayTime;
+    MARTe::uint64 powerDelayTime;
 
     /**
      * Time in us to put power
      */
-    MARTe::uint32 powerTotalTime;
+    MARTe::uint64 powerTotalTime;
 
     /**
      * True when a load is requested.
@@ -216,7 +261,12 @@ private:
     /**
      * Time at which to stop the experiment.
      */
-    MARTe::uint32 rtStopTime;
+    MARTe::uint64 rtStopTime;
+
+    /**
+     * Time at which the last power request was received.
+     */
+    MARTe::uint64 lastPowerRequestTime;
 
 };
 

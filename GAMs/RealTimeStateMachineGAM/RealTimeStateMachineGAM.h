@@ -52,7 +52,7 @@
  *     Online = 3 //Code which describes the Online State
  *     Change = 4 //Code which describes the Change State
  *     End = 5 //Code which describes the End State
- *     Fault = 15 // Code which describes the Fault State
+ *     Paused = 15 // Code which describes the Paused State
  *
  *     OnlineMainStateMachine = "Online" //Code which describes the MARTe online state
  *
@@ -61,7 +61,8 @@
  *
  *     SDNPowerOn = 1 //Code which describes the power on command
  *
- *     PowerSupplyTrigger = 2 //The value to write in the DIO in order trigger the power supply write
+ *     CRIOPulseStart = 4 //The value to write in the DIO in order trigger the CRIO Pulse Start
+ *     PowerSupplyTrigger = 4 //The value to write in the DIO in order trigger the power supply write
  *     InputSignals = {
  *         SDNEvent = {//The event received from the SDN (ECPC master)
  *              DataSource = DDB1
@@ -125,12 +126,12 @@ RealTimeStateMachineGAM    ();
     virtual MARTe::ErrorManagement::ErrorType Abort();
 
     /**
-     * @brief Requests to resume from a Fault
+     * @brief Requests to resume from a Paused
      */
     virtual MARTe::ErrorManagement::ErrorType Resume();
 
     /**
-     * @brief Requests to suspend into a Fault
+     * @brief Requests to suspend into a Paused
      */
     virtual MARTe::ErrorManagement::ErrorType Suspend();
 
@@ -168,14 +169,19 @@ private:
     MARTe::uint8 endStateCode;
 
     /**
-     * Fault state
+     * Paused state
      */
-    MARTe::uint8 faultStateCode;
+    MARTe::uint8 pausedStateCode;
 
     /**
      * The power supply trigger value
      */
     MARTe::uint32 powerSupplyTrigger;
+
+    /**
+     * The CRIO pulse start
+     */
+    MARTe::uint32 crioPulseStart;
 
     /**
      * SDN RT Start

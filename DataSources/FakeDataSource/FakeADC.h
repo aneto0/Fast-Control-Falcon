@@ -1,6 +1,6 @@
 /**
- * @file FakeDataSource.h
- * @brief Header file for class FakeDataSource
+ * @file FakeADC.h
+ * @brief Header file for class FakeADC
  * @date 26/09/2018
  * @author Andre Neto
  *
@@ -16,13 +16,13 @@
  * basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence permissions and limitations under the Licence.
 
- * @details This header file contains the declaration of the class FakeDataSource
+ * @details This header file contains the declaration of the class FakeADC
  * with all of its public, protected and private members. It may also include
  * definitions for inline methods which need to be visible to the compiler.
  */
 
-#ifndef DATASOURCES_FAKEDATASOURCE_FAKEDATASOURCE_H_
-#define DATASOURCES_FAKEDATASOURCE_FAKEDATASOURCE_H_
+#ifndef DATASOURCES_FAKEDATASOURCE_FAKEADC_H_
+#define DATASOURCES_FAKEDATASOURCE_FAKEADC_H_
 
 /*---------------------------------------------------------------------------*/
 /*                        Standard header includes                           */
@@ -39,19 +39,25 @@
 /**
  * @brief Fakes the data of any given DataSource.
  */
-class FakeDataSource: public MARTe::MemoryDataSourceI {
+class FakeADC: public MARTe::DataSourceI {
 public:
     CLASS_REGISTER_DECLARATION()
 
     /**
      * @brief Constructor. NOOP.
      */
-FakeDataSource    ();
+FakeADC    ();
 
     /**
      * @brief Destructor. NOOP.
      */
-    virtual ~FakeDataSource();
+    virtual ~FakeADC();
+
+    /**
+     * @see DataSourceI::Initialise
+     * @brief Simulates the ADC0 value = ADC0Value after ADC0Counts counter cycles.
+     */
+    virtual bool Initialise(MARTe::StructuredDataI & data);
 
     /**
      * @see DataSourceI::Synchronise
@@ -69,21 +75,65 @@ FakeDataSource    ();
     virtual bool PrepareNextState(const MARTe::char8 * const currentStateName,
             const MARTe::char8 * const nextStateName);
 
+    /**
+     * @brief Allocates the fake memory
+     */
+    virtual bool AllocateMemory();
+
+    /**
+     * @brief Gets the fake memory addresses
+     */
+    virtual bool GetSignalMemoryBuffer(const MARTe::uint32 signalIdx, const MARTe::uint32 bufferIdx, void *&signalAddress);
 private:
     /**
      * The time to sleep in synchronise.
      */
     MARTe::float64 sleepPeriod;
 
+    /**
+     * The ADC0 signal
+     */
+    MARTe::int16 **adcs;
 
     /**
-     * The counter incremented at every synchronise.
+     * The number of ADCs
      */
-    MARTe::uint32 counter;
+    MARTe::uint32 numberOfADCs;
+
+    /**
+     * The number of samples per ADC
+     */
+    MARTe::uint32 numberOfSamples;
+
+    /**
+     * The ADC0 value to simulate
+     */
+    MARTe::int16 adc0Value;
+
+    /**
+     * The time signal
+     */
+    MARTe::uint32 timeSignal;
+
+    /**
+     * The counter signal
+     */
+    MARTe::uint32 counterSignal;
+
+    /**
+     * True if the ADC0 is to be simulated
+     */
+    bool simulateADC;
+
+    /**
+     * The ADC0 counts to wait before setting the *adc0 = to adc0Value
+     */
+    MARTe::uint32 adc0Counts;
+
 };
 
 /*---------------------------------------------------------------------------*/
 /*                        Inline method definitions                          */
 /*---------------------------------------------------------------------------*/
 
-#endif /* DATASOURCES_FAKEDATASOURCE_FAKEDATASOURCE_H_ */
+#endif /* DATASOURCES_FAKEDATASOURCE_FAKEADC_H_ */

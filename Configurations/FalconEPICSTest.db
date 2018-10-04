@@ -33,7 +33,7 @@ record( longin, "TEST-AUX-CRIO:Pulse_Length_Min_rNew")
    field(DTYP, "Soft Channel")
 }
 
-record( longin, "TEST-AUX-CRIO:GyroType")
+record( longin, "CodacC_MAST:Ru_Eu_Gyro_Op_Rq")
 {
    field(DTYP, "Soft Channel")
 }

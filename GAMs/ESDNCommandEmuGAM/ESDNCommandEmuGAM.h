@@ -58,6 +58,7 @@
  *     Class = ESDNCommandEmuGAM
  *     PowerDelayTime = 100000 //Compulsory. Delay in micro-seconds before putting power on the ESDNCommand.
  *     Offline = 8 //Code which identifies the RT Offline state.
+ *     OnlineOff = 240 //Code which describes the Online-off State
  *     RTStartEvent = 1 //ID which identifies the RT_START event.
  *     RTStopEvent = 0 //ID which identifies the RT_STOP event.
  *     RTStopTime = 3600000 //Time in micro-seconds at which to stop the pulse.
@@ -67,6 +68,10 @@
  *         Time = {//Time signal in micro-seconds
  *              DataSource = DDB1
  *              Type = uint32 //The type shall be uint32
+ *         }
+ *         Trigger = { //Signal which emulates the RTStart
+ *              DataSource = DDB1
+ *              Type = uint8 //The type shall be uint8
  *         }
  *         RTState = {//The RT state as computed by the RealTimeStateMachineGAM
  *              DataSource = DDB1
@@ -120,10 +125,10 @@ ESDNCommandEmuGAM    ();
 
     /**
      * @brief Verifies that:
-     *  - GetNumberOfInputSignals() == 5 &&
+     *  - GetNumberOfInputSignals() == 8 &&
      *  - GetNumberOfOutputSignals() == 2 &&
-     *  - GetSignalType(InputSignals, [0, 2, 3, 4]) == UnsignedInteger32Bit &&
-     *  - GetSignalType(InputSignals, 1) == UnsignedInteger8Bit &&
+     *  - GetSignalType(InputSignals, [0, 3, 4, 5, 6, 7]) == UnsignedInteger32Bit &&
+     *  - GetSignalType(InputSignals, [1, 2]) == UnsignedInteger8Bit &&
      *  - GetSignalType(OutputSignals, *) == UnsignedInteger8Bit
      *  @return true if the conditions above are met.
      */
@@ -167,6 +172,11 @@ private:
      * The input time signal
      */
     MARTe::uint32 *timeSignal;
+
+    /**
+     * The current trigger signal
+     */
+    MARTe::uint8 *triggerSignal;
 
     /**
      * The current RTState signal
@@ -259,9 +269,19 @@ private:
     MARTe::uint8 offlineState;
 
     /**
+     * Value which identifies the onlineOff state.
+     */
+    MARTe::uint8 onlineOffState;
+
+    /**
      * Time at which to stop the experiment.
      */
     MARTe::uint64 rtStopTime;
+
+    /**
+     * Time of the stop time w.r.t. to when the trigger was set to 1 for the first time
+     */
+    MARTe::uint64 rtAbsoluteStopTime;
 
     /**
      * Time at which the last power request was received.

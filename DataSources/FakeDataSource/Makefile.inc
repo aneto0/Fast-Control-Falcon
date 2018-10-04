@@ -23,7 +23,7 @@
 # $Id: Makefile.inc 3 2012-01-15 16:26:07Z aneto $
 #
 #############################################################
-OBJSX=FakeDataSource.x
+OBJSX=FakeADC.x FakeDAC.x
 
 PACKAGE=DataSources
 

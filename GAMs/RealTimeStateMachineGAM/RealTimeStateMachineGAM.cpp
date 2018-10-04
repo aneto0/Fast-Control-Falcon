@@ -48,8 +48,9 @@ RealTimeStateMachineGAM::RealTimeStateMachineGAM() :
     onlineOffStateCode = 0u;
     changeStateCode = 0u;
     endStateCode = 0u;
-    faultStateCode = 0u;
+    pausedStateCode = 0u;
     powerSupplyTrigger = 0u;
+    crioPulseStart = 0u;
     onlineMainStateMachine = "";
     sdnRTStart = 0u;
     sdnRTStop = 0u;
@@ -154,15 +155,21 @@ bool RealTimeStateMachineGAM::Initialise(MARTe::StructuredDataI& data) {
         }
     }
     if (ok) {
-        ok = data.Read("Fault", faultStateCode);
+        ok = data.Read("Paused", pausedStateCode);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError, "The Fault state code shall be specified");
+            REPORT_ERROR(ErrorManagement::ParametersError, "The Paused state code shall be specified");
         }
     }
     if (ok) {
         ok = data.Read("PowerSupplyTrigger", powerSupplyTrigger);
         if (!ok) {
             REPORT_ERROR(ErrorManagement::ParametersError, "The PowerSupplyTrigger value shall be specified");
+        }
+    }
+    if (ok) {
+        ok = data.Read("CRIOPulseStart", crioPulseStart);
+        if (!ok) {
+            REPORT_ERROR(ErrorManagement::ParametersError, "The CRIOPulseStart value shall be specified");
         }
     }
     if (ok) {
@@ -210,6 +217,9 @@ bool RealTimeStateMachineGAM::Execute() {
         suspendRequested = false;
     }
 
+    if (mainStateMachineIsOnline) {
+        *trigger = crioPulseStart;
+    }
     if (*outputState == offlineStateCode) {
         if ((mainStateMachineIsOnline) && (*sdnEvent == sdnRTStart)) {
             *outputState = onlineOffStateCode;
@@ -221,7 +231,7 @@ bool RealTimeStateMachineGAM::Execute() {
                 *outputState = endStateCode;
             }
             else if (hasToSuspend) {
-                *outputState = faultStateCode;
+                *outputState = pausedStateCode;
             }
             else if (*sdnEvent == sdnRTStop) {
                 *outputState = endStateCode;
@@ -231,7 +241,7 @@ bool RealTimeStateMachineGAM::Execute() {
             }
         }
         else {
-            *outputState = faultStateCode;
+            *outputState = pausedStateCode;
             REPORT_ERROR(ErrorManagement::FatalError, "outputState == onlineOffStateCode && !mainStateMachineIsOnline");
         }
     }
@@ -241,14 +251,14 @@ bool RealTimeStateMachineGAM::Execute() {
                 *outputState = endStateCode;
             }
             else if (hasToSuspend) {
-                *outputState = faultStateCode;
+                *outputState = pausedStateCode;
             }
             else if (*sdnEvent == sdnRTStop) {
                 *outputState = endStateCode;
             }
             else if (*sdnEvent == sdnRTStart) {
                 if (*sdnPowerCommand == sdnPower) {
-                    *trigger = powerSupplyTrigger;
+                    *trigger |= powerSupplyTrigger;
                 }
                 else {
                     *outputState = onlineOffStateCode;
@@ -256,14 +266,14 @@ bool RealTimeStateMachineGAM::Execute() {
             }
         }
         else {
-            *outputState = faultStateCode;
+            *outputState = pausedStateCode;
             REPORT_ERROR(ErrorManagement::FatalError, "outputState == onlineStateCode && !mainStateMachineIsOnline");
         }
     }
     else if (*outputState == endStateCode) {
         //Can only get out through PrepareNextState
     }
-    else if (*outputState == faultStateCode) {
+    else if (*outputState == pausedStateCode) {
         if (hasToAbort) {
             *outputState = endStateCode;
         }
@@ -310,3 +320,5 @@ bool RealTimeStateMachineGAM::PrepareNextState(const MARTe::char8* const current
 CLASS_REGISTER(RealTimeStateMachineGAM, "1.0")
 CLASS_METHOD_REGISTER(RealTimeStateMachineGAM, Abort)
 CLASS_METHOD_REGISTER(RealTimeStateMachineGAM, Resume)
+CLASS_METHOD_REGISTER(RealTimeStateMachineGAM, Suspend)
+

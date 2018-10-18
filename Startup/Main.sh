@@ -52,7 +52,7 @@ case $key in
     DEFAULT=YES
     ;;
     *)
-            # unknown option
+    # unknown option
     ;;
 esac
 shift # past argument or value
@@ -71,6 +71,8 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/TriggerTestGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/TriggerMaskGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/TimeCorrectionGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/TimeCorrectionPLCGAM/
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../../Event-Recorder-Falcon/Build/x86-linux/Components/DataSources/CRIOUARTDataSource/
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../../Event-Recorder-Falcon/Build/x86-linux/Components/GAMs/PacketGAM/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_DIR/Build/x86-linux/Core/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/x86-linux/Components/DataSources/EPICSCA/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/x86-linux/Components/DataSources/LinuxTimer/
@@ -102,8 +104,10 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/mdsplus/lib64/
 if [ -z "$MDS_FALCON_PATH" ]
 then
 export falcon_fast_path="../Configurations/Tree"
+export falcon_event_path="../Configurations/Tree"
 else
 export falcon_fast_path="$MDS_FALCON_PATH"
+export falcon_event_path="$MDS_FALCON_PATH"
 fi
 echo $mds_falcon_path
 export mdsevent_interface=$MDS_EVENT_INTERFACE
@@ -120,16 +124,21 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 if [ "$REAL_TIME" -eq 1 ]
 then
 #Disable CPU speed changing
-service cpuspeed stop
+tuned-adm profile latency-performance
+#service cpuspeed stop
+
+#Allow for the task to hung
+echo 0 > /proc/sys/kernel/hung_task_timeout_secs
 
 #Allocate dynamic ticks to CPU #0
 for i in `pgrep rcu[^c]` ; do taskset -pc 0 $i ; done
+for i in `pgrep rcu[^c]` ; do taskset -pc 1 $i ; done
 
 #Assign IRQ to correct CPU
 tuna -q nixseries -c 3 -x -m
 
 #Isolate cpus 1-3 (tasks and interrupts)
-tuna -C -c 1-3 --isolate
+tuna -C -c 2-15 --isolate
 fi #REAL_TIME
 
 #Starts the DAN services only if required

@@ -35,17 +35,16 @@
 # description: Starts and stops the MARTeService for FastControlFalcon
 
 PROJECT_NAME="Falcon Fast Control"
-CODE_DIRECTORY=/home/codac-dev/Projects/Fast-Control-Falcon
-CONFIG_FILE_LOC=$CODE_DIRECTORY/Configurations/Startup.cfg
-SERVICE_LOC=$CODE_DIRECTORY/Startup/Main.sh
-MARTe2_DIR_LOC=/home/codac-dev/Projects/MARTe2-dev
-MARTe2_Components_DIR_LOC=/home/codac-dev/Projects/MARTe2-components
-EFDA_MARTe_DIR_LOC=/home/codac-dev/Projects/EFDA-MARTe/trunk/
+CODE_DIRECTORY=/home/codac-dev/Projects/Falcon-Fast-2.0
+MARTe2_DIR_LOC=$CODE_DIRECTORY/MARTe2-dev
+MARTe2_Components_DIR_LOC=$CODE_DIRECTORY/MARTe2-components
+CONFIG_FILE_LOC=$CODE_DIRECTORY/Fast-Control-Falcon/Configurations/Startup.cfg
+SERVICE_LOC=$CODE_DIRECTORY/Fast-Control-Falcon/Startup/Main.sh
 #MDSPLUS_LOC="192.168.130.46:8000::/tmp"
 MDSPLUS_LOC="10.136.30.21:8000::/raiddata/mdsplus/trees"
 #MDSPLUS_LOC="/mnt/Tree"
 MDSEVENT_INTERFACE=bond0
-APP_NAME=Main.ex
+APP_NAME=MARTeApp.ex
 
 start() {
     if pgrep -x $APP_NAME > /dev/null
@@ -58,7 +57,7 @@ start() {
         export MARTe2_Components_DIR=$MARTe2_Components_DIR_LOC
         export EFDA_MARTe_DIR=$EFDA_MARTe_DIR_LOC
 
-        cd $CODE_DIRECTORY/Startup
+        cd $CODE_DIRECTORY/Fast-Control-Falcon/Startup
         $SERVICE_LOC $CONFIG_FILE_LOC -f $CONFIG_FILE_LOC -m "StateMachine:START" -p $MDSPLUS_LOC -e $MDSEVENT_INTERFACE
     fi
 }

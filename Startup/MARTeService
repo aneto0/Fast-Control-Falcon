@@ -35,7 +35,7 @@
 # description: Starts and stops the MARTeService for FastControlFalcon
 
 PROJECT_NAME="Falcon Fast Control"
-CODE_DIRECTORY=/home/codac-dev/Projects/Falcon-Fast-2.0
+CODE_DIRECTORY=/home/codac-dev/Projects/Falcon-Fast-2.1
 MARTe2_DIR_LOC=$CODE_DIRECTORY/MARTe2-dev
 MARTe2_Components_DIR_LOC=$CODE_DIRECTORY/MARTe2-components
 CONFIG_FILE_LOC=$CODE_DIRECTORY/Fast-Control-Falcon/Configurations/Startup.cfg

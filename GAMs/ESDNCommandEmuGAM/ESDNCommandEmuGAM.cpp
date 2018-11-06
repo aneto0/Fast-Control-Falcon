@@ -263,7 +263,7 @@ bool ESDNCommandEmuGAM::Execute() {
     }
     if (*esdnEvent == rtStartEvent) {
         if (selectedGyrotron == RU_GYROTRON) {
-            if ((relativeTime > powerDelayTime) && (relativeTime < powerTotalTime)) {
+            if ((relativeTime > powerDelayTime) && (relativeTime <= powerTotalTime)) {
                 *esdnCommand = powerOnCommand;
             }
         }
@@ -290,10 +290,11 @@ bool ESDNCommandEmuGAM::Execute() {
 
 
             powerTotalTime = powerDelayTime;
+            *pulseDurationMillis += 1u;//IMPORTANT - 06/11/2018 I need to add 1 ms to get 1 ms in the output
             powerTotalTime += (*pulseDurationMillis * 1000u);
             powerTotalTime += (*pulseDurationSeconds * 1000000u);
             powerTotalTime += (*pulseDurationMinutes * 60u * 1000000u);
-            REPORT_ERROR(ErrorManagement::Information, "Power delay time = %u Loaded power total time = %u", powerDelayTime, (powerTotalTime - powerDelayTime));
+            REPORT_ERROR(ErrorManagement::Information, "Power delay time = %u Loaded power total time = %u (including one extra fake ms)", powerDelayTime, (powerTotalTime - powerDelayTime));
         }
         else {
             REPORT_ERROR(ErrorManagement::ParametersError, "Refused to Load with a RTState != Offline");

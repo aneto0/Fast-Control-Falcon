@@ -163,6 +163,6 @@ fi
 
 if [ ! -z "$DAN_CONFIG_LOCATION" ]
 then
-/opt/codac/bin/danApiTool api close
+/opt/codac/bin/danApiTool api close all
 fi
 

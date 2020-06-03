@@ -1,0 +1,86 @@
+digraph G {
+rankdir=LR
+concentrate=true
+"Online.Thread1.GAMIP" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIP <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMIPB" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIPB <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMADC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMDI" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMTC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTC <BR/>(TimeCorrectionGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMSDNPub" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMFilterDownsampling" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMFilterDownsampling <BR/>(FilterDownsamplingGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMTRMask" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTRMask <BR/>(TriggerMaskGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMESDNEMU" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMESDNEMU <BR/>(ESDNCommandEmuGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMRTSM" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMRTSM <BR/>(RealTimeStateMachineGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMMDS" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMDS <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMMDSSlow" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMDSSlow <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.HistogramCycleTimes" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">HistogramCycleTimes <BR/>(HistogramGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.EPICSPVAOutput" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread2.GAMCRIORead" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMCRIORead <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread2.GAMPacket" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMPacket <BR/>(PacketGAM)</font></TD></TR></TABLE>>]
+subgraph cluster_Online {
+label = "State: Online"
+subgraph cluster_Online_Thread1 {
+label = "Thread: Thread1"
+color= "red"
+"Online.Thread1.GAMIP"->"Online.Thread1.GAMIPB"->"Online.Thread1.GAMADC"->"Online.Thread1.GAMDI"->"Online.Thread1.GAMTC"->"Online.Thread1.GAMSDNPub"->"Online.Thread1.GAMFilterDownsampling"->"Online.Thread1.GAMTRMask"->"Online.Thread1.GAMESDNEMU"->"Online.Thread1.GAMRTSM"->"Online.Thread1.GAMMDS"->"Online.Thread1.GAMMDSSlow"->"Online.Thread1.HistogramCycleTimes"->"Online.Thread1.EPICSPVAOutput"
+}
+subgraph cluster_Online_Thread2 {
+label = "Thread: Thread2"
+color= "red"
+"Online.Thread2.GAMCRIORead"->"Online.Thread2.GAMPacket"
+}
+}
+"+DDB1" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+DDB1 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+"+DDB2" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+DDB2 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+"+LoggerDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LoggerDataSource <BR/>(LoggerDataSource)</font></TD></TR></TABLE>>]
+"+Timings" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+Timings <BR/>(TimingDataSource)</font></TD></TR></TABLE>>]
+"+NI6368_0" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_0 <BR/>(NI6368::NI6368ADC)</font></TD></TR></TABLE>>]
+"+NI6368_DIO_0" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_DIO_0 <BR/>(NI6368::NI6368DIO)</font></TD></TR></TABLE>>]
+"+MDSWriter" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriter <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+MDSWriterSlow" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriterSlow <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+MDSWriterEventTrigger" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriterEventTrigger <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+CRIOUART" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+CRIOUART <BR/>(CRIOUARTDataSource)</font></TD></TR></TABLE>>]
+"+SDNPub" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+SDNPub <BR/>(SDN::SDNPublisher)</font></TD></TR></TABLE>>]
+"+LinkInputDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LinkInputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+"+LinkOutputDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LinkOutputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+"+EPICSCAInput" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSCAInput <BR/>(EPICSCA::EPICSCAInput)</font></TD></TR></TABLE>>]
+"+EPICSPVAOutput_1" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSPVAOutput_1 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+"+EPICSPVAOutput_2" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSPVAOutput_2 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+"+LinkInputDataSource"->"Online.Thread1.GAMIP"
+"Online.Thread1.GAMIP"->"+DDB1"
+"+DDB1"->"Online.Thread1.GAMIPB"
+"Online.Thread1.GAMIPB"->"+LinkOutputDataSource"
+"+NI6368_0"->"Online.Thread1.GAMADC"
+"+Timings"->"Online.Thread1.GAMADC"
+"Online.Thread1.GAMADC"->"+DDB1"
+"+NI6368_DIO_0"->"Online.Thread1.GAMDI"
+"Online.Thread1.GAMDI"->"+DDB1"
+"+DDB1"->"Online.Thread1.GAMTC"
+"Online.Thread1.GAMTC"->"+DDB1"
+"+DDB1"->"Online.Thread1.GAMSDNPub"
+"Online.Thread1.GAMSDNPub"->"+SDNPub"
+"+DDB1"->"Online.Thread1.GAMFilterDownsampling"
+"Online.Thread1.GAMFilterDownsampling"->"+DDB1"
+"+DDB1"->"Online.Thread1.GAMTRMask"
+"Online.Thread1.GAMTRMask"->"+DDB1"
+"+DDB1"->"Online.Thread1.GAMESDNEMU"
+"+EPICSCAInput"->"Online.Thread1.GAMESDNEMU"
+"Online.Thread1.GAMESDNEMU"->"+DDB1"
+"+DDB1"->"Online.Thread1.GAMRTSM"
+"Online.Thread1.GAMRTSM"->"+DDB1"
+"Online.Thread1.GAMRTSM"->"+NI6368_DIO_0"
+"+DDB1"->"Online.Thread1.GAMMDS"
+"Online.Thread1.GAMMDS"->"+MDSWriter"
+"+DDB1"->"Online.Thread1.GAMMDSSlow"
+"Online.Thread1.GAMMDSSlow"->"+MDSWriterSlow"
+"+DDB1"->"Online.Thread1.HistogramCycleTimes"
+"Online.Thread1.HistogramCycleTimes"->"+DDB1"
+"+DDB1"->"Online.Thread1.EPICSPVAOutput"
+"+DDB2"->"Online.Thread1.EPICSPVAOutput"
+"Online.Thread1.EPICSPVAOutput"->"+EPICSPVAOutput_1"
+"Online.Thread1.EPICSPVAOutput"->"+EPICSPVAOutput_2"
+"+CRIOUART"->"Online.Thread2.GAMCRIORead"
+"Online.Thread2.GAMCRIORead"->"+DDB2"
+"+DDB2"->"Online.Thread2.GAMPacket"
+"Online.Thread2.GAMPacket"->"+MDSWriterEventTrigger"
+}

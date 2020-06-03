@@ -1,0 +1,93 @@
+digraph G {
+bgcolor=white
+subgraph cluster_FalconApp {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FalconApp <BR/>(RealTimeApplication)</font></TD></TR></TABLE>>
+subgraph cluster_FalconAppFunctions {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Functions <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+FalconAppFunctionsGAMADC [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsHistogramCycleTimes [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">HistogramCycleTimes <BR/>(HistogramGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsEPICSPVAOutput [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMFilterDownsampling [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMFilterDownsampling <BR/>(FilterDownsamplingGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMTRMask [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTRMask <BR/>(TriggerMaskGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMTC [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTC <BR/>(TimeCorrectionGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMRTSM [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMRTSM <BR/>(RealTimeStateMachineGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMMDS [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMDS <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMMDSSlow [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMDSSlow <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMDI [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMSDNPub [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMIP [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIP <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMIPB [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIPB <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMESDNEMU [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMESDNEMU <BR/>(ESDNCommandEmuGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMDebug [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDebug <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMCRIORead [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMCRIORead <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+FalconAppFunctionsGAMPacket [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMPacket <BR/>(PacketGAM)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_FalconAppData {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Data <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+FalconAppDataDDB1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">DDB1 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+FalconAppDataDDB2 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">DDB2 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+FalconAppDataLoggerDataSource [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">LoggerDataSource <BR/>(LoggerDataSource)</font></TD></TR></TABLE>>]
+FalconAppDataTimings [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Timings <BR/>(TimingDataSource)</font></TD></TR></TABLE>>]
+FalconAppDataNI6368_0 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">NI6368_0 <BR/>(NI6368::NI6368ADC)</font></TD></TR></TABLE>>]
+FalconAppDataNI6368_DIO_0 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">NI6368_DIO_0 <BR/>(NI6368::NI6368DIO)</font></TD></TR></TABLE>>]
+subgraph cluster_FalconAppDataMDSWriter {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MDSWriter <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>
+subgraph cluster_FalconAppDataMDSWriterMessages {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Messages <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+FalconAppDataMDSWriterMessagesTreeRuntimeError [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">TreeRuntimeError <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+}
+subgraph cluster_FalconAppDataMDSWriterSlow {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MDSWriterSlow <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>
+subgraph cluster_FalconAppDataMDSWriterSlowMessages {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Messages <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+FalconAppDataMDSWriterSlowMessagesTreeRuntimeError [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">TreeRuntimeError <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+}
+FalconAppDataMDSWriterEventTrigger [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MDSWriterEventTrigger <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+FalconAppDataCRIOUART [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">CRIOUART <BR/>(CRIOUARTDataSource)</font></TD></TR></TABLE>>]
+FalconAppDataSDNPub [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SDNPub <BR/>(SDN::SDNPublisher)</font></TD></TR></TABLE>>]
+FalconAppDataLinkInputDataSource [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">LinkInputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+FalconAppDataLinkOutputDataSource [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">LinkOutputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+FalconAppDataEPICSCAInput [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSCAInput <BR/>(EPICSCA::EPICSCAInput)</font></TD></TR></TABLE>>]
+FalconAppDataEPICSPVAOutput_1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput_1 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+FalconAppDataEPICSPVAOutput_2 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput_2 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_FalconAppStates {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">States <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_FalconAppStatesOffpulse {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Offpulse <BR/>(RealTimeState)</font></TD></TR></TABLE>>
+subgraph cluster_FalconAppStatesOffpulseThreads {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Threads <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+FalconAppStatesOffpulseThreadsThread1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Thread1 <BR/>(RealTimeThread)</font></TD></TR></TABLE>>]
+FalconAppStatesOffpulseThreadsThread2 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Thread2 <BR/>(RealTimeThread)</font></TD></TR></TABLE>>]
+}
+}
+subgraph cluster_FalconAppStatesReady {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Ready <BR/>(RealTimeState)</font></TD></TR></TABLE>>
+subgraph cluster_FalconAppStatesReadyThreads {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Threads <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+FalconAppStatesReadyThreadsThread1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Thread1 <BR/>(RealTimeThread)</font></TD></TR></TABLE>>]
+FalconAppStatesReadyThreadsThread2 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Thread2 <BR/>(RealTimeThread)</font></TD></TR></TABLE>>]
+}
+}
+subgraph cluster_FalconAppStatesOnline {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Online <BR/>(RealTimeState)</font></TD></TR></TABLE>>
+subgraph cluster_FalconAppStatesOnlineThreads {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Threads <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+FalconAppStatesOnlineThreadsThread1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Thread1 <BR/>(RealTimeThread)</font></TD></TR></TABLE>>]
+FalconAppStatesOnlineThreadsThread2 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Thread2 <BR/>(RealTimeThread)</font></TD></TR></TABLE>>]
+}
+}
+subgraph cluster_FalconAppStatesFault {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Fault <BR/>(RealTimeState)</font></TD></TR></TABLE>>
+subgraph cluster_FalconAppStatesFaultThreads {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Threads <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+FalconAppStatesFaultThreadsThread1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Thread1 <BR/>(RealTimeThread)</font></TD></TR></TABLE>>]
+FalconAppStatesFaultThreadsThread2 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Thread2 <BR/>(RealTimeThread)</font></TD></TR></TABLE>>]
+}
+}
+}
+FalconAppScheduler [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Scheduler <BR/>(GAMScheduler)</font></TD></TR></TABLE>>]
+}
+}

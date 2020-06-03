@@ -1,57 +1,120 @@
 digraph G {
 rankdir=LR
 concentrate=true
-"Idle.Thread1.GAMADC" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-"Idle.Thread1.GAMDI" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-"Idle.Thread1.GAMSDNPub" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-"Idle.Thread1.GAMFilterDownsampling" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMFilterDownsampling <BR/>(FilterDownsamplingGAM)</font></TD></TR></TABLE>>]
-"Idle.Thread1.GAMTRMask" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTRMask <BR/>(TriggerMaskGAM)</font></TD></TR></TABLE>>]
-"Idle.Thread1.GAMTC" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTC <BR/>(TimeCorrectionGAM)</font></TD></TR></TABLE>>]
-"Idle.Thread1.BL2WebStatistic" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">BL2WebStatistic <BR/>(BaseLib2GAM)</font></TD></TR></TABLE>>]
-"Acquiring.Thread1.GAMADC" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-"Acquiring.Thread1.GAMDI" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-"Acquiring.Thread1.GAMSDNPub" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-"Acquiring.Thread1.GAMFilterDownsampling" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMFilterDownsampling <BR/>(FilterDownsamplingGAM)</font></TD></TR></TABLE>>]
-"Acquiring.Thread1.GAMTRMask" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTRMask <BR/>(TriggerMaskGAM)</font></TD></TR></TABLE>>]
-"Acquiring.Thread1.GAMTC" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTC <BR/>(TimeCorrectionGAM)</font></TD></TR></TABLE>>]
-"Acquiring.Thread1.GAMMDS" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMDS <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-"Acquiring.Thread1.GAMMDSSlow" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMDSSlow <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-"Acquiring.Thread1.BL2WebStatistic" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">BL2WebStatistic <BR/>(BaseLib2GAM)</font></TD></TR></TABLE>>]
-"Error.Thread1.GAMADC" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-"Error.Thread1.GAMDI" [margin=0, shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
-subgraph cluster_Idle {
-label = "State: Idle"
-subgraph cluster_Idle_Thread1 {
+"Offpulse.Thread1.GAMIP" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIP <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.GAMIPB" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIPB <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.GAMADC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.GAMDI" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.GAMTC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTC <BR/>(TimeCorrectionGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.GAMSDNPub" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.GAMFilterDownsampling" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMFilterDownsampling <BR/>(FilterDownsamplingGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.GAMTRMask" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTRMask <BR/>(TriggerMaskGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.GAMESDNEMU" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMESDNEMU <BR/>(ESDNCommandEmuGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.GAMRTSM" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMRTSM <BR/>(RealTimeStateMachineGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.HistogramCycleTimes" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">HistogramCycleTimes <BR/>(HistogramGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread1.EPICSPVAOutput" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Offpulse.Thread2.GAMCRIORead" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMCRIORead <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMIP" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIP <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMIPB" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIPB <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMADC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMDI" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMTC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTC <BR/>(TimeCorrectionGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMSDNPub" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMFilterDownsampling" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMFilterDownsampling <BR/>(FilterDownsamplingGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMTRMask" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTRMask <BR/>(TriggerMaskGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMESDNEMU" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMESDNEMU <BR/>(ESDNCommandEmuGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.GAMRTSM" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMRTSM <BR/>(RealTimeStateMachineGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.HistogramCycleTimes" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">HistogramCycleTimes <BR/>(HistogramGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread1.EPICSPVAOutput" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Ready.Thread2.GAMCRIORead" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMCRIORead <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMIP" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIP <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMIPB" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIPB <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMADC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMDI" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMTC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTC <BR/>(TimeCorrectionGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMSDNPub" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMFilterDownsampling" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMFilterDownsampling <BR/>(FilterDownsamplingGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMTRMask" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTRMask <BR/>(TriggerMaskGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMESDNEMU" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMESDNEMU <BR/>(ESDNCommandEmuGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMRTSM" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMRTSM <BR/>(RealTimeStateMachineGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMMDS" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMDS <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.GAMMDSSlow" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMDSSlow <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.HistogramCycleTimes" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">HistogramCycleTimes <BR/>(HistogramGAM)</font></TD></TR></TABLE>>]
+"Online.Thread1.EPICSPVAOutput" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread2.GAMCRIORead" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMCRIORead <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Online.Thread2.GAMPacket" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMPacket <BR/>(PacketGAM)</font></TD></TR></TABLE>>]
+"Fault.Thread1.GAMADC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Fault.Thread1.GAMDI" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Fault.Thread2.GAMCRIORead" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMCRIORead <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+subgraph cluster_Offpulse {
+label = "State: Offpulse"
+subgraph cluster_Offpulse_Thread1 {
 label = "Thread: Thread1"
 color= "red"
-"Idle.Thread1.GAMADC"->"Idle.Thread1.GAMDI"->"Idle.Thread1.GAMSDNPub"->"Idle.Thread1.GAMFilterDownsampling"->"Idle.Thread1.GAMTRMask"->"Idle.Thread1.GAMTC"->"Idle.Thread1.BL2WebStatistic"
+"Offpulse.Thread1.GAMIP"->"Offpulse.Thread1.GAMIPB"->"Offpulse.Thread1.GAMADC"->"Offpulse.Thread1.GAMDI"->"Offpulse.Thread1.GAMTC"->"Offpulse.Thread1.GAMSDNPub"->"Offpulse.Thread1.GAMFilterDownsampling"->"Offpulse.Thread1.GAMTRMask"->"Offpulse.Thread1.GAMESDNEMU"->"Offpulse.Thread1.GAMRTSM"->"Offpulse.Thread1.HistogramCycleTimes"->"Offpulse.Thread1.EPICSPVAOutput"
+}
+subgraph cluster_Offpulse_Thread2 {
+label = "Thread: Thread2"
+color= "red"
+"Offpulse.Thread2.GAMCRIORead"
 }
 }
-subgraph cluster_Acquiring {
-label = "State: Acquiring"
-subgraph cluster_Acquiring_Thread1 {
+subgraph cluster_Ready {
+label = "State: Ready"
+subgraph cluster_Ready_Thread1 {
 label = "Thread: Thread1"
 color= "red"
-"Acquiring.Thread1.GAMADC"->"Acquiring.Thread1.GAMDI"->"Acquiring.Thread1.GAMSDNPub"->"Acquiring.Thread1.GAMFilterDownsampling"->"Acquiring.Thread1.GAMTRMask"->"Acquiring.Thread1.GAMTC"->"Acquiring.Thread1.GAMMDS"->"Acquiring.Thread1.GAMMDSSlow"->"Acquiring.Thread1.BL2WebStatistic"
+"Ready.Thread1.GAMIP"->"Ready.Thread1.GAMIPB"->"Ready.Thread1.GAMADC"->"Ready.Thread1.GAMDI"->"Ready.Thread1.GAMTC"->"Ready.Thread1.GAMSDNPub"->"Ready.Thread1.GAMFilterDownsampling"->"Ready.Thread1.GAMTRMask"->"Ready.Thread1.GAMESDNEMU"->"Ready.Thread1.GAMRTSM"->"Ready.Thread1.HistogramCycleTimes"->"Ready.Thread1.EPICSPVAOutput"
+}
+subgraph cluster_Ready_Thread2 {
+label = "Thread: Thread2"
+color= "red"
+"Ready.Thread2.GAMCRIORead"
 }
 }
-subgraph cluster_Error {
-label = "State: Error"
-subgraph cluster_Error_Thread1 {
+subgraph cluster_Online {
+label = "State: Online"
+subgraph cluster_Online_Thread1 {
 label = "Thread: Thread1"
 color= "red"
-"Error.Thread1.GAMADC"->"Error.Thread1.GAMDI"
+"Online.Thread1.GAMIP"->"Online.Thread1.GAMIPB"->"Online.Thread1.GAMADC"->"Online.Thread1.GAMDI"->"Online.Thread1.GAMTC"->"Online.Thread1.GAMSDNPub"->"Online.Thread1.GAMFilterDownsampling"->"Online.Thread1.GAMTRMask"->"Online.Thread1.GAMESDNEMU"->"Online.Thread1.GAMRTSM"->"Online.Thread1.GAMMDS"->"Online.Thread1.GAMMDSSlow"->"Online.Thread1.HistogramCycleTimes"->"Online.Thread1.EPICSPVAOutput"
+}
+subgraph cluster_Online_Thread2 {
+label = "Thread: Thread2"
+color= "red"
+"Online.Thread2.GAMCRIORead"->"Online.Thread2.GAMPacket"
+}
+}
+subgraph cluster_Fault {
+label = "State: Fault"
+subgraph cluster_Fault_Thread1 {
+label = "Thread: Thread1"
+color= "red"
+"Fault.Thread1.GAMADC"->"Fault.Thread1.GAMDI"
+}
+subgraph cluster_Fault_Thread2 {
+label = "Thread: Thread2"
+color= "red"
+"Fault.Thread2.GAMCRIORead"
 }
 }
 subgraph cluster_DataSources {
 label = "Data Sources"
-"+DDB1" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+DDB1 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
-"+LoggerDataSource" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LoggerDataSource <BR/>(LoggerDataSource)</font></TD></TR></TABLE>>]
-"+Timings" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+Timings <BR/>(TimingDataSource)</font></TD></TR></TABLE>>]
-"+NI6368_0" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_0 <BR/>(NI6368::NI6368ADC)</font></TD></TR></TABLE>>]
-"+NI6368_DIO_0" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_DIO_0 <BR/>(NI6368::NI6368DIO)</font></TD></TR></TABLE>>]
-"+MDSWriter" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriter <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
-"+MDSWriterSlow" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriterSlow <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
-"+SDNPub" [margin=0, shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+SDNPub <BR/>(SDN::SDNPublisher)</font></TD></TR></TABLE>>]
+"+DDB1" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+DDB1 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+"+DDB2" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+DDB2 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+"+LoggerDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LoggerDataSource <BR/>(LoggerDataSource)</font></TD></TR></TABLE>>]
+"+Timings" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+Timings <BR/>(TimingDataSource)</font></TD></TR></TABLE>>]
+"+NI6368_0" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_0 <BR/>(NI6368::NI6368ADC)</font></TD></TR></TABLE>>]
+"+NI6368_DIO_0" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_DIO_0 <BR/>(NI6368::NI6368DIO)</font></TD></TR></TABLE>>]
+"+MDSWriter" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriter <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+MDSWriterSlow" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriterSlow <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+MDSWriterEventTrigger" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriterEventTrigger <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+CRIOUART" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+CRIOUART <BR/>(CRIOUARTDataSource)</font></TD></TR></TABLE>>]
+"+SDNPub" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+SDNPub <BR/>(SDN::SDNPublisher)</font></TD></TR></TABLE>>]
+"+LinkInputDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LinkInputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+"+LinkOutputDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LinkOutputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+"+EPICSCAInput" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSCAInput <BR/>(EPICSCA::EPICSCAInput)</font></TD></TR></TABLE>>]
+"+EPICSPVAOutput_1" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSPVAOutput_1 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+"+EPICSPVAOutput_2" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSPVAOutput_2 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
 }
 }

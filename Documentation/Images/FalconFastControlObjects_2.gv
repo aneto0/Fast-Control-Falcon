@@ -1,4 +1,9 @@
 digraph G {
 bgcolor=white
-BaseLib2Wrapper [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">BaseLib2Wrapper <BR/>(BaseLib2Wrapper)</font></TD></TR></TABLE>>]
+subgraph cluster_EPICS_CA {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICS_CA <BR/>(EPICS::EPICSCAClient)</font></TD></TR></TABLE>>
+EPICS_CAPV_STATUS [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PV_STATUS <BR/>(EPICS::EPICSPV)</font></TD></TR></TABLE>>]
+EPICS_CAPV_ERROR [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PV_ERROR <BR/>(EPICS::EPICSPV)</font></TD></TR></TABLE>>]
+EPICS_CAPV_ERROR_RST [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PV_ERROR_RST <BR/>(EPICS::EPICSPV)</font></TD></TR></TABLE>>]
+}
 }

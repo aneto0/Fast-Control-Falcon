@@ -1,0 +1,43 @@
+digraph G {
+rankdir=LR
+concentrate=true
+"Fault.Thread1.GAMADC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMADC <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Fault.Thread1.GAMDI" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDI <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Fault.Thread2.GAMCRIORead" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMCRIORead <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+subgraph cluster_Fault {
+label = "State: Fault"
+subgraph cluster_Fault_Thread1 {
+label = "Thread: Thread1"
+color= "red"
+"Fault.Thread1.GAMADC"->"Fault.Thread1.GAMDI"
+}
+subgraph cluster_Fault_Thread2 {
+label = "Thread: Thread2"
+color= "red"
+"Fault.Thread2.GAMCRIORead"
+}
+}
+"+DDB1" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+DDB1 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+"+DDB2" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+DDB2 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+"+LoggerDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LoggerDataSource <BR/>(LoggerDataSource)</font></TD></TR></TABLE>>]
+"+Timings" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+Timings <BR/>(TimingDataSource)</font></TD></TR></TABLE>>]
+"+NI6368_0" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_0 <BR/>(NI6368::NI6368ADC)</font></TD></TR></TABLE>>]
+"+NI6368_DIO_0" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+NI6368_DIO_0 <BR/>(NI6368::NI6368DIO)</font></TD></TR></TABLE>>]
+"+MDSWriter" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriter <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+MDSWriterSlow" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriterSlow <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+MDSWriterEventTrigger" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+MDSWriterEventTrigger <BR/>(MDSWriter::MDSWriter)</font></TD></TR></TABLE>>]
+"+CRIOUART" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+CRIOUART <BR/>(CRIOUARTDataSource)</font></TD></TR></TABLE>>]
+"+SDNPub" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+SDNPub <BR/>(SDN::SDNPublisher)</font></TD></TR></TABLE>>]
+"+LinkInputDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LinkInputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+"+LinkOutputDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LinkOutputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+"+EPICSCAInput" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSCAInput <BR/>(EPICSCA::EPICSCAInput)</font></TD></TR></TABLE>>]
+"+EPICSPVAOutput_1" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSPVAOutput_1 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+"+EPICSPVAOutput_2" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSPVAOutput_2 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+"+NI6368_0"->"Fault.Thread1.GAMADC"
+"+Timings"->"Fault.Thread1.GAMADC"
+"Fault.Thread1.GAMADC"->"+DDB1"
+"+NI6368_DIO_0"->"Fault.Thread1.GAMDI"
+"Fault.Thread1.GAMDI"->"+DDB1"
+"+CRIOUART"->"Fault.Thread2.GAMCRIORead"
+"Fault.Thread2.GAMCRIORead"->"+DDB2"
+}

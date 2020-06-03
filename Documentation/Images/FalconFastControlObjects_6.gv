@@ -1,0 +1,178 @@
+digraph G {
+bgcolor=white
+subgraph cluster_StateMachine {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StateMachine <BR/>(StateMachine)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineINITIAL {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">INITIAL <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineINITIALSTART {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">START <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>
+StateMachineINITIALSTARTStartCAClient [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartCAClient <BR/>(Message)</font></TD></TR></TABLE>>]
+StateMachineINITIALSTARTStartPVADB [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartPVADB <BR/>(Message)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineINITIALSTARTChangeToOffpulseMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ChangeToOffpulseMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineINITIALSTARTChangeToOffpulseMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+StateMachineINITIALSTARTStartNextStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartNextStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineINITIALSTARTChangeToIdlePLCSDNAppMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ChangeToIdlePLCSDNAppMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineINITIALSTARTChangeToIdlePLCSDNAppMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+StateMachineINITIALSTARTStartNextStateExecutionPLCSDNAppMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartNextStateExecutionPLCSDNAppMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+}
+subgraph cluster_StateMachineOFFPULSE {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">OFFPULSE <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineOFFPULSEENTER {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ENTER <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineOFFPULSEENTERInformPLCOfNewStateMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">InformPLCOfNewStateMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineOFFPULSEENTERInformPLCOfNewStateMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+}
+subgraph cluster_StateMachineOFFPULSEMAKEREADY {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MAKEREADY <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineOFFPULSEMAKEREADYOpenTreeMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">OpenTreeMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineOFFPULSEMAKEREADYOpenTreeMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineOFFPULSEMAKEREADYOpenTreeSlowMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">OpenTreeSlowMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineOFFPULSEMAKEREADYOpenTreeSlowMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineOFFPULSEMAKEREADYOpenTreeEventMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">OpenTreeEventMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineOFFPULSEMAKEREADYOpenTreeEventMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineOFFPULSEMAKEREADYPrepareChangeToReadyMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PrepareChangeToReadyMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineOFFPULSEMAKEREADYPrepareChangeToReadyMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+StateMachineOFFPULSEMAKEREADYStopCurrentStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StopCurrentStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+StateMachineOFFPULSEMAKEREADYStartNextStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartNextStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+StateMachineOFFPULSEGOOFFPULSE [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GOOFFPULSE <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>]
+StateMachineOFFPULSEFAULT [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FAULT <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineREADY {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">READY <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineREADYENTER {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ENTER <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineREADYENTERInformPLCOfNewStateMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">InformPLCOfNewStateMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineREADYENTERInformPLCOfNewStateMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+}
+StateMachineREADYFAULT [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FAULT <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineREADYGOONLINE {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GOONLINE <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>
+StateMachineREADYGOONLINEStopCurrentStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StopCurrentStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineREADYGOONLINEPrepareChangeToOffpulseMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PrepareChangeToOffpulseMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineREADYGOONLINEPrepareChangeToOffpulseMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+StateMachineREADYGOONLINEStartNextStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartNextStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineREADYGOOFFPULSE {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GOOFFPULSE <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>
+StateMachineREADYGOOFFPULSEStopCurrentStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StopCurrentStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+StateMachineREADYGOOFFPULSEMessageFlush [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MessageFlush <BR/>(Message)</font></TD></TR></TABLE>>]
+StateMachineREADYGOOFFPULSEMessageFlushSlow [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MessageFlushSlow <BR/>(Message)</font></TD></TR></TABLE>>]
+StateMachineREADYGOOFFPULSEMessageFlushEventTrigger [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MessageFlushEventTrigger <BR/>(Message)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineREADYGOOFFPULSEPrepareChangeToOffpulseMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PrepareChangeToOffpulseMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineREADYGOOFFPULSEPrepareChangeToOffpulseMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineREADYGOOFFPULSESetStatusPV {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SetStatusPV <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineREADYGOOFFPULSESetStatusPVParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineREADYGOOFFPULSESetErrorStatusPV {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SetErrorStatusPV <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineREADYGOOFFPULSESetErrorStatusPVParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+StateMachineREADYGOOFFPULSEStartNextStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartNextStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+StateMachineREADYMAKEREADY [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MAKEREADY <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineONLINE {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ONLINE <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineONLINEENTER {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ENTER <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineONLINEENTERSetStatusPV {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SetStatusPV <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineONLINEENTERSetStatusPVParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineONLINEENTERInformPLCOfNewStateMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">InformPLCOfNewStateMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineONLINEENTERInformPLCOfNewStateMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+}
+StateMachineONLINEFAULT [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FAULT <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineONLINEGOOFFPULSE {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GOOFFPULSE <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>
+StateMachineONLINEGOOFFPULSEStopCurrentStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StopCurrentStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+StateMachineONLINEGOOFFPULSEMessageFlush [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MessageFlush <BR/>(Message)</font></TD></TR></TABLE>>]
+StateMachineONLINEGOOFFPULSEMessageFlushSlow [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MessageFlushSlow <BR/>(Message)</font></TD></TR></TABLE>>]
+StateMachineONLINEGOOFFPULSEMessageFlushEventTrigger [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MessageFlushEventTrigger <BR/>(Message)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineONLINEGOOFFPULSEPrepareChangeToOffpulseMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PrepareChangeToOffpulseMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineONLINEGOOFFPULSEPrepareChangeToOffpulseMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineONLINEGOOFFPULSESetStatusPV {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SetStatusPV <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineONLINEGOOFFPULSESetStatusPVParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineONLINEGOOFFPULSESetErrorStatusPV {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SetErrorStatusPV <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineONLINEGOOFFPULSESetErrorStatusPVParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+StateMachineONLINEGOOFFPULSEStartNextStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartNextStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+StateMachineONLINEGONLINE [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GONLINE <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineFAULT {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FAULT <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_StateMachineFAULTENTER {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ENTER <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+StateMachineFAULTENTERStopCurrentStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StopCurrentStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineFAULTENTERPrepareChangeToFaultMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PrepareChangeToFaultMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineFAULTENTERPrepareChangeToFaultMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+StateMachineFAULTENTERStartNextStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartNextStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineFAULTENTERSetStatusPV {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SetStatusPV <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineFAULTENTERSetStatusPVParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineFAULTENTERSetErrorPV {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SetErrorPV <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineFAULTENTERSetErrorPVParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineFAULTENTERInformPLCOfNewStateMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">InformPLCOfNewStateMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineFAULTENTERInformPLCOfNewStateMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+}
+subgraph cluster_StateMachineFAULTGOOFFPULSE {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GOOFFPULSE <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>
+StateMachineFAULTGOOFFPULSEStopCurrentStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StopCurrentStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineFAULTGOOFFPULSEResetErrorPV {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ResetErrorPV <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineFAULTGOOFFPULSEResetErrorPVParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_StateMachineFAULTGOOFFPULSEPrepareChangeToOffpulseMsg {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PrepareChangeToOffpulseMsg <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineFAULTGOOFFPULSEPrepareChangeToOffpulseMsgParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+StateMachineFAULTGOOFFPULSEStartNextStateExecutionMsg [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">StartNextStateExecutionMsg <BR/>(Message)</font></TD></TR></TABLE>>]
+subgraph cluster_StateMachineFAULTGOOFFPULSESetErrorStatusPV {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SetErrorStatusPV <BR/>(Message)</font></TD></TR></TABLE>>
+StateMachineFAULTGOOFFPULSESetErrorStatusPVParameters [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Parameters <BR/>(ConfigurationDatabase)</font></TD></TR></TABLE>>]
+}
+}
+StateMachineFAULTMAKEREADY [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">MAKEREADY <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>]
+StateMachineFAULTSTOP [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">STOP <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>]
+StateMachineFAULTFAULT [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FAULT <BR/>(StateMachineEvent)</font></TD></TR></TABLE>>]
+}
+}
+}

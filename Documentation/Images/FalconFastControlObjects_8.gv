@@ -1,0 +1,83 @@
+digraph G {
+bgcolor=white
+subgraph cluster_PLCSDNApp {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">PLCSDNApp <BR/>(RealTimeApplication)</font></TD></TR></TABLE>>
+subgraph cluster_PLCSDNAppFunctions {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Functions <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMPLCH [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMPLCH <BR/>(ConstantGAM)</font></TD></TR></TABLE>>]
+PLCSDNAppFunctionsGAMSDNSub [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNSub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+PLCSDNAppFunctionsGAMIP [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIP <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+PLCSDNAppFunctionsGAMDebug [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMDebug <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+subgraph cluster_PLCSDNAppFunctionsGAMTOC {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTOC <BR/>(TriggerOnChangeGAM)</font></TD></TR></TABLE>>
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEvents {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Events <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEventsEventMakeReady {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EventMakeReady <BR/>(EventConditionTrigger)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMTOCEventsEventMakeReadyMessage1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message1 <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEventsEventGoOnline {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EventGoOnline <BR/>(EventConditionTrigger)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMTOCEventsEventGoOnlineMessage1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message1 <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEventsEventMakeNormal {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EventMakeNormal <BR/>(EventConditionTrigger)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMTOCEventsEventMakeNormalMessage1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message1 <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEventsEventAbort {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EventAbort <BR/>(EventConditionTrigger)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMTOCEventsEventAbortMessage1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message1 <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEventsEventSuspend {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EventSuspend <BR/>(EventConditionTrigger)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMTOCEventsEventSuspendMessage1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message1 <BR/>(Message)</font></TD></TR></TABLE>>]
+PLCSDNAppFunctionsGAMTOCEventsEventSuspendMessage2 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message2 <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEventsEventResume {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EventResume <BR/>(EventConditionTrigger)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMTOCEventsEventResumeMessage1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message1 <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEventsEventLoad {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EventLoad <BR/>(EventConditionTrigger)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMTOCEventsEventLoadMessage1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message1 <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEventsEventPutManualPower {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EventPutManualPower <BR/>(EventConditionTrigger)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMTOCEventsEventPutManualPowerMessage1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message1 <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppFunctionsGAMTOCEventsEventStopPower {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EventStopPower <BR/>(EventConditionTrigger)</font></TD></TR></TABLE>>
+PLCSDNAppFunctionsGAMTOCEventsEventStopPowerMessage1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Message1 <BR/>(Message)</font></TD></TR></TABLE>>]
+}
+}
+}
+PLCSDNAppFunctionsGAMMARTeState [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMARTeState <BR/>(ConstantGAM)</font></TD></TR></TABLE>>]
+PLCSDNAppFunctionsGAMSDNPub [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+PLCSDNAppFunctionsHistogramCycleTimes [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">HistogramCycleTimes <BR/>(HistogramGAM)</font></TD></TR></TABLE>>]
+PLCSDNAppFunctionsEPICSPVAOutput [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppData {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Data <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+PLCSDNAppDataDDB1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">DDB1 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+PLCSDNAppDataSDNSub [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SDNSub <BR/>(SDN::SDNSubscriber)</font></TD></TR></TABLE>>]
+PLCSDNAppDataSDNPub [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SDNPub <BR/>(SDN::SDNPublisher)</font></TD></TR></TABLE>>]
+PLCSDNAppDataLinkInputDataSource [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">LinkInputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+PLCSDNAppDataLinkOutputDataSource [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">LinkOutputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+PLCSDNAppDataLoggerDataSource [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">LoggerDataSource <BR/>(LoggerDataSource)</font></TD></TR></TABLE>>]
+PLCSDNAppDataTimings [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Timings <BR/>(TimingDataSource)</font></TD></TR></TABLE>>]
+PLCSDNAppDataEPICSPVAOutput_1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput_1 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+PLCSDNAppDataEPICSPVAOutput_2 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput_2 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+}
+subgraph cluster_PLCSDNAppStates {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">States <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+subgraph cluster_PLCSDNAppStatesIdle {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Idle <BR/>(RealTimeState)</font></TD></TR></TABLE>>
+subgraph cluster_PLCSDNAppStatesIdleThreads {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Threads <BR/>(ReferenceContainer)</font></TD></TR></TABLE>>
+PLCSDNAppStatesIdleThreadsThread1 [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Thread1 <BR/>(RealTimeThread)</font></TD></TR></TABLE>>]
+}
+}
+}
+PLCSDNAppScheduler [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">Scheduler <BR/>(GAMScheduler)</font></TD></TR></TABLE>>]
+}
+}

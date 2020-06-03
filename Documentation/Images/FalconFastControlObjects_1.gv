@@ -1,8 +1,10 @@
 digraph G {
 bgcolor=white
-subgraph cluster_LoggerService {
-label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">LoggerService <BR/>(LoggerService)</font></TD></TR></TABLE>>
-LoggerServiceConLogger [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">ConLogger <BR/>(ConsoleLogger)</font></TD></TR></TABLE>>]
-LoggerServiceSysLogger [margin=0, shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">SysLogger <BR/>(SysLogger)</font></TD></TR></TABLE>>]
+subgraph cluster_EPICSPVADB {
+label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVADB <BR/>(EPICSPVA::EPICSPVADatabase)</font></TD></TR></TABLE>>
+EPICSPVADBFalconFastControllerStatistics [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FalconFastControllerStatistics <BR/>(EPICSPVA::EPICSPVARecord)</font></TD></TR></TABLE>>]
+EPICSPVADBFalconFastControllerState [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FalconFastControllerState <BR/>(EPICSPVA::EPICSPVARecord)</font></TD></TR></TABLE>>]
+EPICSPVADBFalconFastControllerPLCStatistics [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FalconFastControllerPLCStatistics <BR/>(EPICSPVA::EPICSPVARecord)</font></TD></TR></TABLE>>]
+EPICSPVADBFalconFastControllerPLCState [shape=record, style=filled, fillcolor=white, color=black,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">FalconFastControllerPLCState <BR/>(EPICSPVA::EPICSPVARecord)</font></TD></TR></TABLE>>]
 }
 }

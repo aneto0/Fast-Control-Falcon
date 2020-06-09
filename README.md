@@ -95,6 +95,18 @@ The following EPICSPVARecords are stored:
 | Falcon:Fast:Statistics:PLC | PLCAppStatsStruct | Contains performance data of FalconApp states |
 | Falcon:Fast:State:PLC | PLCAppStateStruct | Contains state data of PLCSDNApp |
 
+<br/>
+**-FalconAppStateStruct**
+
+This type is used to communicate FalconApp state. In particular, it is composed by the following elements:
+
+| Name | Type | Dimensions | Elements | Description |
+| --- | ----- | ------ | ----- | ------ | 
+| ESDNEvent | uint8 | 0 | 1 | Current event computed by the ESDNCommandEmuGAM. Possible values: <br/> - RT_STOP: 0; <br/> - RT_START: 1; | 
+| ESDNPowerCommand | uint8 | 0 | 1 | Current power command issued by the ESDNCommandEmuGAM. Possible values: <br/> - POWER_OFF: 0; <br/> - POWER_ON: 1; |
+| RTState | uint8 | 0 | 1 | Current state of the RealTimeStateMachineGAM. Possiblevalues: <br/> - OFFLINE: 120; <br/> - ONLINE_OFF: 240; <br/> - ONLINE: 225; <br/> - CHANGE: 195; <br/> - END: 135; <br/> - PAUSED: 210; |
+| CRIOPacket | uint8 | 1 | 15 | Data packet with events as received from CRIO |
+
 ### LoggerService
 
 Sends the logging information to the system *syslog*. Information about the available logging can be found [here](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2/blob/develop/Source/Core/Scheduler/L4LoggerService/LoggerConsumerI.h).

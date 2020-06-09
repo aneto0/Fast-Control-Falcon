@@ -1,0 +1,32 @@
+digraph G {
+rankdir=LR
+concentrate=true
+"Idle.Thread1.GAMSDNSub" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNSub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMIP" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMIP <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMTOC" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMTOC <BR/>(TriggerOnChangeGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMPLCH" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMPLCH <BR/>(ConstantGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMMARTeState" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMMARTeState <BR/>(ConstantGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.GAMSDNPub" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">GAMSDNPub <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.HistogramCycleTimes" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">HistogramCycleTimes <BR/>(HistogramGAM)</font></TD></TR></TABLE>>]
+"Idle.Thread1.EPICSPVAOutput" [shape=record, style=filled, fillcolor=white, color=blue,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">EPICSPVAOutput <BR/>(IOGAM)</font></TD></TR></TABLE>>]
+subgraph cluster_Idle {
+label = "State: Idle"
+subgraph cluster_Idle_Thread1 {
+label = "Thread: Thread1"
+color= "red"
+"Idle.Thread1.GAMSDNSub"->"Idle.Thread1.GAMIP"->"Idle.Thread1.GAMTOC"->"Idle.Thread1.GAMPLCH"->"Idle.Thread1.GAMMARTeState"->"Idle.Thread1.GAMSDNPub"->"Idle.Thread1.HistogramCycleTimes"->"Idle.Thread1.EPICSPVAOutput"
+}
+}
+subgraph cluster_DataSources {
+label = "Data Sources"
+"+DDB1" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+DDB1 <BR/>(GAMDataSource)</font></TD></TR></TABLE>>]
+"+SDNSub" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+SDNSub <BR/>(SDN::SDNSubscriber)</font></TD></TR></TABLE>>]
+"+SDNPub" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+SDNPub <BR/>(SDN::SDNPublisher)</font></TD></TR></TABLE>>]
+"+LinkInputDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LinkInputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+"+LinkOutputDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LinkOutputDataSource <BR/>(LinkDataSource)</font></TD></TR></TABLE>>]
+"+LoggerDataSource" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+LoggerDataSource <BR/>(LoggerDataSource)</font></TD></TR></TABLE>>]
+"+Timings" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+Timings <BR/>(TimingDataSource)</font></TD></TR></TABLE>>]
+"+EPICSPVAOutput_1" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSPVAOutput_1 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+"+EPICSPVAOutput_2" [shape=record, style=filled, fillcolor=white, color=darkgreen,label=<<TABLE border="0" cellborder="0"><TR><TD width="60" height="60"><font point-size="12">+EPICSPVAOutput_2 <BR/>(EPICSPVADataSource::EPICSPVAOutput)</font></TD></TR></TABLE>>]
+}
+}

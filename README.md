@@ -71,7 +71,7 @@ An EPICS::EPICSCAClient provides the interface between the *Fast Data Acquisitio
 
 ![alt text](Documentation/Images/FalconFastControlObjects_2.png "EPICSCAClient")
 
-The following PVs are used to interface with the application:
+The following PVs are used to monitor the application:
 
 | PV | Type (R/W) | Value | Function |
 | --- | ----- | ---- | ------ | 
@@ -79,6 +79,21 @@ The following PVs are used to interface with the application:
 | TEST-AUX-FDAQ:Fast_Status | R     | 1    | Gets the current status of the application. When 1 the application is ONLINE and data is being sent to MDSplus |
 | TEST-AUX-FDAQ:Fast_Error | R | 0 | Gets the current error status of the application. When 0 the application is running with no errors |
 | TEST-AUX-FDAQ:Fast_Error | R | 1 | Gets the current error status of the application. When 1 the application is in an error state |
+
+### EPICSPVA::EPICSPVADatabase
+
+An EPICSPVA::EPICSPVADatabase service implements a database to store EPICSPVARecords regarding *Fast Data Acquisition* state and performance statistics.
+
+![alt text](Documentation/Images/FalconFastControlObjects_1.png "EPICSPVADatabase")
+
+The following EPICSPVARecords are stored:
+
+| Alias | Type | Description |
+| --- | ----- | ------ | 
+| Falcon:Fast:Statistics | FalconAppStatsStruct | Contains performance data of FalconApp states| 
+| Falcon:Fast:State | FalconAppStateStruct | Contains state data of FalconApp |
+| Falcon:Fast:Statistics:PLC | PLCAppStatsStruct | Contains performance data of FalconApp states |
+| Falcon:Fast:State:PLC | PLCAppStateStruct | Contains state data of PLCSDNApp |
 
 ### LoggerService
 

@@ -148,16 +148,16 @@ The main components of the RealTimeApplication are:
 
 The data interconnection in each of the states is defined in the following figures:
 #### State = Offpulse
-![alt text](Documentation/Images/FalconFastControlStateOffpulse.png "Interconnection of the modules executed in the Offpulse state.")
+![alt text](Documentation/Images/FalconFastControl_FalconApp_StateOffpulse.png "Interconnection of the modules executed in the Offpulse state.")
 
 #### State = Ready
-![alt text](Documentation/Images/FalconFastControlStateReady.png "Interconnection of the modules executed in the Ready state.")
+![alt text](Documentation/Images/FalconFastControl_FalconApp_StateReady.png "Interconnection of the modules executed in the Ready state.")
 
 #### State = Online
-![alt text](Documentation/Images/FalconFastControlStateOnline.png "Interconnection of the modules executed in the Online state.")
+![alt text](Documentation/Images/FalconFastControl_FalconApp_StateOnline.png "Interconnection of the modules executed in the Online state.")
 
 #### State = Fault
-![alt text](Documentation/Images/FalconFastControlStateFault.png "Interconnection of the modules executed in the Fault state.")
+![alt text](Documentation/Images/FalconFastControl_FalconApp_StateFault.png "Interconnection of the modules executed in the Fault state.")
 
 
 ## Installation

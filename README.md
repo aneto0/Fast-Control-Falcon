@@ -47,12 +47,23 @@ The following data acquisition networks are used by the *PON Sampler*:
 
 The *Fast Data Acquisition* is a MARTe2 based application with the following components:
 
-* [EPICS::EPICSCAClient](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/Interfaces/EPICS/EPICSCAClient.h): enables the configuration (currently limited to changing the state-machine state, i.e. a change of parameters, e.g. the number of signals, requires the restart of the application) and monitoring of the *Fast Data Acquisition* application;
 * [LoggerService](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2/blob/master/Source/Core/Scheduler/L4LoggerService/LoggerService.h): stores in the machine *syslog* the *Fast Data Acquisition* application logging messages;
 * [BaseLib2Wrapper](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/Interfaces/BaseLib2Wrapper/BaseLib2Wrapper.h): allows to monitor the application using a web-browser;
 * [StateMachine](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2/blob/master/Source/Core/Scheduler/L4StateMachine/StateMachine.h): allows to change the status of the real-time application;
 * [RealTimeApplication](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2/blob/master/Source/Core/BareMetal/L5GAMs/RealTimeApplication.h): executes a sequence of components that implement all the functions described above.
-
+* [EPICS::EPICSCAClient](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/Interfaces/EPICS/EPICSCAClient.h): enables monitoring of the *Fast Data Acquisition* application;
+* [NI6368::NI6368ADC](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/NI6368/NI6368ADC.h): reads analogic signals captured by NI6368;
+* [NI6368::NI6368DIO](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/NI6368/NI6368DIO.h): reads/writes digital signals captured by NI6368;
+* [CRIOUARTDataSource](https://vcis-gitlab.f4e.europa.eu/aneto/Event-Recorder-Falcon/blob/develop/DataSources/CRIOUARTDataSource/CRIOUARTDataSource.h): reads data sent by CRIO through UART;
+* [SDNSubscriber](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/SDN/SDNSubscriber.h): subscribes to signals from SDN network;
+* [SDNPublisher](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/SDN/SDNPublisher.h): publishes signals to SDN network;
+* [EPICSPVAOutput](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/EPICSPVA/EPICSPVAOutput.h): writes EPICS records through PVA client protocol;
+* [MDSWriter](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/MDSWriter/MDSWriter.h): writes signals to MDSplus database;
+* [TriggerOnChangeGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/TriggerOnChangeGAM/TriggerOnChangeGAM.h): triggers state machine events and/or RPC calls according to received commands;
+* [TimeCorrectionGAM](https://vcis-gitlab.f4e.europa.eu/aneto/Fast-Control-Falcon/blob/develop/GAMs/TimeCorrectionGAM/TimeCorrectionGAM.h): monitors ADC signal that triggers experiment start. When signal is higher than threshold it sets 'boolean' signal and it corrects experiment time;
+* [FilterDownsamplingGAM](https://vcis-gitlab.f4e.europa.eu/aneto/Fast-Control-Falcon/blob/develop/GAMs/FilterDownsamplingGAM/FilterDownsamplingGAM.h): filters and downsamples ADC signals;
+* [ESDNCommandEmuGAM](https://vcis-gitlab.f4e.europa.eu/aneto/Fast-Control-Falcon/blob/develop/GAMs/ESDNCommandEmuGAM/ESDNCommandEmuGAM.h): emulates ESDN power-on command, and events RT_START and RT_STOP;
+* [RealTimeStateMachineGAM](https://vcis-gitlab.f4e.europa.eu/aneto/Fast-Control-Falcon/blob/develop/GAMs/RealTimeStateMachineGAM/RealTimeStateMachineGAM.h): implements state machine that controls CRIOPulseStart and PowerSupplyTrigger signals;
 
 ### EPICS::EPICSCAClient
 

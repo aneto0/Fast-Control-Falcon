@@ -102,10 +102,31 @@ This type is used to communicate FalconApp state. In particular, it is composed 
 
 | Name | Type | Dimensions | Elements | Description |
 | --- | ----- | ------ | ----- | ------ | 
-| ESDNEvent | uint8 | 0 | 1 | Current event computed by the ESDNCommandEmuGAM. Possible values: <br/> - RT_STOP: 0; <br/> - RT_START: 1; | 
-| ESDNPowerCommand | uint8 | 0 | 1 | Current power command issued by the ESDNCommandEmuGAM. Possible values: <br/> - POWER_OFF: 0; <br/> - POWER_ON: 1; |
-| RTState | uint8 | 0 | 1 | Current state of the RealTimeStateMachineGAM. Possiblevalues: <br/> - OFFLINE: 120; <br/> - ONLINE_OFF: 240; <br/> - ONLINE: 225; <br/> - CHANGE: 195; <br/> - END: 135; <br/> - PAUSED: 210; |
+| ESDNEvent | uint8 | 0 | 1 | Current event computed by the ESDNCommandEmuGAM. Possible values: <br/> - *RT_STOP*: 0; <br/> - *RT_START*: 1; | 
+| ESDNPowerCommand | uint8 | 0 | 1 | Current power command issued by the ESDNCommandEmuGAM. Possible values: <br/> - *POWER_OFF*: 0; <br/> - *POWER_ON*: 1; |
+| RTState | uint8 | 0 | 1 | Current state of the RealTimeStateMachineGAM. Possiblevalues: <br/> - *OFFLINE*: 120; <br/> - *ONLINE_OFF*: 240; <br/> - *ONLINE*: 225; <br/> - *CHANGE: 195*; <br/> - *END*: 135; <br/> - *PAUSED*: 210; |
 | CRIOPacket | uint8 | 1 | 15 | Data packet with events as received from CRIO |
+
+<br/>
+**-PLCAppStateStruct**
+
+This type is used to communicate PLCSDNApp state. In particular, it is composed by the following elements:
+
+| Name | Type | Dimensions | Elements | Description |
+| --- | ----- | ------ | ----- | ------ | 
+| MARTeState | uint8 | 0 | 1 | Current state of MARTe state machine. Possible values: <br/> - *OFFPULSE*: 185; <br/> - *READY*: 140; <br/> - *ONLINE*: 225; <br/> - *FAULT*: 211; | 
+| PLCSDNHeader | uint8 | 1 | 48 | Last value received on `Header` SDN signal subscription |
+| PLCHeader | uint8 | 1 | 8 | Last value received on `PLCHeader` SDN signal subscription |
+| PLCFloats | float32 | 0 | 1 | Last value received on `Floats` SDN signal subscription |
+| PLCIntegers | uint16 | 1 | 1 | Last value received on `Integers` SDN signal subscription |
+| CommandAbort | uint8 | 0 | 1 | Last command received on `CommandAbort` SDN signal subscription. Possible values: <br/> - *ABORT*: 165; |
+| CommandLoad | uint8 | 0 | 1 | Last command received on `CommandLoad` SDN signal subscription. Possible values: <br/> - *LOAD*: 246; |
+| CommandMakeReady | uint8 | 0 | 1 | Last command received on `CommandMakeReady` SDN signal subscription. Possible values: <br/> - *MAKE_READY*: 1; <br/> - *GO_ONLINE*: 2; <br/> - *GO_OFFPULSE*: 3 |
+| CommandPutManualPower | uint8 | 0 | 1 | Last command received on `CommandPutManualPower` SDN signal subscription. Possible values: <br/> - *PUT_MANUAL_POWER*: 180; |
+| CommandStopPower | uint8 | 0 | 1 | Last command received on `CommandStopPower` SDN signal subscription. Possible values: <br/> - *STOP_POWER*: 196; |
+| CommandSuspend | uint8 | 0 | 1 | Last command received on `CommandSuspend` SDN signal subscription. Possible values: <br/> - *SUSPEND*: 170; <br/> - *RESUME*: 90; |
+| PLCState | uint8 | 0 | 1 | Last value received on `PLCState` SDN signal subscription |
+| PLCAlarms | uint8 | 0 | 1 | Last value received on `Alarms` SDN signal subscription |
 
 ### LoggerService
 

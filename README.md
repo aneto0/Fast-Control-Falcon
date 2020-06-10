@@ -95,8 +95,7 @@ The following EPICSPVARecords are stored:
 | Falcon:Fast:Statistics:PLC | PLCAppStatsStruct | Contains performance data of FalconApp states |
 | Falcon:Fast:State:PLC | PLCAppStateStruct | Contains state data of PLCSDNApp |
 
-<br/>
-**-FalconAppStateStruct**
+#### FalconAppStateStruct
 
 This type is used to communicate FalconApp state. In particular, it is composed by the following elements:
 
@@ -107,8 +106,7 @@ This type is used to communicate FalconApp state. In particular, it is composed 
 | RTState | uint8 | 0 | 1 | Current state of the RealTimeStateMachineGAM. Possiblevalues: <br/> - *OFFLINE*: 120; <br/> - *ONLINE_OFF*: 240; <br/> - *ONLINE*: 225; <br/> - *CHANGE: 195*; <br/> - *END*: 135; <br/> - *PAUSED*: 210; |
 | CRIOPacket | uint8 | 1 | 15 | Data packet with events as received from CRIO |
 
-<br/>
-**-PLCAppStateStruct**
+#### PLCAppStateStruct
 
 This type is used to communicate PLCSDNApp state. In particular, it is composed by the following elements:
 
@@ -156,12 +154,25 @@ Upon every state change, a set of MARTe2 messages are triggered. In particular:
 
 ### RealTimeApplication 
 
-The *Fast Data Acquisition* is implemented as a MARTe RealTimeApplication. 
+The *Fast Data Acquisition* is decomposed in two MARTe RealTimeApplications:
+* FalconApp: main application, it contains logics for time and power supply. Functions handled by this application are to:
+  * communicate with CRIO via UART;
+  * read and process analog and digital signals from NI6368;
+  * decide when experiment has started and correct time according to it;
+  * send power supply requests to CRIO through NI6368;
+  * store data on MDSplus database;
+  * publish SDN signals;
+* PLCSDNApp: auxiliar application, it handles reception of SDN commands. Functions handled by this application are to:
+  * subscribe to SDN signals;
+  * handle commands;
+  * publish SDN signals;
+
+#### FalconApp
 
 The application allows for four real-time states:
 * Fault: can be triggered by an internal error or by the StateMachine. In this state only the module that reads from the NI6368 data source is executed. 
 * Offpulse: a module waits for 2000 samples to be ready from the NI6368 DataSource and makes it available to the following modules which will: i) get the latest digital input values from the  NI6368 DataSource; ii) transmit the cycle time to SDN; iii) downsample data to 1 kHz; iv) verify if a fast data acquisition trigger was requested by the digital inputs; and v) adjust the experiment time against the time at which the value of one of the ADC channels is greater than a given threshold (i.e. against the time of the start of the experiment). The two last modules have no real function in the *Offpulse* mode but were left to ease the debug of the application (using the BaseLib2GAM which allows to monitor these signals live).
-* Ready: 
+* Ready: as the Offpulse state but also requests a power supply from CRIO through NI6368 when conditions are met. **(At the moment Offpulse state can request power too)**
 * Online: as the Ready state but also executes modules that store data in the MDSplus database.
 
 **Note regarding time**
@@ -172,7 +183,7 @@ Given that this state change occurs before the real start of the experiment, the
 
 The time of the start of the experiment is given by the time at which the value of ADC is greater than a given threshold (in reality an assert mechanism verifies that this condition is kept true for a given number of samples)  *t_s = t + z / Fs*, where *z* is the sample number where *ADC[z] > threshold* and *ADC* is the channel being monitored.
   
-The main components of the RealTimeApplication are:
+The main components of FalconApp are:
 
 
 | Name      | Type     | Function       | Configuration |
@@ -185,10 +196,10 @@ The main components of the RealTimeApplication are:
 | NI6368_0 | [NI6368::NI6368ADC](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/NI6368/NI6368ADC.h) | Communicates with NI6368 to fetch captured analog signals | **DeviceName** = "/dev/pxie-6368" *//Device file location* <br/> **BoardId** = 0 *//The board identifier* <br/> **DMABufferSize** = 1000 *//Size of the DMA in bytes* <br/> **ClockSampleSource**=PFI0 *//Use INTERNALTIMING if no external clock is available* <br/> **CPUs** = 0x8 *//CPU affinity of the thread that reads data from the DMA channel* <br/> **RealTimeMode** = 1 *//Busy sleep on the semaphore that synchronises between the real-time thread and the thread which polls the DMA*  | 
 | NI6368_DIO_0 | [NI6368::NI6368DIO](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/NI6368/NI6368DIO.h) | Communicates with NI6368 to set digital signals | **DeviceName** = "/dev/pxie-6368" *//Device file location* <br/> **BoardId** = 0 *//The board identifier* <br/> **InputPortMask** = 0x1 *//Each bit defines if the pin is an input (bit=0) or an output (bit=1).* <br/> **OutputPortMask** = 0x6 *//Each bit defines if the pin is an input (bit=0) or an output (bit=1).* <br/> **ClockSampleSource**=PFI0 *//Use INTERNALTIMING if no external clock is available* <br/> | 
 | CRIOUART | [CRIOUARTDataSource](https://vcis-gitlab.f4e.europa.eu/aneto/Event-Recorder-Falcon/blob/develop/DataSources/CRIOUARTDataSource/CRIOUARTDataSource.h) | Receives data from CRIO through UART | **NumberOfBuffers** = 500 *//Size of FIFO between the real-time thread and the thread that reads data from the CRIO. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption* <br/> **PortName** = "/dev/ttyUSB0" */Name of the UART port/* <br/> **BaudRate** = 115200 */BAUD UART rate/* <br/> **Timeout**=200000 */Maximum time waiting for data arrival before raising error/* <br/> **CPUMask** = 0x40 *//CPU affinity of the thread that reads data from the CRIO* | 
-| SDNPub | [SDNPublisher](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/SDN/SDNPublisher.h) | Publishes data into the SDN network | **Topic** = FalconFast //*Name of the topic* <br/> **Interface** = em2 //*Name of the interface publishing the SDN traffic* |
-| EPICSCAInput | [EPICSCAInput](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/EPICSCA/EPICSCAInput.h) | Reads EPICS PVs through channel access client protocol | **StackSize** = 1048576 //*Stack size of the thread that asynchronously reads data* <br/> **CPUs** = 0x2 *//CPU affinity of the thread that asynchronously reads data*|
-| EPICSPVAOutput_1 | [EPICSPVAOutput](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/EPICSPVA/EPICSPVAOutput.h) | Writes EPICS record with threads performance statistics through PVA client protocol | **StackSize** = 1048576 //*Stack size of the thread that asynchronously writes data* <br/> **CPUs** = 0x2 *//CPU affinity of the thread that asynchronously writes data* <br/> **IgnoreBufferOverrun** = 1 *//Do not raise error when buffer is not writing data fast enough* <br/> **NumberOfBuffers** = 10 *//Size of FIFO between the real-time thread and the thread that asynchronously writes records. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption*|
-| EPICSPVAOutput_2 | [EPICSPVAOutput](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/EPICSPVA/EPICSPVAOutput.h) | Writes EPICS record with ESDN-RTSM state through PVA client protocol | **StackSize** = 1048576 //*Stack size of the thread that asynchronously writes data* <br/> **CPUs** = 0x2 *//CPU affinity of the thread that asynchronously writes data* <br/> **IgnoreBufferOverrun** = 1 *//Do not raise error when buffer is not writing data fast enough* <br/> **NumberOfBuffers** = 10 *//Size of FIFO between the real-time thread and the thread that asynchronously writes records. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption*|
+| SDNPub | [SDN::SDNPublisher](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/SDN/SDNPublisher.h) | Publishes data into the SDN network | **Topic** = FalconFast //*Name of the topic* <br/> **Interface** = em2 //*Name of the interface publishing the SDN traffic* |
+| EPICSCAInput | [EPICSCA::EPICSCAInput](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/EPICSCA/EPICSCAInput.h) | Reads EPICS PVs through channel access client protocol | **StackSize** = 1048576 //*Stack size of the thread that asynchronously reads data* <br/> **CPUs** = 0x2 *//CPU affinity of the thread that asynchronously reads data*|
+| EPICSPVAOutput_1 | [EPICSPVADataSource::EPICSPVAOutput](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/EPICSPVA/EPICSPVAOutput.h) | Writes EPICS record with threads performance statistics through PVA client protocol | **StackSize** = 1048576 //*Stack size of the thread that asynchronously writes data* <br/> **CPUs** = 0x2 *//CPU affinity of the thread that asynchronously writes data* <br/> **IgnoreBufferOverrun** = 1 *//Do not raise error when buffer is not writing data fast enough* <br/> **NumberOfBuffers** = 10 *//Size of FIFO between the real-time thread and the thread that asynchronously writes records. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption*|
+| EPICSPVAOutput_2 | [EPICSPVADataSource::EPICSPVAOutput](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/EPICSPVA/EPICSPVAOutput.h) | Writes EPICS record with ESDN-RTSM state through PVA client protocol | **StackSize** = 1048576 //*Stack size of the thread that asynchronously writes data* <br/> **CPUs** = 0x2 *//CPU affinity of the thread that asynchronously writes data* <br/> **IgnoreBufferOverrun** = 1 *//Do not raise error when buffer is not writing data fast enough* <br/> **NumberOfBuffers** = 10 *//Size of FIFO between the real-time thread and the thread that asynchronously writes records. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption*|
 | MDSWriter | [MDSWriter](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/MDSWriter/MDSWriter.h) | Stores data in the MDSplus database | **NumberOfBuffers** = 60000 //*Size of FIFO between the real-time thread and the thread that asynchronously stores data in MDSplus. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption* <br/> **CPUMask** = 0x10 *//CPU affinity of the thread that asynchronously stores data in MDSplus* <br/>**StackSize** = 10000000 *//Stack size of the thread that asynchronously stores data in MDSplus. WARNING: do not lower this value too much as stack memory corruption might occur on the MDSplus library* <br/> **TreeName** = falcon_fast *//Name of the MDSplus tree where data is to be stored* <br/> **StoreOnTrigger** = 1 *//Only store data when the trigger signal is 1 (The trigger signal must be the first signal in the Signals section and must have type uint8). This signal is generated by the TimeCorrectionGAM* <br/> **EventName** = "updatejScope" *//Name of the MDSplus event to fire at a given period. This can be used to e.g. refresh jScope* <br/> **TimeRefresh** = 5 *//Period, in seconds, at which the MDSplus event should be fired* |  
 | MDSWriterSlow | [MDSWriter](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/MDSWriter/MDSWriter.h) | Stores the downsampled data in the MDSplus database | **NumberOfBuffers** = 120000 //*Size of FIFO between the real-time thread and the thread that asynchronously stores data in MDSplus. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption* <br/> **CPUMask** = 0x10 *//CPU affinity of the thread that asynchronously stores data in MDSplus* <br/>**StackSize** = 10000000 *//Stack size of the thread that asynchronously stores data in MDSplus. WARNING: do not lower this value too much as stack memory corruption might occur on the MDSplus library* <br/> **TreeName** = falcon_fast *//Name of the MDSplus tree where data is to be stored* <br/> **StoreOnTrigger** = 1 *//Only store data when the trigger signal is 1 (The trigger signal must be the first signal in the Signals section and must have type uint8). This signal is generated by the TimeCorrectionGAM* <br/> **EventName** = "updatejScope" *//Name of the MDSplus event to fire at a given period. This can be used to e.g. refresh jScope* <br/> **TimeRefresh** = 5 *//Period, in seconds, at which the MDSplus event should be fired* |  
 | MDSWriterEventTrigger | [MDSWriter](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/MDSWriter/MDSWriter.h) | Stores triggered events in the MDSplus database | **NumberOfBuffers** = 5000 //*Size of FIFO between the real-time thread and the thread that asynchronously stores data in MDSplus. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption* <br/> **CPUMask** = 0x10 *//CPU affinity of the thread that asynchronously stores data in MDSplus* <br/>**StackSize** = 10000000 *//Stack size of the thread that asynchronously stores data in MDSplus. WARNING: do not lower this value too much as stack memory corruption might occur on the MDSplus library* <br/> **TreeName** = falcon_event *//Name of the MDSplus tree where data is to be stored* <br/> **StoreOnTrigger** = 1 *//Only store data when the trigger signal is 1 (The trigger signal must be the first signal in the Signals section and must have type uint8). This signal is generated by the TimeCorrectionGAM* <br/> **EventName** = "updatejScope" *//Name of the MDSplus event to fire at a given period. This can be used to e.g. refresh jScope* <br/> **TimeRefresh** = 5 *//Period, in seconds, at which the MDSplus event should be fired* |  
@@ -209,19 +220,51 @@ The main components of the RealTimeApplication are:
 | GAMCRIORead | [IOGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/IOGAM/IOGAM.h) | Reads data from the CRIOUART and makes it available on the DDB2 | None |
 | GAMPacket | [PacketGAM](https://vcis-gitlab.f4e.europa.eu/aneto/Event-Recorder-Falcon/blob/develop/GAMs/PacketGAM/PacketGAM.h) | Ensures correctness of packet and extracts content into different signals | None |
 
+<br/>
 The data interconnection in each of the states is defined in the following figures:
-#### State = Offpulse
+##### State = Offpulse
 ![alt text](Documentation/Images/FalconFastControl_FalconApp_StateOffpulse.png "Interconnection of the modules executed in the Offpulse state.")
 
-#### State = Ready
+##### State = Ready
 ![alt text](Documentation/Images/FalconFastControl_FalconApp_StateReady.png "Interconnection of the modules executed in the Ready state.")
 
-#### State = Online
+##### State = Online
 ![alt text](Documentation/Images/FalconFastControl_FalconApp_StateOnline.png "Interconnection of the modules executed in the Online state.")
 
-#### State = Fault
+##### State = Fault
 ![alt text](Documentation/Images/FalconFastControl_FalconApp_StateFault.png "Interconnection of the modules executed in the Fault state.")
 
+#### PLCSDNApp
+
+The application allows for a single real-time state:
+* Idle: reads commands from SDN and issues required MARTe messages and/or RPC call according to it.
+
+The main components of PLCSDNApp are:
+
+
+| Name      | Type     | Function       | Configuration |
+| --------- | -------- | ------------- | ---------|
+| DDB1 | [GAMDataSource](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2/blob/develop/Source/Core/BareMetal/L5GAMs/GAMDataSource.h) | Allows to exchange data between the different GAM modules in Thread1 | None | 
+| Timings | [TimingDataSource](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2/blob/develop/Source/Core/BareMetal/L5GAMs/TimingDataSource.h) | Stores execution time of GAMs and thread states | None |
+| LinkInputDataSource | [LinkDataSource](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/master/Source/Components/DataSources/LinkDataSource/LinkDataSource.h) | Allows to receive data from FalconApp | None |
+| LinkOutputDataSource | [LinkDataSource](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/master/Source/Components/DataSources/LinkDataSource/LinkDataSource.h) | Allows to send data to FalconApp | None |
+| SDNSub | [SDN::SDNSubscriber](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/SDN/SDNSubscriber.h) | Subsribes to signals from the SDN network | **Topic** = AlsoIgnored //*Name of the topic* <br/> **Interface** = p3p1 //*Name of the interface publishing the SDN traffic* <br/> **Address** = "10.136.200.21:2000" //*Explicit source address*|
+| SDNPub | [SDN::SDNPublisher](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/SDN/SDNPublisher.h) | Publishes data into the SDN network | **Topic** = AlsoIgnored //*Name of the topic* <br/> **Interface** = p3p1 //*Name of the interface publishing the SDN traffic* <br/> **Address** = "10.136.200.20:2000" //*Explicit destination address*|
+| EPICSPVAOutput_1 | [EPICSPVAOutput](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/EPICSPVA/EPICSPVAOutput.h) | Writes EPICS record with threads performance statistics through PVA client protocol | **StackSize** = 1048576 //*Stack size of the thread that asynchronously writes data* <br/> **CPUs** = 0x2 *//CPU affinity of the thread that asynchronously writes data* <br/> **IgnoreBufferOverrun** = 1 *//Do not raise error when buffer is not writing data fast enough* <br/> **NumberOfBuffers** = 10 *//Size of FIFO between the real-time thread and the thread that asynchronously writes records. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption*|
+| EPICSPVAOutput_2 | [EPICSPVAOutput](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/DataSources/EPICSPVA/EPICSPVAOutput.h) | Writes EPICS record with PLCSDNApp state through PVA client protocol | **StackSize** = 1048576 //*Stack size of the thread that asynchronously writes data* <br/> **CPUs** = 0x2 *//CPU affinity of the thread that asynchronously writes data* <br/> **IgnoreBufferOverrun** = 1 *//Do not raise error when buffer is not writing data fast enough* <br/> **NumberOfBuffers** = 10 *//Size of FIFO between the real-time thread and the thread that asynchronously writes records. The greater this value the lesser the likelihood that data will be lost. The greater this number the greater the memory consumption*|
+| GAMSDNSub | [IOGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/IOGAM/IOGAM.h) | Reads data from SDNSub and makes it available on the DDB1 | None
+| GAMIP | [IOGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/IOGAM/IOGAM.h) | Reads data from LinkInputDataSource and makes it available on the DDB1 | None
+| GAMTOC | [TriggerOnChangeGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/TriggerOnChangeGAM/TriggerOnChangeGAM.h) | Reacts to received commands issuing MARTe messages and RPC calls | None
+| GAMPLCH | [ConstantGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/ConstantGAM/ConstantGAM.h) | Defines Header values published on SDN | None
+| GAMMARTeState | [ConstantGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/ConstantGAM/ConstantGAM.h) | Defines MARTe state value published on SDN | None
+| GAMSDNPub | [IOGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/IOGAM/IOGAM.h) | Writes the signals to be published in the SDNPub DataSource | None |
+| HistogramCycleTimes | [HistogramGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/HistogramGAM/HistogramGAM.h) | Computes histogram with cycle times of thread | **BeginCycleNumber**=10 *//Start computing histogram after 10 cycles.* <br/> **StateChangeResetName** = All *//Reset histogram after any state change.* |
+| EPICSPVAOutput | [IOGAM](https://vcis-gitlab.f4e.europa.eu/aneto/MARTe2-components/blob/develop/Source/Components/GAMs/IOGAM/IOGAM.h) | Writes the signals to be stored in the EPICSPVAOutput DataSource | None |
+
+<br/>
+The data interconnection in the state is defined in the following figure:
+##### State = Idle
+![alt text](Documentation/Images/FalconFastControl_PLCSDNApp_StateIdle.png "Interconnection of the modules executed in the Idle state.")
 
 ## Installation
 
